@@ -26,7 +26,8 @@ import {
   FaUser,
   FaUsers,
 } from "react-icons/fa";
-import { SiAdobexd, SiFigma, SiSketch } from "react-icons/si";
+import { SiFigma, SiSketch } from "react-icons/si";
+import { TbBrandAdobeXd } from "react-icons/tb";
 
 const designProcess = [
   {
@@ -179,7 +180,7 @@ const tools = [
     type: "Design & Prototyping",
   },
   {
-    icon: <SiAdobexd className="w-8 h-8" />,
+    icon: <TbBrandAdobeXd className="w-8 h-8" />,
     name: "Adobe XD",
     type: "UI Design",
   },
