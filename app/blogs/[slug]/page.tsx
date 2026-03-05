@@ -241,9 +241,10 @@ export default async function PostPage(props: { params: tParams }) {
             {/* Sidebar - Right Side (Recent Posts) */}
             <div className="lg:w-1/3">
               <Glass variant="blue" className="p-6 rounded-xl md:rounded-2xl sticky top-24">
-                <h2 className="font-[Recoleta] text-2xl font-bold text-white mb-6">
-                  Recent Posts
+                <h2 className="font-[Recoleta] text-2xl font-bold text-white mb-5">
+                  Recent Articles
                 </h2>
+                <div className="border-t border-white/10 mb-5"/>
                 
                 <div className="space-y-6">
                   {recentPosts.map((recentPost) => {
@@ -275,38 +276,35 @@ export default async function PostPage(props: { params: tParams }) {
                             <h3 className="text-white text-lg line-clamp-2 group-hover:text-[#00a8ff] transition-colors mb-1">
                               {recentPost.title}
                             </h3>
+                            {/* <h3 className="text-xs text-white/50 line-clamp-2 mb-1">
+                              {recentPost.excerpt || "No excerpt available"}
+                            </h3> */}
                             
-                            {/* Category */}
-                            {recentPost.categories?.length > 0 && (
-                              <span className="text-xs text-[#00a8ff]/80">
-                                {recentPost.categories[0].title}
-                              </span>
-                            )}
-                            
-                            {/* Date */}
-                            <p className="text-white/50 text-xs mt-1">
-                              {new Date(recentPost.publishedAt).toLocaleDateString("en-US", {
-                                month: "short",
-                                day: "numeric",
-                                year: "numeric"
-                              })}
-                            </p>
+                            <div className="flex items-center gap-2 text-xs text-white/50">
+  {/* Category */}
+  {recentPost.categories?.length > 0 && (
+    <span>
+      {recentPost.categories[0].title}
+    </span>
+  )}
+
+  {/* Separator */}
+  {recentPost.categories?.length > 0 && <span>•</span>}
+
+  {/* Date */}
+  <span>
+    {new Date(recentPost.publishedAt).toLocaleDateString("en-US", {
+      month: "short",
+      day: "numeric",
+      year: "numeric",
+    })}
+  </span>
+</div>
                           </div>
                         </div>
                       </Link>
                     );
                   })}
-                </div>
-
-                {/* View All Link */}
-                <div className="mt-6 pt-4 border-t border-white/10">
-                  <Link 
-                    href="/blogs"
-                    className="text-[#00a8ff] hover:text-[#4dc3ff] text-sm font-medium flex items-center gap-2 transition-colors"
-                  >
-                    View all posts
-                    <span className="text-lg">→</span>
-                  </Link>
                 </div>
               </Glass>
             </div>
