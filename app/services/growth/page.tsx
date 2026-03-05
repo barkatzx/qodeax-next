@@ -31,8 +31,9 @@ import {
   FaUsers,
 } from "react-icons/fa";
 import { GiAmplitude } from "react-icons/gi";
+import { IoLogoTableau } from "react-icons/io5";
 import { PiLineSegmentsBold } from "react-icons/pi";
-import { SiGoogleanalytics, SiMixpanel, SiTableau } from "react-icons/si";
+import { SiGoogleanalytics, SiMixpanel } from "react-icons/si";
 
 const analyticsServices = [
   {
@@ -147,7 +148,7 @@ const analyticsPlatforms = [
     tier: "Enterprise",
   },
   {
-    icon: <SiTableau className="w-8 h-8" />,
+    icon: <IoLogoTableau className="w-8 h-8" />,
     name: "Tableau",
     type: "Business Intelligence",
     tier: "Enterprise",
