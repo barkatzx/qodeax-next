@@ -5,7 +5,13 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { FaArrowRight, FaChevronLeft, FaChevronRight } from "react-icons/fa";
+import {
+  FaArrowRight,
+  FaChevronLeft,
+  FaChevronRight,
+  FaClock,
+  FaFolder
+} from "react-icons/fa";
 import { Post } from "./page";
 
 interface PostGridProps {
@@ -15,6 +21,7 @@ interface PostGridProps {
 export default function PostsGrid({ posts }: PostGridProps) {
   const [currentPage, setCurrentPage] = useState(1);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const [hoveredPost, setHoveredPost] = useState<string | null>(null);
   const itemsPerPage = 6;
 
   useEffect(() => {
@@ -36,322 +43,273 @@ export default function PostsGrid({ posts }: PostGridProps) {
   const handlePrevious = () => setCurrentPage((prev) => Math.max(prev - 1, 1));
   const handlePageClick = (page: number) => setCurrentPage(page);
 
-  const primaryColor = "#00a8ff";
-  const primaryColorLight = "#4dc3ff";
+  // Modern color palette
+  const colors = {
+    primary: "#3b82f6",
+    primaryLight: "#60a5fa",
+    primaryDark: "#2563eb",
+    secondary: "#8b5cf6",
+    accent: "#ec4899",
+  };
 
-  const liquidGlassStyle = {
-    background:
-      "linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%)",
-    backdropFilter: "blur(20px) saturate(180%)",
-    border: "1px solid rgba(255, 255, 255, 0.1)",
-    boxShadow:
-      "0 8px 32px rgba(0, 0, 0, 0.2), 0 1px 0 rgba(255, 255, 255, 0.05) inset",
+  // Glass morphism styles
+  const glassStyle = {
+    background: "rgba(17, 25, 40, 0.75)",
+    backdropFilter: "blur(16px) saturate(180%)",
+    WebkitBackdropFilter: "blur(16px) saturate(180%)",
+    border: "1px solid rgba(255, 255, 255, 0.125)",
   };
 
   const buttonStyle = {
-    background: `linear-gradient(135deg, ${primaryColor} 0%, ${primaryColorLight} 100%)`,
-    border: "1px solid rgba(255, 255, 255, 0.2)",
-    boxShadow: `0 8px 32px ${primaryColor}20, 0 2px 8px rgba(255, 255, 255, 0.1) inset`,
+    background: `linear-gradient(135deg, ${colors.primary} 0%, ${colors.primaryLight} 100%)`,
+  };
+
+  // Format date helper
+  const formatDate = (dateString: string) => {
+    const date = new Date(dateString);
+    return new Intl.DateTimeFormat('en-US', {
+      month: 'short',
+      day: 'numeric',
+      year: 'numeric'
+    }).format(date);
   };
 
   return (
-    <section className="px-4 md:px-8 py-12 md:py-20 relative overflow-hidden bg-black">
-      <div className="absolute inset-0 overflow-hidden">
-        <div
-          className="absolute w-[800px] h-[800px] rounded-full bg-gradient-to-r from-[#00a8ff]/10 via-transparent to-[#00a8ff]/5 blur-3xl"
+    <section className="container mx-auto">
+      {/* Animated Background */}
+        <div 
+          className=""
           style={{
-            left: `${mousePosition.x * 0.01}px`,
-            top: `${mousePosition.y * 0.01}px`,
-            transition: "all 0.8s cubic-bezier(0.4, 0, 0.2, 1)",
+            left: `${mousePosition.x * 0.02}px`,
+            top: `${mousePosition.y * 0.02}px`,
+            transition: "transform 0.5s ease-out",
           }}
         />
-      </div>
 
-      <div className="max-w-7xl mx-auto relative">
+      <div className="px-4 py-12 md:px-8 lg:px-16">
+        {/* Section Header */}
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, type: "spring" }}
+          transition={{ duration: 0.6 }}
           viewport={{ once: true }}
           className="text-center mb-16"
         >
-          <Glass variant="blue" className="inline-flex items-center justify-center mb-6 px-6 py-2 rounded-full">
-            <span className="text-sm font-semibold text-[#00a8ff]">
-              ✨ Blog & Insights
-            </span>
-          </Glass>
-          <h2 className="font-[Recoleta] text-4xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-white via-white/90 to-white/70 bg-clip-text text-transparent">
-            Thoughts & Stories
+          <motion.div
+            initial={{ scale: 0.9 }}
+            animate={{ scale: 1 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 mb-6"
+          >
+            <span className="w-2 h-2 rounded-full bg-blue-400 animate-pulse" />
+            <span className="text-sm font-medium text-white/80">Latest Articles</span>
+          </motion.div>
+
+          <h2 className="text-4xl md:text-5xl lg:text-6xl font-[Recoleta] text-white mb-6">
+            Insights and
+              Stories
           </h2>
-          <p className="text-white/70 max-w-3xl mx-auto text-lg leading-relaxed">
-            Insights, tutorials, and reflections from my journey in web
-            development and design
+          
+          <p className="text-xl text-white/60 max-w-2xl mx-auto">
+            Exploring the intersection of technology, design, and creative thinking
           </p>
         </motion.div>
 
         {posts.length === 0 ? (
           <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
             className="text-center py-20"
           >
-            <div className="relative w-48 h-48 mx-auto mb-8">
-              <div
-                className="absolute inset-0 rounded-full animate-pulse"
-                style={{
-                  background:
-                    "linear-gradient(135deg, rgba(0, 168, 255, 0.1) 0%, rgba(0, 168, 255, 0.05) 100%)",
-                }}
-              />
-              <div
-                className="absolute inset-8 rounded-full flex items-center justify-center"
-                style={liquidGlassStyle}
-              >
-                <span className="text-6xl">📝</span>
+            <div className="relative w-32 h-32 mx-auto mb-6">
+              <div className="absolute inset-0 rounded-full bg-gradient-to-r from-blue-500/20 to-purple-500/20 animate-pulse" />
+              <div className="absolute inset-2 rounded-full bg-gray-800 flex items-center justify-center">
+                <span className="text-4xl">📝</span>
               </div>
             </div>
-            <p className="text-white/70 text-xl">Writing in progress...</p>
+            <h3 className="text-2xl font-semibold text-white mb-2">No posts yet</h3>
+            <p className="text-white/60">Check back soon for new content</p>
           </motion.div>
         ) : (
           <>
-            <div className="grid grid-cols-1 gap-6 md:gap-8">
+            {/* Modern Grid Layout - 3 columns on desktop */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
               {paginatedPosts.map((post, index) => (
-                <motion.div
+                <motion.article
                   key={post._id}
                   initial={{ opacity: 0, y: 30 }}
                   whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: index * 0.1 }}
+                  transition={{ duration: 0.5, delay: index * 0.1 }}
                   viewport={{ once: true }}
-                  className="relative"
+                  onHoverStart={() => setHoveredPost(post._id)}
+                  onHoverEnd={() => setHoveredPost(null)}
+                  className="group relative"
                 >
-                  <Glass variant="blue">
-                    <div
-                      className="relative rounded-2xl md:rounded-3xl overflow-hidden hover:shadow-2xl transition-all duration-500 group"
-                    >
-                      <div className="absolute top-0 right-0 w-24 h-24 md:w-32 md:h-32 bg-gradient-to-br from-[#00a8ff]/10 via-transparent to-transparent rounded-bl-full" />
+                  {/* Card Container */}
+                  <Glass variant="blue" className="relative h-full rounded-2xl overflow-hidden transition-all duration-500 hover:scale-[1.02] hover:shadow-2xl hover:shadow-blue-500/10">
+                    {/* Image Container */}
+                    <div className="relative h-48 overflow-hidden">
+                      {post.mainImage?.asset?.url ? (
+                        <Image
+                          src={post.mainImage.asset.url}
+                          alt={post.title}
+                          fill
+                          className="object-cover transition-transform duration-700 group-hover:scale-110"
+                          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                        />
+                      ) : (
+                        <div className="w-full h-full bg-gradient-to-br from-gray-800 to-gray-900" />
+                      )}
+                      
+                      {/* Image Overlay */}
+                      <div className="absolute inset-0 bg-gradient-to-t from-gray-900 via-transparent to-transparent opacity-60" />
+                    </div>
 
-                      {/* Flex container - Image on left, content on right */}
-                      <div className="flex flex-col lg:flex-row p-4 md:p-6 gap-4 md:gap-6 lg:gap-8">
-                        {/* LEFT SIDE - Post Image */}
-                        <div className="lg:w-1/3">
-                          <div className="relative overflow-hidden rounded-xl md:rounded-2xl h-48 md:h-64 lg:h-56 group/image">
-                            {post.mainImage?.asset?.url && (
-                              <Image
-                                src={post.mainImage.asset.url}
-                                alt={post.title}
-                                fill
-                                className="object-cover transition-transform duration-700 group-hover/image:scale-105"
-                                sizes="(max-width: 768px) 100vw, (max-width: 1024px) 33vw, 400px"
-                              />
-                            )}
-                            <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent opacity-60 group-hover/image:opacity-80 transition-opacity duration-500" />
-                            <div className="absolute inset-0 bg-gradient-to-tr from-[#00a8ff]/10 via-transparent to-transparent opacity-0 group-hover/image:opacity-100 transition-opacity duration-500" />
-                          </div>
-                        </div>
+                    {/* Content */}
+                    <div className="p-5">
+                      {/* Title */}
+                      <Link href={`/blogs/${post.slug.current}`}>
+                        <h3 className="text-2xl font-[Recoleta] text-white mb-2  hover:text-blue-400 transition-colors duration-300 mb-5">
+                          {post.title}
+                        </h3>
+                      </Link>
+                      {/* Author, Category, Reading Time - All in one line */}
+                      <div className="flex items-center gap-3 text-xs text-white/50 mb-5 flex-wrap">
+                        {/* {post.author && (
+                          <span className="flex items-center gap-1">
+                            <FaUser className="w-3 h-3 text-blue-400" />
+                            {post.author.name}
+                          </span>
+                        )} */}
+                        
+                        {post.categories && post.categories.length > 0 && (
+                          <>
+                            <span className="flex items-center gap-1">
+                              <FaFolder className="w-3 h-3 text-blue-400" />
+                              {post.categories[0].title}
+                              {post.categories.length > 1 && ` +${post.categories.length - 1}`}
+                            </span>
+                          </>
+                        )}
+                        
+                        <span className="flex items-center gap-1">
+                          <FaClock className="w-3 h-3 text-blue-400" />
+                          {post.estimatedReadingTime || 5} min read
+                        </span>
+                      </div>
 
-                        {/* RIGHT SIDE - Post Info */}
-                        <div className="lg:w-2/3">
-                          <div className="flex flex-wrap items-center gap-2 md:gap-3 mb-3 md:mb-4">
-                            {post.categories && post.categories.length > 0 ? (
-                              <span
-                                className="px-3 py-1 md:px-4 md:py-1.5 text-white font-semibold rounded-full text-xs md:text-sm backdrop-blur-sm"
-                                style={{
-                                  background:
-                                    "linear-gradient(135deg, rgba(0, 168, 255, 0.2) 0%, rgba(0, 168, 255, 0.1) 100%)",
-                                }}
-                              >
-                                {post.categories[0].title}
-                              </span>
-                            ) : (
-                              <span
-                                className="px-3 py-1 md:px-4 md:py-1.5 text-white/90 font-semibold rounded-full text-xs md:text-sm backdrop-blur-sm"
-                                style={{
-                                  background:
-                                    "linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%)",
-                                }}
-                              >
-                                Blog Post
-                              </span>
-                            )}
-                          </div>
+                      {/* Excerpt */}
+                      {post.excerpt && (
+                        <p className="text-white/50 text-sm leading-relaxed mb-4 line-clamp-5">
+                          {post.excerpt}
+                        </p>
+                      )}
 
-                          <Link href={`/blogs/${post.slug.current}`}>
-                            <h3 className="font-[Recoleta] text-xl md:text-2xl lg:text-3xl font-bold text-white mb-3 md:mb-4 hover:text-[#00a8ff] transition-colors duration-300">
-                              {post.title}
-                            </h3>
-                          </Link>
-
-                          {post.excerpt && (
-                            <p className="text-white/70 text-sm md:text-base mb-4 md:mb-6 line-clamp-2 md:line-clamp-3">
-                              {post.excerpt}
-                            </p>
-                          )}
-
-                          <motion.button
-                            whileHover={{ scale: 1.05 }}
-                            whileTap={{ scale: 0.95 }}
-                            className="relative px-4 py-2.5 md:px-6 md:py-3 text-white font-semibold rounded-lg md:rounded-xl overflow-hidden group/btn w-full md:w-auto"
-                            style={buttonStyle}
-                          >
-                            <Link href={`/blogs/${post.slug.current}`}>
-                              <span className="relative z-10 flex items-center justify-center md:justify-start gap-1.5 md:gap-2 text-sm md:text-base">
-                                Read Article
-                                <FaArrowRight className="transform group-hover/btn:translate-x-1 transition-transform" />
-                              </span>
-                            </Link>
-                            <div className="absolute inset-0 bg-gradient-to-r from-[#0097e6] to-[#00a8ff] opacity-0 group-hover/btn:opacity-100 transition-opacity duration-300"></div>
-                            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent translate-x-[-100%] group-hover/btn:translate-x-[100%] transition-transform duration-1000"></div>
-                          </motion.button>
-                        </div>
+                      {/* Date and Read More */}
+                      <div className="flex items-center justify-between pt-3 border-t border-white/10">
+                        <span className="text-xs text-white/30">
+                          {formatDate(post.publishedAt)}
+                        </span>
+                        
+                        <Link 
+                          href={`/blogs/${post.slug.current}`}
+                          className="inline-flex items-center gap-1.5 text-xs font-medium text-white/70 hover:text-blue-400 transition-colors duration-300 group/link"
+                        >
+                          <span>Read more</span>
+                          <FaArrowRight className="w-2.5 h-2.5 transform group-hover/link:translate-x-1 transition-transform duration-300" />
+                        </Link>
                       </div>
                     </div>
-                  </Glass>
-                </motion.div>
+
+                    {/* Hover Effect Gradient */}
+                    <div 
+                      className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
+                      style={{
+                        background: `radial-gradient(600px circle at ${mousePosition.x}px ${mousePosition.y}px, rgba(59, 130, 246, 0.1), transparent 40%)`,
+                      }}
+                    />
+                    </Glass>
+                </motion.article>
               ))}
             </div>
 
+            {/* Modern Pagination */}
             <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              className="mt-12 md:mt-20"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.3 }}
+              className="mt-16"
             >
-              <div className="flex flex-row items-center justify-center gap-2 md:gap-4">
-                <button
-                  onClick={handlePrevious}
-                  disabled={currentPage === 1}
-                  className={`flex items-center justify-center space-x-2 px-4 py-3 md:px-8 md:py-4 rounded-xl md:rounded-2xl font-semibold transition-all duration-300 flex-1 max-w-[120px] md:max-w-none ${
-                    currentPage === 1
-                      ? "opacity-50 cursor-not-allowed"
-                      : "hover:shadow-lg transform hover:-translate-x-0.5 md:hover:-translate-x-1"
-                  }`}
-                  style={
-                    currentPage === 1
-                      ? {
-                          background:
-                            "linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.02) 100%)",
-                          border: "1px solid rgba(255, 255, 255, 0.1)",
-                          color: "rgba(255, 255, 255, 0.3)",
-                        }
-                      : {
-                          background:
-                            "linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%)",
-                          border: "1px solid rgba(255, 255, 255, 0.1)",
-                          color: "rgba(255, 255, 255, 0.9)",
-                        }
-                  }
-                >
-                  <FaChevronLeft className="w-3 h-3 md:w-4 md:h-4" />
-                  <span className="text-xs md:text-sm">Prev</span>
-                </button>
+              <div className="flex flex-col items-center gap-6">
+                {/* Pagination Controls */}
+                <div className="flex items-center gap-3">
+                  <button
+                    onClick={handlePrevious}
+                    disabled={currentPage === 1}
+                    className={`p-3 rounded-xl transition-all duration-300 ${
+                      currentPage === 1
+                        ? "opacity-30 cursor-not-allowed"
+                        : "hover:bg-white/10 hover:scale-105"
+                    }`}
+                    style={glassStyle}
+                  >
+                    <FaChevronLeft className="w-4 h-4 text-white" />
+                  </button>
 
-                <div
-                  className="flex items-center justify-center space-x-1 md:space-x-2 rounded-xl md:rounded-2xl p-1.5 md:p-2 flex-1"
-                  style={liquidGlassStyle}
-                >
-                  {totalPages <= 5 ? (
-                    [...Array(totalPages)].map((_, i) => (
-                      <button
-                        key={i + 1}
-                        onClick={() => handlePageClick(i + 1)}
-                        className={`w-8 h-8 md:w-10 md:h-10 rounded-lg md:rounded-xl font-bold transition-all duration-300 text-xs md:text-sm ${
-                          currentPage === i + 1
-                            ? "text-white shadow-lg scale-110"
-                            : "text-white/70 hover:text-white hover:scale-105"
-                        }`}
-                        style={
-                          currentPage === i + 1
-                            ? buttonStyle
-                            : {
-                                background:
-                                  "linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.02) 100%)",
-                              }
-                        }
-                      >
-                        {i + 1}
-                      </button>
-                    ))
-                  ) : (
-                    <>
-                      {currentPage > 2 && (
-                        <span className="text-white/50 px-1">...</span>
-                      )}
-                      {[
-                        Math.max(1, currentPage - 1),
-                        currentPage,
-                        Math.min(totalPages, currentPage + 1),
-                      ]
-                        .filter(
-                          (page, index, array) => array.indexOf(page) === index
-                        )
-                        .map((page) => (
-                          <button
-                            key={page}
-                            onClick={() => handlePageClick(page)}
-                            className={`w-8 h-8 md:w-10 md:h-10 rounded-lg md:rounded-xl font-bold transition-all duration-300 text-xs md:text-sm ${
-                              currentPage === page
-                                ? "text-white shadow-lg scale-110"
-                                : "text-white/70 hover:text-white hover:scale-105"
-                            }`}
-                            style={
-                              currentPage === page
-                                ? buttonStyle
-                                : {
-                                    background:
-                                      "linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.02) 100%)",
-                                  }
-                            }
-                          >
-                            {page}
-                          </button>
-                        ))}
-                      {currentPage < totalPages - 1 && (
-                        <span className="text-white/50 px-1">...</span>
-                      )}
-                    </>
-                  )}
+                  <div className="flex items-center gap-2">
+                    {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
+                      let pageNum;
+                      if (totalPages <= 5) {
+                        pageNum = i + 1;
+                      } else if (currentPage <= 3) {
+                        pageNum = i + 1;
+                      } else if (currentPage >= totalPages - 2) {
+                        pageNum = totalPages - 4 + i;
+                      } else {
+                        pageNum = currentPage - 2 + i;
+                      }
+
+                      return (
+                        <button
+                          key={pageNum}
+                          onClick={() => handlePageClick(pageNum)}
+                          className={`w-10 h-10 rounded-xl font-medium transition-all duration-300 ${
+                            currentPage === pageNum
+                              ? "text-white shadow-lg scale-110"
+                              : "text-white/60 hover:text-white hover:bg-white/10 hover:scale-105"
+                          }`}
+                          style={currentPage === pageNum ? buttonStyle : glassStyle}
+                        >
+                          {pageNum}
+                        </button>
+                      );
+                    })}
+                  </div>
+
+                  <button
+                    onClick={handleNext}
+                    disabled={currentPage === totalPages}
+                    className={`p-3 rounded-xl transition-all duration-300 ${
+                      currentPage === totalPages
+                        ? "opacity-30 cursor-not-allowed"
+                        : "hover:bg-white/10 hover:scale-105"
+                    }`}
+                    style={glassStyle}
+                  >
+                    <FaChevronRight className="w-4 h-4 text-white" />
+                  </button>
                 </div>
 
-                <button
-                  onClick={handleNext}
-                  disabled={currentPage === totalPages}
-                  className={`flex items-center justify-center space-x-2 px-4 py-3 md:px-8 md:py-4 rounded-xl md:rounded-2xl font-semibold transition-all duration-300 flex-1 max-w-[120px] md:max-w-none ${
-                    currentPage === totalPages
-                      ? "opacity-50 cursor-not-allowed"
-                      : "hover:shadow-lg transform hover:translate-x-0.5 md:hover:translate-x-1"
-                  }`}
-                  style={
-                    currentPage === totalPages
-                      ? {
-                          background:
-                            "linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.02) 100%)",
-                          border: "1px solid rgba(255, 255, 255, 0.1)",
-                          color: "rgba(255, 255, 255, 0.3)",
-                        }
-                      : {
-                          background:
-                            "linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%)",
-                          border: "1px solid rgba(255, 255, 255, 0.1)",
-                          color: "rgba(255, 255, 255, 0.9)",
-                        }
-                  }
-                >
-                  <span className="text-xs md:text-sm">Next</span>
-                  <FaChevronRight className="w-3 h-3 md:w-4 md:h-4" />
-                </button>
-              </div>
-
-              <div className="mt-4 text-center md:hidden">
-                <span className="text-white/70 text-sm">
-                  Page {currentPage} of {totalPages}
-                </span>
-              </div>
-
-              <div className="text-center mt-4 md:mt-6">
-                <p className="text-white/70 text-sm">
-                  Showing {(currentPage - 1) * itemsPerPage + 1}-
-                  {Math.min(currentPage * itemsPerPage, posts.length)} of{" "}
-                  {posts.length} articles
-                </p>
+                {/* Page Info */}
+                <div className="flex items-center gap-4 text-sm">
+                  <span className="text-white/40">
+                    Page {currentPage} of {totalPages}
+                  </span>
+                  <span className="w-1 h-1 rounded-full bg-white/20" />
+                  <span className="text-white/40">
+                    {posts.length} total articles
+                  </span>
+                </div>
               </div>
             </motion.div>
           </>

@@ -121,7 +121,7 @@ export default function Header() {
           stiffness: 100,
           damping: 20,
         }}
-        className="hidden md:block fixed top-4 left-1/2 -translate-x-1/2 z-50 container mx-auto"
+        className="hidden md:block fixed z-50 top-4 left-8 right-8 rounded-2xl container mx-auto"
       >
         <Glass variant="blue">
           <div className="relative z-10 mx-auto px-8 py-3">
