@@ -18,6 +18,7 @@ const POSTS_QUERY = `*[
   _id,
   title,
   slug,
+  excerpt,
   publishedAt,
   mainImage { asset-> { url } },
   categories[]-> { title }

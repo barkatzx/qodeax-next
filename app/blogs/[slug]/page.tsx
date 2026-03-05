@@ -64,31 +64,41 @@ export default async function PostPage(props: { params: tParams }) {
     post.estimatedReadingTime ||
     Math.max(5, Math.ceil((post.body?.length || 0) / 1500));
 
+  // Get current URL for sharing (will be handled client-side)
+  const shareUrl = typeof window !== 'undefined' ? window.location.href : '';
+
   return (
-    <main className="container mx-auto">
+    <main>
       {/* Hero Section */}
       <div className="px-4 md:px-20 py-6 md:py-12">
         <div className="container mx-auto">
           {/* Categories */}
-          <Glass variant="blue" className="font-medium rounded-full text-sm text-white inline-flex items-center mb-4 p-2">
           {post.categories?.length > 0 && (
-            <div>
-              {post.categories.map((cat: { title: string }, idx: number) => (
-                <span
-                  key={idx}
-                  className=""
-                >
-                  {cat.title}
-                </span>
-              ))}
-            </div>
+            <Glass variant="blue" className="inline-flex items-center p-1 rounded-full mb-4">
+              <div className="flex gap-1">
+                {post.categories.map((cat: { title: string }, idx: number) => (
+                  <span
+                    key={idx}
+                    className="px-4 py-2 text-sm font-medium text-white"
+                  >
+                    {cat.title}
+                  </span>
+                ))}
+              </div>
+            </Glass>
           )}
-          </Glass>
 
           {/* Post Title */}
           <h1 className="font-[Recoleta] text-3xl md:text-5xl lg:text-6xl font-bold mb-4 md:mb-6 leading-tight text-white">
             {post.title}
           </h1>
+
+          {/* Excerpt */}
+          {post.excerpt && (
+            <p className="text-lg md:text-xl text-white/70 mb-6 max-w-3xl leading-relaxed">
+              {post.excerpt}
+            </p>
+          )}
 
           {/* Meta Info */}
           <div className="flex items-center gap-4 text-white/60 text-sm md:text-base mb-6">
@@ -112,10 +122,10 @@ export default async function PostPage(props: { params: tParams }) {
                   src={mainImageUrl}
                   alt={post.title}
                   width={800}
-                  height={630}
+                  height={600}
                   className="w-full h-auto object-cover"
                   priority
-                  sizes="(max-width: 768px) 100vw, 800px"
+                  sizes="(max-width: 768px) 100vw, 1200px"
                 />
               </div>
             </div>
@@ -128,13 +138,13 @@ export default async function PostPage(props: { params: tParams }) {
         <div className="container mx-auto">
           <Glass variant="blue" className="p-6 md:p-10 rounded-xl md:rounded-2xl">
             {/* Post Content */}
-            <div className="text-white">
+            <div className="prose prose-invert max-w-none">
               {Array.isArray(post.body) && (
                 <PortableText value={post.body} components={components} />
               )}
             </div>
 
-            {/* Redesigned Author Section */}
+            {/* Author Section */}
             {post.author && (
               <div className="mt-12 pt-8 border-t border-white/10">
                 <div className="flex flex-col md:flex-row gap-6 items-start">
@@ -142,12 +152,13 @@ export default async function PostPage(props: { params: tParams }) {
                   <div className="flex-shrink-0">
                     <div className="relative">
                       <Image
-                        src={post.author?.image ? urlFor(post.author.image)?.width(120).height(120).quality(90).url() || "/default-avatar.png" : "/default-avatar.png"}
+                        src={post.author?.image 
+                          ? urlFor(post.author.image)?.width(120).height(120).quality(90).url() || "/default-avatar.png" 
+                          : "/default-avatar.png"}
                         alt={post.author?.name || "Author"}
                         width={80}
                         height={80}
                         className="rounded-full border-2 border-[#00a8ff]/20"
-                        priority
                       />
                       <div className="absolute -bottom-1 -right-1 w-6 h-6 bg-[#00a8ff] rounded-full border-2 border-white flex items-center justify-center">
                         <span className="text-white text-xs">✓</span>
@@ -176,7 +187,7 @@ export default async function PostPage(props: { params: tParams }) {
                       <span className="text-white/50 text-sm">Share this article:</span>
                       <div className="flex gap-2">
                         <a
-                          href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(post.title)}`}
+                          href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(post.title)}&url=${encodeURIComponent(shareUrl)}`}
                           target="_blank"
                           rel="noopener noreferrer"
                           className="w-8 h-8 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center hover:bg-[#00a8ff]/10 hover:border-[#00a8ff]/30 transition-all"
@@ -184,7 +195,7 @@ export default async function PostPage(props: { params: tParams }) {
                           <FaXTwitter className="text-white/70 hover:text-[#00a8ff] transition-colors" />
                         </a>
                         <a
-                          href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(typeof window !== 'undefined' ? window.location.href : '')}`}
+                          href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}`}
                           target="_blank"
                           rel="noopener noreferrer"
                           className="w-8 h-8 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center hover:bg-[#00a8ff]/10 hover:border-[#00a8ff]/30 transition-all"
@@ -192,7 +203,7 @@ export default async function PostPage(props: { params: tParams }) {
                           <FaFacebook className="text-white/70 hover:text-[#00a8ff] transition-colors" />
                         </a>
                         <a
-                          href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(typeof window !== 'undefined' ? window.location.href : '')}`}
+                          href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(shareUrl)}`}
                           target="_blank"
                           rel="noopener noreferrer"
                           className="w-8 h-8 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center hover:bg-[#00a8ff]/10 hover:border-[#00a8ff]/30 transition-all"
