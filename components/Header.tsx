@@ -35,7 +35,7 @@ export default function Header() {
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
   const closeMenu = () => setIsMenuOpen(false);
 
-  // Liquid glass animation variants
+  // Navigation variants
   const menuVariants: Variants = {
     hidden: {
       opacity: 0,
@@ -52,7 +52,6 @@ export default function Header() {
         type: "spring",
         stiffness: 260,
         damping: 20,
-        mass: 0.5,
       },
     },
     exit: {
@@ -103,21 +102,16 @@ export default function Header() {
     },
   ];
 
-  // New soothing blue color
-  const primaryColor = "#00a8ff";
-  const primaryColorLight = "#4dc3ff";
-  const primaryColorDark = "#0097e6";
-
-  // All buttons use new soothing blue color
+  // Button styling
   const buttonStyle = {
-    background: `linear-gradient(135deg, ${primaryColor} 0%, ${primaryColorLight} 100%)`,
+    background: `linear-gradient(135deg, #00a8ff 0%, #4dc3ff 100%)`,
     border: "1px solid rgba(255, 255, 255, 0.2)",
-    boxShadow: `0 8px 32px ${primaryColor}20, 0 2px 8px rgba(255, 255, 255, 0.1) inset`,
+    boxShadow: `0 8px 32px #00a8ff20, 0 2px 8px rgba(255, 255, 255, 0.1) inset`,
   };
 
   return (
     <>
-      {/* Desktop Header with Liquid Glass Effect */}
+      {/* Desktop Header */}
       <motion.header
         initial={{ y: -100, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
@@ -130,32 +124,27 @@ export default function Header() {
         className="hidden md:block fixed top-4 left-1/2 -translate-x-1/2 z-50 container mx-auto"
       >
         <Glass variant="blue">
-          {/* Animated liquid background */}
           <div className="relative z-10 mx-auto px-8 py-3">
             <div className="flex items-center justify-between">
-              {/* Logo with Glass Effect */}
+              {/* Logo */}
               <motion.div
-                className="flex items-center gap-3"
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
               >
                 <Link href="/">
-                  <div className="relative group">
-                    <div className="absolute inset-0 bg-gradient-to-r from-[#00a8ff]/10 to-[#00a8ff]/5 blur-lg group-hover:blur-2xl transition-all duration-500 rounded-2xl" />
-                    <Image
-                      src={logo}
-                      alt="Barkat Ullah"
-                      width={96}
-                      height={48}
-                      priority
-                    />
-                  </div>
+                  <Image
+                    src={logo}
+                    alt="Barkat Ullah"
+                    width={96}
+                    height={48}
+                    priority
+                  />
                 </Link>
               </motion.div>
 
-              {/* Desktop Navigation - White background on hover */}
+              {/* Desktop Navigation */}
               <nav className="flex items-center">
-                <div className="flex items-center gap-1 bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-lg rounded-2xl px-2 py-2 border border-white/10 shadow-lg shadow-black/10">
+                <div className="flex items-center gap-1 bg-white/10 backdrop-blur-lg rounded-2xl px-2 py-2 border border-white/10">
                   {navItems.map((item, i) => (
                     <motion.div
                       key={item.label}
@@ -163,27 +152,24 @@ export default function Header() {
                       custom={i}
                       initial="hidden"
                       animate="visible"
-                      whileHover={{ scale: 1.05, y: -1 }}
+                      whileHover={{ scale: 1.05 }}
                       whileTap={{ scale: 0.95 }}
                     >
                       <Link
                         href={item.href}
                         className="relative px-5 py-2.5 text-white/90 hover:text-white rounded-xl transition-all duration-300 group"
                       >
-                        <span className="">{item.label}</span>
-                        {/* White background on hover for desktop */}
-                        <span className="absolute inset-0 transition-all duration-300" />
-                        {/* Blue underline effect */}
-                        <span className="absolute bottom-2 left-1/2 transform -translate-x-1/2 w-0 h-0.5 bg-[#00a8ff] group-hover:w-3/5 transition-all duration-300 rounded-full"></span>
+                        <span>{item.label}</span>
+                        <span className="absolute bottom-2 left-1/2 -translate-x-1/2 w-0 h-0.5 bg-[#00a8ff] group-hover:w-3/5 transition-all duration-300 rounded-full" />
                       </Link>
                     </motion.div>
                   ))}
                 </div>
               </nav>
 
-              {/* Right Side - Social & CTA with Glass Effect */}
+              {/* Right Side - Social & CTA */}
               <div className="flex items-center gap-3">
-                {/* Social Links with Glass Bubbles */}
+                {/* Social Links */}
                 <motion.div
                   className="flex items-center gap-2 p-2 bg-white/5 backdrop-blur-xl rounded-2xl border border-white/10"
                   whileHover={{ scale: 1.02 }}
@@ -194,55 +180,39 @@ export default function Header() {
                       href={social.href}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="relative w-10 h-10 rounded-xl bg-gradient-to-br from-white/20 to-white/5 border border-white/10 flex items-center justify-center group overflow-hidden"
+                      className="relative w-10 h-10 rounded-xl bg-white/20 border border-white/10 flex items-center justify-center group overflow-hidden"
                       whileHover={{ scale: 1.15, y: -2 }}
                       whileTap={{ scale: 0.95 }}
-                      transition={{
-                        type: "spring",
-                        stiffness: 400,
-                        damping: 17,
-                      }}
                     >
-                      {/* Blue bubble effect */}
                       <div className="absolute inset-0 bg-gradient-to-br from-[#00a8ff]/0 to-[#00a8ff]/0 group-hover:from-[#00a8ff]/20 group-hover:to-[#00a8ff]/10 transition-all duration-300" />
-                      <div className="absolute inset-0 border border-white/0 group-hover:border-white/10 transition-all duration-300 rounded-xl" />
-
-                      <span className="relative text-white/70 group-hover:text-white transition-colors duration-300">
+                      <span className="relative text-white/70 group-hover:text-white">
                         {social.icon}
                       </span>
                     </motion.a>
                   ))}
                 </motion.div>
 
-                {/* Contact Button with soothing blue color */}
+                {/* Contact Button */}
                 <motion.div
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
-                  transition={{ type: "spring", stiffness: 400, damping: 17 }}
                 >
                   <Link href="/contact">
                     <button
                       className="relative px-6 py-3 text-white font-semibold rounded-xl overflow-hidden group"
                       style={buttonStyle}
                     >
-                      {/* Animated blue background */}
                       <div className="absolute inset-0 bg-gradient-to-r from-[#0097e6] to-[#00a8ff] opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-
-                      {/* Shine effect */}
-                      <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000" />
-
+                      <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
                       <span className="font-[Recoleta] relative z-10 flex items-center gap-2">
                         Get In Touch
                         <motion.span
                           animate={{ x: [0, 3, 0] }}
                           transition={{ repeat: Infinity, duration: 2 }}
                         >
-                          <FiArrowRight className="transform group-hover:translate-x-2 transition-transform duration-300" />
+                          <FiArrowRight className="group-hover:translate-x-2 transition-transform duration-300" />
                         </motion.span>
                       </span>
-
-                      {/* Blue border animation */}
-                      <div className="absolute inset-0 rounded-xl border-2 border-transparent group-hover:border-white/30 transition-all duration-300" />
                     </button>
                   </Link>
                 </motion.div>
@@ -252,7 +222,7 @@ export default function Header() {
         </Glass>
       </motion.header>
 
-      {/* Mobile Header with Liquid Glass */}
+      {/* Mobile Header */}
       <motion.header
         initial={{ y: -100, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
@@ -266,31 +236,26 @@ export default function Header() {
               <motion.div
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
-                className="relative"
               >
-                <Link href="/" className="flex items-center gap-3">
-                  <div className="" />
+                <Link href="/">
                   <Image
                     src={logo}
                     alt="Barkat Ullah"
                     width={96}
                     height={40}
-                    className="relative rounded-xl"
                     priority
                   />
                 </Link>
               </motion.div>
 
-              {/* Mobile Menu Button with Liquid Effect */}
+              {/* Mobile Menu Button */}
               <motion.button
                 onClick={toggleMenu}
-                className="relative w-12 h-12 rounded-xl flex items-center justify-center overflow-hidden group"
+                className="relative w-12 h-12 rounded-xl flex items-center justify-center overflow-hidden"
                 whileTap={{ scale: 0.9 }}
                 aria-label="Toggle menu"
                 style={buttonStyle}
               >
-                {/* Blue liquid background */}
-
                 {isMenuOpen ? (
                   <FiX className="relative text-white" size={24} />
                 ) : (
@@ -301,11 +266,11 @@ export default function Header() {
           </div>
         </Glass>
 
-        {/* Mobile Menu Overlay with Liquid Glass */}
+        {/* Mobile Menu Overlay */}
         <AnimatePresence>
           {isMenuOpen && (
             <>
-              {/* Liquid Backdrop */}
+              {/* Backdrop */}
               <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
@@ -314,7 +279,7 @@ export default function Header() {
                 className="fixed inset-0 z-40"
               />
 
-              {/* Mobile Menu Panel with Improved Visibility */}
+              {/* Mobile Menu Panel */}
               <motion.div
                 variants={menuVariants}
                 initial="hidden"
@@ -322,18 +287,12 @@ export default function Header() {
                 exit="exit"
                 className="absolute top-full left-4 right-4 z-50 overflow-hidden mt-2"
                 style={{
-                  background:
-                    "linear-gradient(135deg, rgba(0, 0, 0, 0.9) 0%, rgba(0, 0, 0, 0.85) 100%)",
-                  border: "1px solid rgba(255, 255, 255, 0.1)",
+                  background: "linear-gradient(135deg, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.9) 100%)",
+                  border: "1px solid rgba(255,255,255,0.1)",
                   borderRadius: "24px",
-                  boxShadow:
-                    "0 20px 60px rgba(0, 0, 0, 0.5), 0 1px 0 rgba(255, 255, 255, 0.1) inset",
                 }}
               >
-                {/* Blue overlay for liquid effect */}
-                <div className="absolute inset-0 bg-[#000000]/50" />
-
-                {/* Animated liquid background - Blue theme */}
+                {/* Animated background */}
                 <div className="absolute inset-0 overflow-hidden">
                   <div
                     className="absolute w-[400px] h-[400px] rounded-full bg-gradient-to-r from-[#00a8ff]/10 to-[#00a8ff]/5 animate-pulse"
@@ -345,7 +304,7 @@ export default function Header() {
                   />
                 </div>
 
-                {/* Menu Items with Better Contrast */}
+                {/* Menu Items */}
                 <nav className="relative z-10 py-6">
                   {navItems.map((item, i) => (
                     <motion.div
@@ -354,31 +313,24 @@ export default function Header() {
                       custom={i}
                       className="px-6"
                       whileHover={{ x: 8 }}
-                      transition={{
-                        type: "spring",
-                        stiffness: 300,
-                        damping: 20,
-                      }}
                     >
                       <Link
                         href={item.href}
                         onClick={closeMenu}
                         className="flex items-center justify-between py-4 group relative"
                       >
-                        {/* Blue hover effect */}
                         <div className="absolute inset-0 bg-gradient-to-r from-[#00a8ff]/10 to-[#00a8ff]/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-lg" />
-
-                        <span className="relative text-lg font-semibold text-white/90 group-hover:text-white transition-colors">
+                        <span className="relative text-lg font-semibold text-white/90 group-hover:text-white">
                           {item.label}
                         </span>
-                        <FiArrowRight className="relative text-white/60 group-hover:text-[#00a8ff] transform group-hover:translate-x-2 transition-all duration-300" />
+                        <FiArrowRight className="relative text-white/60 group-hover:text-[#00a8ff] group-hover:translate-x-2 transition-all duration-300" />
                       </Link>
                     </motion.div>
                   ))}
                 </nav>
 
-                {/* Footer Section with Blue theme */}
-                <div className="relative z-10 p-6 bg-gradient-to-br from-black/80 to-black/60 border-t border-white/10">
+                {/* Footer Section */}
+                <div className="relative z-10 p-6 bg-black/80 border-t border-white/10">
                   {/* Social Links */}
                   <div className="flex justify-center gap-4 mb-6">
                     {socialLinks.map((social) => (
@@ -392,29 +344,27 @@ export default function Header() {
                         whileTap={{ scale: 0.95 }}
                         style={buttonStyle}
                       >
-                        {/* Blue hover effect */}
                         <div className="absolute inset-0 bg-gradient-to-br from-[#00a8ff]/0 to-[#00a8ff]/0 group-hover:from-[#00a8ff]/40 group-hover:to-[#00a8ff]/20 transition-all duration-300" />
-                        <span className="relative text-white/70 group-hover:text-white transition-colors">
+                        <span className="relative text-white/70 group-hover:text-white">
                           {social.icon}
                         </span>
                       </motion.a>
                     ))}
                   </div>
 
-                  {/* Contact Button with soothing blue color */}
+                  {/* Contact Button */}
                   <motion.div
                     whileTap={{ scale: 0.95 }}
-                    className="relative overflow-hidden rounded-xl font-[Recoleta]"
+                    className="relative overflow-hidden rounded-xl"
                   >
                     <Link href="/contact" onClick={closeMenu}>
                       <button
-                        className="w-full py-4 text-white font-semibold flex items-center justify-center gap-2 relative overflow-hidden"
+                        className="w-full py-4 text-white font-semibold flex items-center justify-center gap-2 relative overflow-hidden font-[Recoleta]"
                         style={buttonStyle}
                       >
-                        {/* Blue shine effect */}
-                        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent translate-x-[-100%] hover:translate-x-[100%] transition-transform duration-700" />
+                        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full hover:translate-x-full transition-transform duration-700" />
                         Contact Me
-                        <FiArrowRight className="transform group-hover:translate-x-2 transition-transform duration-300" />
+                        <FiArrowRight className="group-hover:translate-x-2 transition-transform duration-300" />
                       </button>
                     </Link>
                   </motion.div>
@@ -425,8 +375,8 @@ export default function Header() {
         </AnimatePresence>
       </motion.header>
 
-      {/* Spacer for fixed header */}
-      <div className="h-20 md:h-24"></div>
+      {/* Spacer */}
+      <div className="h-20 md:h-24" />
     </>
   );
 }

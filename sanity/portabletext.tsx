@@ -5,16 +5,16 @@ import Image from "next/image";
 export const components: PortableTextComponents = {
   block: {
     h1: ({ children }) => (
-      <h1 className="font-[Recoleta] text-5xl mb-4">{children}</h1>
+      <h1 className="font-[Recoleta] text-5xl mt-4 mb-4">{children}</h1>
     ),
     h2: ({ children }) => (
-      <h2 className="font-[Recoleta] text-4xl mb-4">{children}</h2>
+      <h2 className="font-[Recoleta] text-4xl mt-4 mb-4">{children}</h2>
     ),
     h3: ({ children }) => (
-      <h3 className="font-[Recoleta] text-3xl mb-4">{children}</h3>
+      <h3 className="font-[Recoleta] text-3xl mt-4 mb-4">{children}</h3>
     ),
     h4: ({ children }) => (
-      <h4 className="font-[Recoleta] text-2xl mb-4">{children}</h4>
+      <h4 className="font-[Recoleta] text-2xl mt-4 mb-4">{children}</h4>
     ),
     normal: ({ children }) => <p className="text-xl">{children}</p>,
   },
