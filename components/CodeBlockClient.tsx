@@ -43,7 +43,7 @@ export default function CodeBlockClient({
         </div>
       )}
       
-      <pre className="bg-[#031119] rounded-xl p-4 overflow-x-auto border border-white/10">
+      <pre className="bg-white/10 rounded-xl p-4 overflow-y-auto border border-white/20 max-h-[300px]">
         <code className="font-[agave] text-lg text-[#4dc3ff] block">
           {showLineNumbers ? (
             <table className="border-collapse w-full">
