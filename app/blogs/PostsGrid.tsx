@@ -1,5 +1,6 @@
 "use client";
 
+import { Button } from "@/components/ui/Button";
 import Glass from "@/components/ui/Glass";
 import { motion } from "framer-motion";
 import Image from "next/image";
@@ -56,28 +57,7 @@ export default function PostsGrid({ posts }: PostGridProps) {
 
   const handleCategoryClick = (category: string | null) => {
     setSelectedCategory(category);
-    setCurrentPage(1); // Reset to first page when filtering
-  };
-
-  // Modern color palette
-  const colors = {
-    primary: "#3b82f6",
-    primaryLight: "#60a5fa",
-    primaryDark: "#2563eb",
-    secondary: "#8b5cf6",
-    accent: "#ec4899",
-  };
-
-  // Glass morphism styles
-  const glassStyle = {
-    background: "rgba(17, 25, 40, 0.75)",
-    backdropFilter: "blur(16px) saturate(180%)",
-    WebkitBackdropFilter: "blur(16px) saturate(180%)",
-    border: "1px solid rgba(255, 255, 255, 0.125)",
-  };
-
-  const buttonStyle = {
-    background: `linear-gradient(135deg, ${colors.primary} 0%, ${colors.primaryLight} 100%)`,
+    setCurrentPage(1);
   };
 
   // Format date helper
@@ -135,7 +115,7 @@ export default function PostsGrid({ posts }: PostGridProps) {
           </p>
         </motion.div>
 
-        {/* Category Navigation - Added right after the title paragraph */}
+        {/* Category Navigation */}
         {allCategories.length > 0 && (
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -146,21 +126,20 @@ export default function PostsGrid({ posts }: PostGridProps) {
           >
             <div className="flex flex-wrap items-center justify-center gap-3">
               {/* All Categories Button */}
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
+              <Button
+                variant="gradient"
                 onClick={() => handleCategoryClick(null)}
                 className={`px-5 py-2.5 rounded-full text-sm font-medium transition-all duration-300 ${
-                  selectedCategory === null
-                    ? "bg-blue-400 text-white shadow-lg shadow-blue-500/25"
-                    : "bg-white/5 text-white/70 hover:text-white hover:bg-white/10 border border-white/10"
+                  selectedCategory !== null
+                    ? "opacity-50 hover:opacity-100"
+                    : ""
                 }`}
               >
                 All Posts
                 <span className="ml-2 text-xs opacity-70">
                   ({posts.length})
                 </span>
-              </motion.button>
+              </Button>
 
               {/* Individual Category Buttons */}
               {allCategories.map((category, index) => {
@@ -169,33 +148,29 @@ export default function PostsGrid({ posts }: PostGridProps) {
                 ).length;
 
                 return (
-                  <motion.button
+                  <motion.div
                     key={category}
                     initial={{ opacity: 0, y: 10 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.3, delay: index * 0.05 }}
                     viewport={{ once: true }}
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                    onClick={() => handleCategoryClick(category)}
-                    className={`px-5 py-2.5 rounded-full text-sm font-medium transition-all duration-300 flex items-center gap-2 ${
-                      selectedCategory === category
-                        ? "bg-gradient-to-r from-blue-500 to-purple-500 text-white shadow-lg shadow-blue-500/25"
-                        : "bg-white/5 text-white/70 hover:text-white hover:bg-white/10 border border-white/10"
-                    }`}
                   >
-                    <BiSolidCategory
-                      className={`w-3 h-3 ${
-                        selectedCategory === category
-                          ? "text-white"
-                          : "text-blue-400"
+                    <Button
+                      variant="gradient"
+                      onClick={() => handleCategoryClick(category)}
+                      className={`px-5 py-2.5 rounded-full text-sm font-medium transition-all duration-300 flex items-center gap-2 ${
+                        selectedCategory !== category
+                          ? "opacity-50 hover:opacity-100"
+                          : ""
                       }`}
-                    />
-                    {category}
-                    <span className="text-xs opacity-70">
-                      ({categoryPostCount})
-                    </span>
-                  </motion.button>
+                    >
+                      <BiSolidCategory className="w-3 h-3" />
+                      {category}
+                      <span className="text-xs opacity-70">
+                        ({categoryPostCount})
+                      </span>
+                    </Button>
+                  </motion.div>
                 );
               })}
             </div>
@@ -238,12 +213,13 @@ export default function PostsGrid({ posts }: PostGridProps) {
             <p className="text-white/60 mb-4">
               Try selecting a different category
             </p>
-            <button
+            <Button
+              variant="gradient"
               onClick={() => handleCategoryClick(null)}
-              className="px-6 py-2 rounded-full bg-blue-500 text-white text-sm font-medium hover:bg-blue-600 transition-colors"
+              className="px-6 py-2 rounded-full text-sm font-medium"
             >
               View all posts
-            </button>
+            </Button>
           </motion.div>
         ) : (
           <>
@@ -292,17 +268,15 @@ export default function PostsGrid({ posts }: PostGridProps) {
                         </h3>
                       </Link>
 
-                      {/* Author, Category, Reading Time - All in one line */}
+                      {/* Author, Category, Reading Time */}
                       <div className="flex items-center gap-3 text-xs text-white/50 mb-5 flex-wrap">
                         {post.categories && post.categories.length > 0 && (
-                          <>
-                            <span className="flex items-center gap-1">
-                              <BiSolidCategory className="w-3 h-3 text-blue-400" />
-                              {post.categories[0].title}
-                              {post.categories.length > 1 &&
-                                ` +${post.categories.length - 1}`}
-                            </span>
-                          </>
+                          <span className="flex items-center gap-1">
+                            <BiSolidCategory className="w-3 h-3 text-blue-400" />
+                            {post.categories[0].title}
+                            {post.categories.length > 1 &&
+                              ` +${post.categories.length - 1}`}
+                          </span>
                         )}
 
                         <span className="flex items-center gap-1">
@@ -346,7 +320,7 @@ export default function PostsGrid({ posts }: PostGridProps) {
               ))}
             </div>
 
-            {/* Modern Pagination - Only show if there are multiple pages */}
+            {/* Modern Pagination */}
             {totalPages > 1 && (
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
@@ -357,18 +331,14 @@ export default function PostsGrid({ posts }: PostGridProps) {
                 <div className="flex flex-col items-center gap-6">
                   {/* Pagination Controls */}
                   <div className="flex items-center gap-3">
-                    <button
+                    <Button
+                      variant="gradient"
                       onClick={handlePrevious}
                       disabled={currentPage === 1}
-                      className={`p-3 rounded-xl transition-all duration-300 ${
-                        currentPage === 1
-                          ? "opacity-30 cursor-not-allowed"
-                          : "hover:bg-white/10 hover:scale-105"
-                      }`}
-                      style={glassStyle}
+                      className="p-3 rounded-xl"
                     >
-                      <FaChevronLeft className="w-4 h-4 text-white" />
-                    </button>
+                      <FaChevronLeft className="w-4 h-4" />
+                    </Button>
 
                     <div className="flex items-center gap-2">
                       {Array.from(
@@ -386,39 +356,31 @@ export default function PostsGrid({ posts }: PostGridProps) {
                           }
 
                           return (
-                            <button
+                            <Button
                               key={pageNum}
+                              variant="gradient"
                               onClick={() => handlePageClick(pageNum)}
                               className={`w-10 h-10 rounded-xl font-medium transition-all duration-300 ${
-                                currentPage === pageNum
-                                  ? "text-white shadow-lg scale-110"
-                                  : "text-white/60 hover:text-white hover:bg-white/10 hover:scale-105"
+                                currentPage !== pageNum
+                                  ? "opacity-50 hover:opacity-100"
+                                  : ""
                               }`}
-                              style={
-                                currentPage === pageNum
-                                  ? buttonStyle
-                                  : glassStyle
-                              }
                             >
                               {pageNum}
-                            </button>
+                            </Button>
                           );
                         },
                       )}
                     </div>
 
-                    <button
+                    <Button
+                      variant="gradient"
                       onClick={handleNext}
                       disabled={currentPage === totalPages}
-                      className={`p-3 rounded-xl transition-all duration-300 ${
-                        currentPage === totalPages
-                          ? "opacity-30 cursor-not-allowed"
-                          : "hover:bg-white/10 hover:scale-105"
-                      }`}
-                      style={glassStyle}
+                      className="p-3 rounded-xl"
                     >
-                      <FaChevronRight className="w-4 h-4 text-white" />
-                    </button>
+                      <FaChevronRight className="w-4 h-4" />
+                    </Button>
                   </div>
 
                   {/* Page Info */}
