@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, useAnimation } from "framer-motion";
+import { motion, useAnimation, useScroll, useTransform } from "framer-motion";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import {
@@ -9,129 +9,174 @@ import {
   FaBolt,
   FaChartLine,
   FaChevronRight,
+  FaCrown,
   FaGlobe,
   FaHandshake,
   FaRocket,
   FaShieldAlt,
   FaStar,
   FaTrophy,
-  FaUsers,
 } from "react-icons/fa";
 import { useInView } from "react-intersection-observer";
 import { theme } from "./lib/theme";
 import Glass from "./ui/Glass";
 
 const containerVariants = {
-  hidden: { opacity: 0, y: 20 },
+  hidden: { opacity: 0 },
   visible: {
     opacity: 1,
-    y: 0,
     transition: {
-      staggerChildren: 0.2,
+      staggerChildren: 0.1,
+      delayChildren: 0.2,
     },
   },
 };
 
 const itemVariants = {
-  hidden: { opacity: 0, y: 20 },
-  visible: { opacity: 1, y: 0 },
+  hidden: { opacity: 0, y: 30 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      type: "spring" as const,
+      damping: 15,
+      stiffness: 100,
+    },
+  },
 };
 
-// Predefined positions for particles (same on server and client)
+// Enhanced particle positions with sizes
 const PARTICLE_POSITIONS = [
-  { left: "10%", top: "20%" },
-  { left: "25%", top: "45%" },
-  { left: "40%", top: "15%" },
-  { left: "55%", top: "65%" },
-  { left: "70%", top: "25%" },
-  { left: "85%", top: "55%" },
-  { left: "15%", top: "75%" },
-  { left: "30%", top: "35%" },
-  { left: "45%", top: "85%" },
-  { left: "60%", top: "10%" },
-  { left: "75%", top: "45%" },
-  { left: "90%", top: "30%" },
-  { left: "20%", top: "60%" },
-  { left: "35%", top: "25%" },
-  { left: "50%", top: "75%" },
-  { left: "65%", top: "40%" },
-  { left: "80%", top: "15%" },
-  { left: "95%", top: "50%" },
-  { left: "5%", top: "40%" },
-  { left: "40%", top: "95%" },
+  { left: "5%", top: "15%", size: "w-2 h-2", delay: 0 },
+  { left: "15%", top: "45%", size: "w-1 h-1", delay: 0.2 },
+  { left: "25%", top: "75%", size: "w-3 h-3", delay: 0.4 },
+  { left: "35%", top: "25%", size: "w-1.5 h-1.5", delay: 0.6 },
+  { left: "45%", top: "55%", size: "w-2 h-2", delay: 0.8 },
+  { left: "55%", top: "85%", size: "w-1 h-1", delay: 1 },
+  { left: "65%", top: "35%", size: "w-2.5 h-2.5", delay: 1.2 },
+  { left: "75%", top: "65%", size: "w-1.5 h-1.5", delay: 1.4 },
+  { left: "85%", top: "15%", size: "w-2 h-2", delay: 1.6 },
+  { left: "95%", top: "45%", size: "w-1 h-1", delay: 1.8 },
+  { left: "10%", top: "90%", size: "w-2 h-2", delay: 2 },
+  { left: "30%", top: "10%", size: "w-1.5 h-1.5", delay: 2.2 },
+  { left: "50%", top: "40%", size: "w-2 h-2", delay: 2.4 },
+  { left: "70%", top: "70%", size: "w-1 h-1", delay: 2.6 },
+  { left: "90%", top: "30%", size: "w-2.5 h-2.5", delay: 2.8 },
 ];
 
-// Counter component - Fixed to avoid hydration errors
+// Counter component with intersection observer
 interface CounterProps {
   target: number;
   duration?: number;
   delay?: number;
-  children: (value: number) => React.ReactNode;
+  suffix?: string;
+  prefix?: string;
 }
 
-function Counter({ target, duration = 2, delay = 0, children }: CounterProps) {
+function Counter({
+  target,
+  duration = 2,
+  delay = 0,
+  suffix = "",
+  prefix = "",
+}: CounterProps) {
   const [value, setValue] = useState(0);
+  const [hasAnimated, setHasAnimated] = useState(false);
+  const [ref, inView] = useInView({ threshold: 0.5, triggerOnce: true });
 
   useEffect(() => {
-    const start = performance.now() + delay * 1000;
-    const step = (timestamp: number) => {
-      const progress = Math.min((timestamp - start) / (duration * 1000), 1);
-      setValue(Math.round(target * progress));
-      if (progress < 1) requestAnimationFrame(step);
-    };
-    requestAnimationFrame(step);
-  }, [target, duration, delay]);
+    if (inView && !hasAnimated) {
+      setHasAnimated(true);
+      let startTimestamp: number | null = null;
+      const step = (timestamp: number) => {
+        if (!startTimestamp) startTimestamp = timestamp + delay * 1000;
+        const elapsed = timestamp - startTimestamp;
+        if (elapsed < 0) {
+          requestAnimationFrame(step);
+          return;
+        }
+        const progress = Math.min(elapsed / (duration * 1000), 1);
+        setValue(Math.floor(target * progress));
+        if (progress < 1) {
+          requestAnimationFrame(step);
+        } else {
+          setValue(target);
+        }
+      };
+      requestAnimationFrame(step);
+    }
+  }, [inView, target, duration, delay, hasAnimated]);
 
-  return <>{children(value)}</>;
+  return (
+    <span ref={ref} className="font-[Recoleta] text-4xl text-white">
+      {prefix}
+      {value}
+      {suffix}
+    </span>
+  );
 }
 
 export default function ModernHero() {
   const controls = useAnimation();
-  const [ref, inView] = useInView({ threshold: 0.1, triggerOnce: false });
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  // FIX: attach this ref to the main content wrapper so inView triggers correctly
+  const [inViewRef, inView] = useInView({ threshold: 0.1, triggerOnce: true });
   const [isLoaded, setIsLoaded] = useState(false);
-  const mainGradientRef = useRef<HTMLDivElement>(null);
-  const hasAnimatedRef = useRef(false);
+  const containerRef = useRef<HTMLDivElement>(null);
 
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start start", "end start"],
+  });
+
+  const backgroundY = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]);
+  const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
+
+  // FIX: Start animation immediately on mount as well, don't rely solely on inView
   useEffect(() => {
-    if (inView && !hasAnimatedRef.current) {
-      controls.start("visible");
-      hasAnimatedRef.current = true;
-    }
+    // Trigger immediately so content is visible right away
+    controls.start("visible");
+    setIsLoaded(true);
 
     const handleMouseMove = (e: MouseEvent) => {
-      setMousePosition({ x: e.clientX, y: e.clientY });
+      // mouse parallax removed (mousePosition was unused)
     };
 
     window.addEventListener("mousemove", handleMouseMove);
-
-    // Simulate loading for animations
-    setTimeout(() => setIsLoaded(true), 100);
-
     return () => window.removeEventListener("mousemove", handleMouseMove);
-  }, [inView, controls]);
+  }, [controls]);
 
-  // Reset animation tracking when component mounts
+  // Also re-trigger if inView fires (e.g. after a page transition)
   useEffect(() => {
-    hasAnimatedRef.current = false;
-    setIsLoaded(false);
-    setTimeout(() => setIsLoaded(true), 100);
-  }, []);
+    if (inView) {
+      controls.start("visible");
+    }
+  }, [inView, controls]);
 
   const buttonStyle = {
     background: `linear-gradient(135deg, ${theme.primary} 0%, ${theme.primaryLight} 100%)`,
     border: "1px solid rgba(255, 255, 255, 0.2)",
-    boxShadow: `0 8px 32px ${theme.primary}20, 0 2px 8px rgba(255, 255, 255, 0.1) inset`,
+    boxShadow: `0 8px 32px ${theme.primary}30, 0 2px 8px rgba(255, 255, 255, 0.1) inset`,
   };
 
   return (
-    <section className="relative container mx-auto flex items-center justify-center overflow-hidden bg-black md:py-15 py-10 rounded-2xl mt-5 md:mt-2">
-      {/* Animated Background Elements */}
-      <div className="absolute inset-0 overflow-hidden">
-        {/* Main moving gradient - Fixed initial position */}
-        <div
-          ref={mainGradientRef}
-          className="absolute w-[1000px] h-[1000px] rounded-full bg-gradient-to-r from-[#00a8ff]/15 via-[#4dc3ff]/10 to-transparent blur-3xl"
+    <section
+      ref={containerRef}
+      className="relative min-h-screen flex items-center justify-center overflow-hidden rounded-xl"
+    >
+      {/* Animated Background Layers */}
+      <motion.div style={{ y: backgroundY }} className="absolute inset-0">
+        {/* Primary Gradient Orb */}
+        <motion.div
+          animate={{
+            scale: [1, 1.2, 1],
+            rotate: [0, 180, 360],
+          }}
+          transition={{
+            duration: 20,
+            repeat: Infinity,
+            ease: "linear",
+          }}
+          className="absolute w-[800px] h-[800px] rounded-full bg-gradient-to-r from-[#00a8ff]/20 via-[#4dc3ff]/15 to-transparent blur-3xl"
           style={{
             left: "50%",
             top: "50%",
@@ -139,360 +184,461 @@ export default function ModernHero() {
           }}
         />
 
-        {/* Floating particles - Using predefined positions */}
+        {/* Secondary Gradient */}
+        <motion.div
+          animate={{
+            scale: [1.2, 1, 1.2],
+            x: [0, 100, 0],
+            y: [0, -100, 0],
+          }}
+          transition={{
+            duration: 15,
+            repeat: Infinity,
+            ease: "easeInOut",
+          }}
+          className="absolute w-[600px] h-[600px] rounded-full bg-gradient-to-l from-[#7928ca]/20 via-[#ff0080]/10 to-transparent blur-3xl"
+          style={{
+            right: "10%",
+            bottom: "10%",
+          }}
+        />
+
+        {/* Grid Pattern */}
+        <div
+          className="absolute inset-0 opacity-20"
+          style={{
+            backgroundImage: `
+              linear-gradient(rgba(0, 168, 255, 0.1) 1px, transparent 1px),
+              linear-gradient(90deg, rgba(0, 168, 255, 0.1) 1px, transparent 1px)
+            `,
+            backgroundSize: "50px 50px",
+          }}
+        />
+      </motion.div>
+
+      {/* Floating Particles */}
+      <div className="absolute inset-0 overflow-hidden">
         {PARTICLE_POSITIONS.map((position, i) => (
           <motion.div
             key={i}
-            className="absolute w-1 h-1 bg-[#00a8ff]/30 rounded-full"
-            style={position}
+            className={`absolute ${position.size} bg-gradient-to-r from-[#00a8ff] to-[#4dc3ff] rounded-full`}
+            style={{
+              left: position.left,
+              top: position.top,
+              filter: "blur(1px)",
+            }}
             animate={{
-              y: [0, -10, 0],
-              opacity: [0.3, 0.7, 0.3],
+              y: [0, -20, 0],
+              x: [0, 10, 0],
+              opacity: [0.2, 0.8, 0.2],
+              scale: [1, 1.5, 1],
             }}
             transition={{
-              duration: 2 + (i % 3),
+              duration: 3 + (i % 5),
               repeat: Infinity,
-              delay: (i % 5) * 0.2,
+              delay: position.delay,
+              ease: "easeInOut",
             }}
           />
         ))}
-
-        {/* Gradient overlays */}
-        <div className="absolute top-0 left-0 right-0 h-1/3 bg-gradient-to-b from-[#00a8ff]/10 via-transparent to-transparent" />
-        <div className="absolute bottom-0 left-0 right-0 h-1/3 bg-gradient-to-t from-[#0097e6]/5 via-transparent to-transparent" />
       </div>
 
-      <div className="container mx-auto px-4 md:px-8 lg:px-12 xl:px-16 relative z-10">
-        <div className="grid lg:grid-cols-12 gap-8 lg:gap-12 items-center">
-          {/* Left Content - 7 columns */}
-          <div className="lg:col-span-7">
-            <motion.div
-              initial={{ opacity: 0, y: 40 }}
-              animate={isLoaded ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.8, ease: "easeOut" }}
-              className="space-y-8 md:space-y-10"
-            >
-              {/* Badge with floating animation */}
-              <motion.div
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={isLoaded ? { opacity: 1, scale: 1 } : {}}
-                transition={{ delay: 0.2 }}
-                className="inline-flex items-center gap-3 px-5 py-2.5 rounded-full backdrop-blur-md border border-white/10 hover:border-[#00a8ff]/50 transition-all duration-300 group"
-              >
-                <div className="relative">
-                  <div className="w-2 h-2 bg-gradient-to-r from-[#00a8ff] to-[#4dc3ff] rounded-full animate-pulse" />
-                  <div className="absolute inset-0 w-2 h-2 bg-[#00a8ff] rounded-full animate-ping opacity-30" />
-                </div>
-                <span className="text-sm font-semibold text-white tracking-wide">
-                  Helping businesses launch, scale, and operate smarter
-                </span>
-                <FaChevronRight className="w-3 h-3 text-[#00a8ff] transform group-hover:translate-x-1 transition-transform" />
-              </motion.div>
+      {/* Glowing Lines */}
+      <svg className="absolute inset-0 w-full h-full opacity-20">
+        <motion.path
+          d="M0,100 Q150,50 300,100 T600,100"
+          stroke="url(#gradient)"
+          strokeWidth="2"
+          fill="none"
+          animate={{
+            d: [
+              "M0,100 Q150,50 300,100 T600,100",
+              "M0,150 Q150,200 300,150 T600,150",
+              "M0,100 Q150,50 300,100 T600,100",
+            ],
+          }}
+          transition={{
+            duration: 10,
+            repeat: Infinity,
+            ease: "easeInOut",
+          }}
+        />
+        <defs>
+          <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stopColor="#00a8ff" stopOpacity="0" />
+            <stop offset="50%" stopColor="#00a8ff" stopOpacity="1" />
+            <stop offset="100%" stopColor="#00a8ff" stopOpacity="0" />
+          </linearGradient>
+        </defs>
+      </svg>
 
-              {/* Main Headline */}
-              <div className="space-y-4 md:space-y-6">
-                <h2 className="font-[Recoleta] text-4xl md:text-6xl mb-6 bg-gradient-to-r from-white via-white/90 to-white/10 bg-clip-text text-transparent">
+      {/* Main Content Container — FIX: attach inViewRef here */}
+      <div ref={inViewRef} className="container mx-auto">
+        <div className="grid lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+          {/* Left Content */}
+          <motion.div
+            variants={containerVariants}
+            initial="hidden"
+            animate={controls}
+            className="lg:col-span-7"
+          >
+            {/* Premium Badge */}
+            <motion.div variants={itemVariants} className="py-10">
+              <div className="inline-flex items-center gap-3 px-5 py-2.5 rounded-full backdrop-blur-xl border border-white/10 bg-white/5 hover:border-[#00a8ff]/30 transition-all duration-300">
+                <motion.div
+                  animate={{
+                    scale: [1, 1.2, 1],
+                    rotate: [0, 360, 0],
+                  }}
+                  transition={{
+                    duration: 3,
+                    repeat: Infinity,
+                    ease: "easeInOut",
+                  }}
+                  className="relative"
+                >
+                  <FaCrown className="w-4 h-4 text-[#00a8ff]" />
+                  <motion.div
+                    animate={{
+                      scale: [1, 1.5, 1],
+                      opacity: [0.5, 0, 0.5],
+                    }}
+                    transition={{
+                      duration: 2,
+                      repeat: Infinity,
+                      ease: "easeOut",
+                    }}
+                    className="absolute inset-0 w-4 h-4 bg-[#00a8ff] rounded-full blur-md"
+                  />
+                </motion.div>
+                <span className="text-sm font-medium text-white">
+                  Elite Digital Agency
+                </span>
+                <div className="flex items-center gap-1">
+                  {[...Array(5)].map((_, i) => (
+                    <FaStar
+                      key={i}
+                      className="w-3 h-3 text-yellow-400 fill-current"
+                    />
+                  ))}
+                </div>
+              </div>
+            </motion.div>
+
+            {/* Main Headline */}
+            <motion.div variants={itemVariants} className="max-w-3xl">
+              <h1 className="font-[Recoleta] text-5xl">
+                <span className="bg-gradient-to-r from-white via-white to-white/80 bg-clip-text text-transparent">
                   Web platforms built to support Real business growth
-                </h2>
+                </span>
+              </h1>
+            </motion.div>
+
+            {/* Description */}
+            <motion.p
+              variants={itemVariants}
+              className="text-xl text-white/50 leading-relaxed max-w-2xl mt-5"
+            >
+              We partner with startups and growing companies to design and build
+              fast, secure, and scalable web platforms. From high-performance
+              websites to custom dashboards and internal tools, we focus on
+              clean architecture, measurable outcomes, and long-term
+              maintainability—so your technology supports your business, not
+              slows it down.
+            </motion.p>
+
+            {/* CTA Buttons */}
+            <motion.div
+              variants={itemVariants}
+              className="flex flex-col sm:flex-row gap-4 mt-12"
+            >
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="group relative px-10 py-5 text-white font-[Recoleta] text-lg rounded-2xl overflow-hidden"
+                style={buttonStyle}
+              >
+                <span className="flex items-center justify-center gap-3">
+                  <Link href="/contact">Start Your Journey</Link>
+                  <FaArrowRight className="w-4 h-4 transform group-hover:translate-x-1 transition-transform" />
+                </span>
+                <motion.div
+                  animate={{
+                    x: ["-100%", "200%"],
+                  }}
+                  transition={{
+                    duration: 2,
+                    repeat: Infinity,
+                    ease: "easeInOut",
+                  }}
+                  className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent"
+                />
+              </motion.button>
+
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="group px-10 py-5 text-white font-medium text-lg rounded-2xl border border-white/20 hover:border-[#00a8ff]/50 backdrop-blur-xl relative overflow-hidden"
+              >
+                <span className="relative z-10 flex items-center justify-center gap-3">
+                  <Link href="https://calendly.com/barkatzx">
+                    Book Consultation
+                  </Link>
+                  <FaChevronRight className="w-3 h-3 transform group-hover:translate-x-1 transition-transform" />
+                </span>
+                <motion.div
+                  animate={{
+                    opacity: [0, 0.5, 0],
+                  }}
+                  transition={{
+                    duration: 2,
+                    repeat: Infinity,
+                    ease: "easeInOut",
+                  }}
+                  className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent"
+                />
+              </motion.button>
+            </motion.div>
+
+            {/* Trust Indicators */}
+            <motion.div
+              variants={itemVariants}
+              className="flex flex-wrap items-center gap-8 mt-12 pt-8 border-t border-white/10"
+            >
+              <div className="flex items-center gap-3">
+                <div className="flex -space-x-2">
+                  {[1, 2, 3, 4].map((i) => (
+                    <div
+                      key={i}
+                      className="w-8 h-8 rounded-full border-2 border-black bg-gradient-to-br from-[#00a8ff] to-[#4dc3ff] flex items-center justify-center text-xs font-bold text-white"
+                    >
+                      {String.fromCharCode(64 + i)}
+                    </div>
+                  ))}
+                  <div className="w-8 h-8 rounded-full border-2 border-black bg-white/10 backdrop-blur flex items-center justify-center text-xs text-white">
+                    +20
+                  </div>
+                </div>
+                <span className="text-sm text-white/60">Happy Clients</span>
               </div>
 
-              {/* Description */}
-              <motion.p
-                initial={{ opacity: 0 }}
-                animate={isLoaded ? { opacity: 1 } : {}}
-                transition={{ delay: 0.6 }}
-                className="text-xl text-white/60"
-              >
-                We partner with startups and growing companies to design and
-                build fast, secure, and scalable web platforms. From
-                high-performance websites to custom dashboards and internal
-                tools, we focus on clean architecture, measurable outcomes, and
-                long-term maintainability—so your technology supports your
-                business, not slows it down.
-              </motion.p>
+              <div className="flex items-center gap-2">
+                <FaAward className="w-5 h-5 text-[#00a8ff]" />
+                <span className="text-sm text-white/60">
+                  Award-Winning Team
+                </span>
+              </div>
 
-              {/* CTA Buttons */}
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={isLoaded ? { opacity: 1, y: 0 } : {}}
-                transition={{ delay: 0.8 }}
-                className="flex flex-col sm:flex-row gap-4 md:gap-6"
-              >
-                {/* Primary Button */}
-                <motion.button
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  className="group relative px-8 md:px-10 py-4 md:py-5 text-white font-[Recoleta] rounded-xl overflow-hidden transition-all duration-300"
-                  style={buttonStyle}
-                >
-                  <span className="relative z-10 flex items-center justify-center gap-3 text-base md:text-lg">
-                    <Link href="/contact">Start Your Project</Link>
-                    <FaArrowRight className="w-4 h-4 transform group-hover:translate-x-1 transition-transform" />
-                  </span>
-                  {/* Animated shine effect */}
-                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000" />
-                </motion.button>
-
-                {/* Secondary Button */}
-                <motion.button
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  className="group px-8 md:px-10 py-4 md:py-5 text-white font-semibold rounded-xl border border-white/20 hover:border-[#00a8ff]/50 transition-all duration-300 relative overflow-hidden"
-                >
-                  <span className="relative z-10 flex items-center justify-center gap-3">
-                    <Link href="https://calendly.com/barkatzx">
-                      <span>Book a Consultation</span>
-                    </Link>
-                    <FaChevronRight className="w-3 h-3 transform group-hover:translate-x-1 transition-transform" />
-                  </span>
-                </motion.button>
-              </motion.div>
-
-              {/* Trust Indicators */}
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={isLoaded ? { opacity: 1 } : {}}
-                transition={{ delay: 1 }}
-                className="flex flex-col sm:flex-row items-center gap-6 pt-6 md:pt-8 border-t border-white/10"
-              >
-                <div className="flex items-center gap-3">
-                  <div className="flex">
-                    <FaStar className="w-4 h-4 text-[#00a8ff] fill-current" />
-                  </div>
-                  <span className="text-white/70 text-sm">
-                    Trusted by clients worldwide
-                  </span>
-                </div>
-                <div className="hidden sm:block w-px h-6 bg-white/10" />
-                <div className="flex items-center gap-3">
-                  <FaUsers className="w-4 h-4 text-[#00a8ff]" />
-                  <span className="text-white/70 text-sm">
-                    Trusted by 20+ clients
-                  </span>
-                </div>
-                <div className="hidden sm:block w-px h-6 bg-white/10" />
-                <div className="flex items-center gap-3">
-                  <FaAward className="w-4 h-4 text-[#00a8ff]" />
-                  <span className="text-white/70 text-sm">
-                    Proven delivery record
-                  </span>
-                </div>
-              </motion.div>
+              <div className="flex items-center gap-2">
+                <FaGlobe className="w-5 h-5 text-[#00a8ff]" />
+                <span className="text-sm text-white/60">Global Delivery</span>
+              </div>
             </motion.div>
-          </div>
+          </motion.div>
 
-          {/* Right Side - Stats & Visuals - 5 columns */}
-          <div className="lg:col-span-5">
-            <motion.div
-              initial={{ opacity: 0, x: 40 }}
-              animate={isLoaded ? { opacity: 1, x: 0 } : {}}
-              transition={{ duration: 0.8, delay: 0.3 }}
-              className="space-y-6"
-            >
-              {/* Stats Grid */}
-              <motion.div
-                ref={ref}
-                initial="hidden"
-                animate={controls}
-                variants={containerVariants}
-                className="grid grid-cols-2 gap-5"
+          {/* Right Side - Stats & Visuals */}
+          <motion.div
+            variants={containerVariants}
+            initial="hidden"
+            animate={controls}
+            className="lg:col-span-5"
+          >
+            {/* Main Stats Card */}
+            <motion.div variants={itemVariants}>
+              <Glass
+                variant="blue"
+                className="p-8 rounded-3xl backdrop-blur-2xl"
               >
-                {/* Stat 1 - Experience */}
-                <Glass variant="blue" className="p-5">
-                  <div className="flex items-center justify-between mb-4">
-                    <div className="w-12 h-12 rounded-xl flex items-center justify-center shadow-lg bg-gradient-to-br from-[#00a8ff]/20 to-[#4dc3ff]/10">
-                      <FaTrophy className="w-5 h-5 text-[#00a8ff]" />
-                    </div>
-                    <div className="text-xs font-medium text-white/60">
-                      EXPERIENCE
-                    </div>
-                  </div>
-                  <Counter target={5} duration={2} delay={0.2}>
-                    {(value) => (
-                      <div className="font-[Recoleta] text-4xl text-white">
-                        {value}+{" "}
-                        <span className="text-lg text-[#00a8ff]">Years</span>
-                      </div>
-                    )}
-                  </Counter>
-                </Glass>
-
-                {/* Stat 2 - Projects */}
-                <Glass variant="blue" className="p-5">
-                  <div className="flex items-center justify-between mb-4">
-                    <div className="w-12 h-12 rounded-xl flex items-center justify-center shadow-lg bg-gradient-to-br from-[#00a8ff]/20 to-[#4dc3ff]/10">
-                      <FaRocket className="w-5 h-5 text-[#00a8ff]" />
-                    </div>
-                    <div className="text-xs font-medium text-white/60">
-                      PROJECTS
-                    </div>
-                  </div>
-                  <Counter target={120} duration={2.5} delay={0.4}>
-                    {(value) => (
-                      <div className="font-[Recoleta] text-4xl text-white">
-                        {value}+{" "}
-                        <span className="text-lg text-[#00a8ff]">
-                          Delivered
-                        </span>
-                      </div>
-                    )}
-                  </Counter>
-                </Glass>
-
-                {/* Stat 3 - Clients */}
-
-                <Glass variant="blue" className="p-5">
-                  <div className="flex items-center justify-between mb-4">
-                    <div className="w-12 h-12 rounded-xl flex items-center justify-center shadow-lg bg-gradient-to-br from-[#00a8ff]/20 to-[#4dc3ff]/10">
-                      <FaGlobe className="w-5 h-5 text-[#00a8ff]" />
-                    </div>
-                    <div className="text-xs font-medium text-white/60">
-                      CLIENTS
-                    </div>
-                  </div>
-                  <Counter target={80} duration={2} delay={0.6}>
-                    {(value) => (
-                      <div className="font-[Recoleta] text-4xl text-white">
-                        {value}+{" "}
-                        <span className="text-lg text-[#00a8ff]">Global</span>
-                      </div>
-                    )}
-                  </Counter>
-                </Glass>
-
-                {/* Stat 4 - Success Rate */}
-                <Glass variant="blue" className="p-5">
-                  <div className="flex items-center justify-between mb-4">
-                    <div className="w-12 h-12 rounded-xl flex items-center justify-center shadow-lg bg-gradient-to-br from-[#00a8ff]/20 to-[#4dc3ff]/10">
-                      <FaChartLine className="w-5 h-5 text-[#00a8ff]" />
-                    </div>
-                    <div className="text-xs font-medium text-white/60">
-                      SUCCESS
-                    </div>
-                  </div>
-                  <Counter target={98} duration={2} delay={0.8}>
-                    {(value) => (
-                      <div className="font-[Recoleta] text-4xl text-white">
-                        {value}%{" "}
-                        <span className="text-lg text-[#00a8ff]">Rate</span>
-                      </div>
-                    )}
-                  </Counter>
-                </Glass>
-              </motion.div>
-
-              {/* Feature Highlights */}
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={isLoaded ? { opacity: 1, y: 0 } : {}}
-                transition={{ delay: 1.2 }}
-                className="space-y-4"
-              >
-                <div className="flex items-center gap-3 p-4 rounded-xl border border-white/10 hover:border-[#00a8ff]/30 transition-all duration-300 group">
-                  <div className="w-10 h-10 rounded-lg flex items-center justify-center bg-gradient-to-br from-[#00a8ff]/20 to-[#4dc3ff]/10 group-hover:scale-110 transition-transform">
-                    <FaBolt className="w-4 h-4 text-[#00a8ff]" />
-                  </div>
-                  <div className="flex-1">
-                    <p className="font-semibold text-white">
-                      Performance-Focused
-                    </p>
-                    <p className="text-sm text-white/60">
-                      Optimized for speed & SEO
-                    </p>
-                  </div>
-                </div>
-
-                <div className="flex items-center gap-3 p-4 rounded-xl border border-white/10 hover:border-[#00a8ff]/30 transition-all duration-300 group">
-                  <div className="w-10 h-10 rounded-lg flex items-center justify-center bg-gradient-to-br from-[#00a8ff]/20 to-[#4dc3ff]/10 group-hover:scale-110 transition-transform">
-                    <FaShieldAlt className="w-4 h-4 text-[#00a8ff]" />
-                  </div>
-                  <div className="flex-1">
-                    <p className="font-semibold text-white">
-                      Secure & Scalable
-                    </p>
-                    <p className="text-sm text-white/60">
-                      Built for long-term growth
-                    </p>
-                  </div>
-                </div>
-
-                <div className="flex items-center gap-3 p-4 rounded-xl border border-white/10 hover:border-[#00a8ff]/30 transition-all duration-300 group">
-                  <div className="w-10 h-10 rounded-lg flex items-center justify-center bg-gradient-to-br from-[#00a8ff]/20 to-[#4dc3ff]/10 group-hover:scale-110 transition-transform">
-                    <FaHandshake className="w-4 h-4 text-[#00a8ff]" />
-                  </div>
-                  <div className="flex-1">
-                    <p className="font-semibold text-white">
-                      Long-Term Partnership
-                    </p>
-                    <p className="text-sm text-white/60">
-                      Support beyond launch
-                    </p>
-                  </div>
-                </div>
-              </motion.div>
-
-              {/* Floating Tech Stack */}
-              <motion.div
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={isLoaded ? { opacity: 1, scale: 1 } : {}}
-                transition={{ delay: 1.5 }}
-                className="relative rounded-2xl backdrop-blur-md"
-              >
-                <Glass variant="blue" className="py-5 px-2">
+                <div className="grid grid-cols-2 gap-6">
+                  {/* Years of Experience */}
                   <div className="text-center">
-                    <p className="text-sm font-medium text-white/70 mb-3">
-                      POPULAR TECH STACK
-                    </p>
-                    <div className="flex flex-wrap justify-center gap-3">
-                      {[
-                        "React",
-                        "Next.js",
-                        "TypeScript",
-                        "Node.js",
-                        "MongoDB",
-                        "Firebase",
-                        "Docker",
-                        "Flutter",
-                        "WordPress",
-                        "Php",
-                      ].map((tech, i) => (
-                        <motion.span
-                          key={tech}
-                          initial={{ opacity: 0, y: 10 }}
-                          animate={isLoaded ? { opacity: 1, y: 0 } : {}}
-                          transition={{ delay: 1.6 + i * 0.1 }}
-                          className="px-3 py-1.5 text-xs font-medium text-white/80 rounded-full border border-white/10 hover:border-[#00a8ff]/50 hover:text-[#00a8ff] transition-all duration-300 cursor-default"
-                          style={{
-                            background:
-                              "linear-gradient(135deg, rgba(0, 168, 255, 0.1) 0%, rgba(0, 168, 255, 0.05) 100%)",
-                          }}
-                        >
-                          {tech}
-                        </motion.span>
-                      ))}
+                    <motion.div
+                      animate={{ y: [0, -5, 0] }}
+                      transition={{
+                        duration: 4,
+                        repeat: Infinity,
+                        ease: "easeInOut",
+                      }}
+                      className="mb-3"
+                    >
+                      <div className="w-16 h-16 mx-auto rounded-2xl bg-gradient-to-br from-[#00a8ff]/20 to-[#4dc3ff]/10 flex items-center justify-center">
+                        <FaTrophy className="w-6 h-6 text-[#00a8ff]" />
+                      </div>
+                    </motion.div>
+                    <Counter target={5} suffix="+" />
+                    <div className="text-sm text-white/50 mt-1">
+                      Years of Excellence
                     </div>
                   </div>
-                </Glass>
-              </motion.div>
-            </motion.div>
-          </div>
-        </div>
 
-        {/* Scroll Indicator */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={isLoaded ? { opacity: 1 } : {}}
-          transition={{ delay: 2 }}
-          className="absolute bottom-8 left-1/2 transform -translate-x-1/2 hidden lg:block"
-        >
-          <div className="flex flex-col items-center gap-2">
-            <span className="text-xs font-medium text-white/50 tracking-wider">
-              SCROLL TO EXPLORE
-            </span>
-            <div className="w-px h-12 bg-gradient-to-b from-[#00a8ff] via-[#4dc3ff] to-transparent animate-bounce" />
-          </div>
-        </motion.div>
+                  {/* Projects Delivered */}
+                  <div className="text-center">
+                    <motion.div
+                      animate={{ y: [0, -5, 0] }}
+                      transition={{
+                        duration: 4,
+                        repeat: Infinity,
+                        ease: "easeInOut",
+                        delay: 0.2,
+                      }}
+                      className="mb-3"
+                    >
+                      <div className="w-16 h-16 mx-auto rounded-2xl bg-gradient-to-br from-[#00a8ff]/20 to-[#4dc3ff]/10 flex items-center justify-center">
+                        <FaRocket className="w-6 h-6 text-[#00a8ff]" />
+                      </div>
+                    </motion.div>
+                    <Counter target={120} suffix="+" />
+                    <div className="text-sm text-white/50 mt-1">
+                      Projects Delivered
+                    </div>
+                  </div>
+
+                  {/* Global Clients */}
+                  <div className="text-center">
+                    <motion.div
+                      animate={{ y: [0, -5, 0] }}
+                      transition={{
+                        duration: 4,
+                        repeat: Infinity,
+                        ease: "easeInOut",
+                        delay: 0.4,
+                      }}
+                      className="mb-3"
+                    >
+                      <div className="w-16 h-16 mx-auto rounded-2xl bg-gradient-to-br from-[#00a8ff]/20 to-[#4dc3ff]/10 flex items-center justify-center">
+                        <FaGlobe className="w-6 h-6 text-[#00a8ff]" />
+                      </div>
+                    </motion.div>
+                    <Counter target={80} suffix="+" />
+                    <div className="text-sm text-white/50 mt-1">
+                      Global Clients
+                    </div>
+                  </div>
+
+                  {/* Success Rate */}
+                  <div className="text-center">
+                    <motion.div
+                      animate={{ y: [0, -5, 0] }}
+                      transition={{
+                        duration: 4,
+                        repeat: Infinity,
+                        ease: "easeInOut",
+                        delay: 0.6,
+                      }}
+                      className="mb-3"
+                    >
+                      <div className="w-16 h-16 mx-auto rounded-2xl bg-gradient-to-br from-[#00a8ff]/20 to-[#4dc3ff]/10 flex items-center justify-center">
+                        <FaChartLine className="w-6 h-6 text-[#00a8ff]" />
+                      </div>
+                    </motion.div>
+                    <Counter target={98} suffix="%" />
+                    <div className="text-sm text-white/50 mt-1">
+                      Success Rate
+                    </div>
+                  </div>
+                </div>
+
+                {/* Tech Stack Pills */}
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={isLoaded ? { opacity: 1, y: 0 } : {}}
+                  transition={{ delay: 1.2 }}
+                  className="mt-8 pt-6 border-t border-white/10"
+                >
+                  <p className="text-sm font-medium text-white/50 mb-4 text-center">
+                    TRUSTED TECHNOLOGIES
+                  </p>
+                  <div className="flex flex-wrap justify-center gap-2">
+                    {[
+                      "React",
+                      "Next.js",
+                      "TypeScript",
+                      "Node.js",
+                      "Python",
+                      "AWS",
+                      "GraphQL",
+                      "Docker",
+                    ].map((tech, i) => (
+                      <motion.span
+                        key={tech}
+                        initial={{ opacity: 0, scale: 0 }}
+                        animate={isLoaded ? { opacity: 1, scale: 1 } : {}}
+                        transition={{ delay: 1.4 + i * 0.1 }}
+                        whileHover={{ scale: 1.1, y: -2 }}
+                        className="px-4 py-2 text-xs font-medium text-white/90 rounded-full border border-white/10 hover:border-[#00a8ff]/50 hover:text-[#00a8ff] transition-all duration-300 cursor-default backdrop-blur-sm"
+                        style={{
+                          background:
+                            "linear-gradient(135deg, rgba(0, 168, 255, 0.1) 0%, rgba(0, 168, 255, 0.05) 100%)",
+                        }}
+                      >
+                        {tech}
+                      </motion.span>
+                    ))}
+                  </div>
+                </motion.div>
+              </Glass>
+            </motion.div>
+
+            {/* Feature Highlights */}
+            <motion.div
+              variants={itemVariants}
+              className="grid grid-cols-3 gap-3 mt-6"
+            >
+              {[
+                { icon: FaBolt, label: "Lightning Fast", color: "#00a8ff" },
+                {
+                  icon: FaShieldAlt,
+                  label: "Bank-Level Security",
+                  color: "#00a8ff",
+                },
+                {
+                  icon: FaHandshake,
+                  label: "Dedicated Support",
+                  color: "#00a8ff",
+                },
+              ].map((feature, i) => (
+                <motion.div
+                  key={i}
+                  whileHover={{ scale: 1.05, y: -5 }}
+                  className="p-4 rounded-2xl border border-white/10 hover:border-[#00a8ff]/30 backdrop-blur-lg text-center group"
+                >
+                  <feature.icon className="w-5 h-5 text-[#00a8ff] mx-auto mb-2 group-hover:scale-110 transition-transform" />
+                  <span className="text-xs text-white/70">{feature.label}</span>
+                </motion.div>
+              ))}
+            </motion.div>
+          </motion.div>
+        </div>
       </div>
+
+      {/* Scroll Indicator */}
+      <motion.div
+        style={{ opacity }}
+        className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-30"
+      >
+        <motion.div
+          animate={{ y: [0, 10, 0] }}
+          transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+          className="flex flex-col items-center gap-2"
+        >
+          <span className="text-xs font-medium text-white/40 tracking-widest">
+            DISCOVER MORE
+          </span>
+          <div className="w-0.5 h-12 bg-gradient-to-b from-[#00a8ff] via-[#4dc3ff] to-transparent rounded-full" />
+        </motion.div>
+      </motion.div>
+
+      {/* Floating Orbs */}
+      <motion.div
+        animate={{ scale: [1, 1.2, 1], opacity: [0.3, 0.5, 0.3] }}
+        transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+        className="absolute top-20 right-20 w-32 h-32 rounded-full bg-gradient-to-r from-[#00a8ff]/20 to-[#4dc3ff]/10 blur-2xl"
+      />
+      <motion.div
+        animate={{ scale: [1, 1.3, 1], opacity: [0.2, 0.4, 0.2] }}
+        transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
+        className="absolute bottom-20 left-20 w-40 h-40 rounded-full bg-gradient-to-r from-[#7928ca]/20 to-[#ff0080]/10 blur-2xl"
+      />
     </section>
   );
 }

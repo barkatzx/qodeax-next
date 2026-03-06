@@ -1,5 +1,6 @@
 "use client";
 
+import { Button } from "@/components/ui/Button";
 import logo from "@/public/img/logo.png";
 import { AnimatePresence, motion, Variants } from "framer-motion";
 import Image from "next/image";
@@ -102,13 +103,6 @@ export default function Header() {
     },
   ];
 
-  // Button styling
-  const buttonStyle = {
-    background: `linear-gradient(135deg, #00a8ff 0%, #4dc3ff 100%)`,
-    border: "1px solid rgba(255, 255, 255, 0.2)",
-    boxShadow: `0 8px 32px #00a8ff20, 0 2px 8px rgba(255, 255, 255, 0.1) inset`,
-  };
-
   return (
     <>
       {/* Desktop Header */}
@@ -121,7 +115,7 @@ export default function Header() {
           stiffness: 100,
           damping: 20,
         }}
-        className="hidden md:block fixed z-50 top-4 left-8 right-8 rounded-2xl container mx-auto"
+        className="hidden md:block fixed z-50 top-2 left-8 right-8 rounded-2xl container mx-auto"
       >
         <Glass variant="blue">
           <div className="relative z-10 mx-auto px-8 py-3">
@@ -171,7 +165,7 @@ export default function Header() {
               <div className="flex items-center gap-3">
                 {/* Social Links */}
                 <motion.div
-                  className="flex items-center gap-2 p-2 bg-white/5 backdrop-blur-xl rounded-2xl border border-white/10"
+                  className="flex items-center gap-2 p-2 bg-white/5 backdrop-blur-lg rounded-2xl border border-white/10"
                   whileHover={{ scale: 1.02 }}
                 >
                   {socialLinks.map((social) => (
@@ -198,11 +192,10 @@ export default function Header() {
                   whileTap={{ scale: 0.95 }}
                 >
                   <Link href="/contact">
-                    <button
-                      className="relative px-6 py-3 text-white font-semibold rounded-xl overflow-hidden group"
-                      style={buttonStyle}
+                    <Button
+                      variant="gradient"
+                      className="relative px-6 py-6 rounded-xl overflow-hidden group"
                     >
-                      <div className="absolute inset-0 bg-gradient-to-r from-[#0097e6] to-[#00a8ff] opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                       <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
                       <span className="font-[Recoleta] relative z-10 flex items-center gap-2">
                         Get In Touch
@@ -213,7 +206,7 @@ export default function Header() {
                           <FiArrowRight className="group-hover:translate-x-2 transition-transform duration-300" />
                         </motion.span>
                       </span>
-                    </button>
+                    </Button>
                   </Link>
                 </motion.div>
               </div>
@@ -227,7 +220,7 @@ export default function Header() {
         initial={{ y: -100, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.5, type: "spring" }}
-        className="md:hidden fixed top-4 left-4 right-4 z-50 rounded-2xl"
+        className="md:hidden fixed top-2 left-2 right-2 z-50 rounded-2xl"
       >
         <Glass variant="blue">
           <div className="relative z-10 px-5 py-4">
@@ -249,19 +242,20 @@ export default function Header() {
               </motion.div>
 
               {/* Mobile Menu Button */}
-              <motion.button
-                onClick={toggleMenu}
-                className="relative w-12 h-12 rounded-xl flex items-center justify-center overflow-hidden"
-                whileTap={{ scale: 0.9 }}
-                aria-label="Toggle menu"
-                style={buttonStyle}
-              >
-                {isMenuOpen ? (
-                  <FiX className="relative text-white" size={24} />
-                ) : (
-                  <FiMenu className="relative text-white" size={24} />
-                )}
-              </motion.button>
+              <motion.div whileTap={{ scale: 0.9 }}>
+                <Button
+                  variant="gradient"
+                  onClick={toggleMenu}
+                  className="w-12 h-12 rounded-xl flex items-center justify-center"
+                  aria-label="Toggle menu"
+                >
+                  {isMenuOpen ? (
+                    <FiX className="text-white" size={24} />
+                  ) : (
+                    <FiMenu className="text-white" size={24} />
+                  )}
+                </Button>
+              </motion.div>
             </div>
           </div>
         </Glass>
@@ -287,7 +281,8 @@ export default function Header() {
                 exit="exit"
                 className="absolute top-full left-4 right-4 z-50 overflow-hidden mt-2"
                 style={{
-                  background: "linear-gradient(135deg, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.9) 100%)",
+                  background:
+                    "linear-gradient(135deg, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.9) 100%)",
                   border: "1px solid rgba(255,255,255,0.1)",
                   borderRadius: "24px",
                 }}
@@ -340,14 +335,17 @@ export default function Header() {
                         target="_blank"
                         rel="noopener noreferrer"
                         onClick={closeMenu}
-                        className="relative w-12 h-12 rounded-xl bg-white/10 backdrop-blur-sm border border-white/10 flex items-center justify-center overflow-hidden group"
+                        className="relative w-12 h-12 rounded-xl flex items-center justify-center overflow-hidden group"
                         whileTap={{ scale: 0.95 }}
-                        style={buttonStyle}
                       >
-                        <div className="absolute inset-0 bg-gradient-to-br from-[#00a8ff]/0 to-[#00a8ff]/0 group-hover:from-[#00a8ff]/40 group-hover:to-[#00a8ff]/20 transition-all duration-300" />
-                        <span className="relative text-white/70 group-hover:text-white">
-                          {social.icon}
-                        </span>
+                        <Button
+                          variant="gradient"
+                          className="w-full h-full flex items-center justify-center rounded-xl"
+                        >
+                          <span className="relative text-white/70 group-hover:text-white">
+                            {social.icon}
+                          </span>
+                        </Button>
                       </motion.a>
                     ))}
                   </div>
@@ -358,14 +356,14 @@ export default function Header() {
                     className="relative overflow-hidden rounded-xl"
                   >
                     <Link href="/contact" onClick={closeMenu}>
-                      <button
-                        className="w-full py-4 text-white font-semibold flex items-center justify-center gap-2 relative overflow-hidden font-[Recoleta]"
-                        style={buttonStyle}
+                      <Button
+                        variant="gradient"
+                        className="w-full py-4 font-semibold flex items-center justify-center gap-2 font-[Recoleta]"
                       >
                         <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full hover:translate-x-full transition-transform duration-700" />
                         Contact Me
                         <FiArrowRight className="group-hover:translate-x-2 transition-transform duration-300" />
-                      </button>
+                      </Button>
                     </Link>
                   </motion.div>
                 </div>

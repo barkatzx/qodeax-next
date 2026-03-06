@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import {
   FaArrowRight,
   FaCode,
@@ -74,156 +74,106 @@ const services = [
   },
 ];
 
-// Predefined particle positions (deterministic - same on server and client)
-const particlePositions = [
-  { x: "10%", y: "20%" },
-  { x: "30%", y: "40%" },
-  { x: "50%", y: "10%" },
-  { x: "70%", y: "30%" },
-  { x: "90%", y: "60%" },
-  { x: "20%", y: "80%" },
-  { x: "40%", y: "90%" },
-  { x: "60%", y: "70%" },
-  { x: "80%", y: "50%" },
-  { x: "15%", y: "35%" },
-];
-
 export default function ServicesShowcase() {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [activeService, setActiveService] = useState<number | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const gridRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      setMousePosition({ x: e.clientX, y: e.clientY });
-
-      // Magnetic effect
-      if (gridRef.current) {
-        const cards = gridRef.current.querySelectorAll(".service-card");
-        cards.forEach((card) => {
-          const rect = card.getBoundingClientRect();
-          const x = e.clientX - rect.left;
-          const y = e.clientY - rect.top;
-          const centerX = rect.width / 2;
-          const centerY = rect.height / 2;
-          const distance = Math.sqrt((x - centerX) ** 2 + (y - centerY) ** 2);
-          const maxDistance = 200;
-
-          if (distance < maxDistance) {
-            const strength = (1 - distance / maxDistance) * 0.2;
-            const dx = (centerX - x) * strength;
-            const dy = (centerY - y) * strength;
-
-            (card as HTMLElement).style.transform =
-              `translate(${dx}px, ${dy}px)`;
-          } else {
-            (card as HTMLElement).style.transform = "translate(0, 0)";
-          }
-        });
-      }
-    };
-
-    window.addEventListener("mousemove", handleMouseMove);
-    return () => window.removeEventListener("mousemove", handleMouseMove);
-  }, []);
-
   return (
-    <section className="relative container mx-auto overflow-hidden">
-      <div className="relative max-w-7xl mx-auto px-4 py-10 md:py-20">
-        {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          viewport={{ once: true }}
-          className="text-center mb-8"
-        >
-          {/* Elegant Badge */}
-          <div className="inline-flex items-center gap-3 px-4 py-2 rounded-full border border-white/10 bg-white/5 backdrop-blur-sm mb-8">
-            <span className="w-2 h-2 rounded-full bg-gradient-to-r from-blue-500 to-cyan-500 animate-pulse" />
-            <span className="text-sm text-white/80">What We Deliver</span>
-          </div>
-
-          {/* Main Title with Gradient */}
-          <h2 className="font-[Recoleta] text-4xl md:text-5xl mb-6 bg-gradient-to-r from-white via-white/90 to-white/70 bg-clip-text text-transparent">
-            Growth-Ready Digital Products
-          </h2>
-
-          {/* Subtitle */}
-          <p className="text-white/70 text-xl max-w-2xl mx-auto">
-            We design and build scalable digital platforms that solve real
-            business problems. By combining thoughtful design with robust
-            engineering, we turn complex requirements into clean, reliable
-            systems that support growth, performance, and long-term success.
-          </p>
-        </motion.div>
-
-        {/* Services Grid */}
-        <div
-          ref={gridRef}
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-6"
-        >
-          {services.map((service, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, y: 40 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: index * 0.1 }}
-              onMouseEnter={() => setActiveService(index)}
-              onMouseLeave={() => setActiveService(null)}
-            >
-              {/* Card Container */}
-              {/* Background Gradient */}
-              <Glass variant="blue" className="p-6 h-full">
-                {/* Icon Container */}
-                <div
-                  className={`relative w-14 h-14 rounded-xl bg-gradient-to-br ${service.gradient} flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-500`}
-                >
-                  <div className="text-white text-2xl">{service.icon}</div>
-                </div>
-
-                {/* Service Title */}
-                <h3 className="font-[Recoleta] text-xl text-white mb-3">
-                  {service.title}
-                </h3>
-
-                {/* Description */}
-                <p className="text-white/60 text-sm mb-6">{service.subtitle}</p>
-
-                {/* Tags */}
-                <div className="flex flex-wrap gap-2 mb-8">
-                  {service.tags.map((tag, tagIndex) => (
-                    <span
-                      key={tagIndex}
-                      className="px-3 py-1 text-xs font-medium rounded-full border border-white/10 bg-white/5 text-white/70"
-                    >
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-
-                {/* Footer */}
-                <div className="flex items-center justify-between pt-6 border-t border-white/10">
-                  <span className="text-xs text-white/50">
-                    {service.duration}
-                  </span>
-
-                  {/* Arrow Button */}
-                  <button
-                    className="relative w-10 h-10 rounded-full border border-white/10 bg-white/5 flex items-center justify-center group/btn overflow-hidden"
-                    onClick={() => (window.location.href = service.link)}
-                  >
-                    <div
-                      className={`absolute inset-0 bg-gradient-to-br ${service.gradient} opacity-0 group-hover/btn:opacity-100 transition-opacity duration-300`}
-                    />
-                    <FaArrowRight className="relative z-10 w-4 h-4 text-white/70 group-hover/btn:text-white transition-colors transition-transform" />
-                  </button>
-                </div>
-              </Glass>
-            </motion.div>
-          ))}
+    <section className="container mx-auto ">
+      {/* Header */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8 }}
+        viewport={{ once: true }}
+        className="text-center py-20"
+      >
+        {/* Elegant Badge */}
+        <div className="inline-flex items-center gap-3 px-4 py-2 rounded-full border border-white/10 bg-white/5 backdrop-blur-sm mb-5">
+          <span className="w-2 h-2 rounded-full bg-blue-500 animate-pulse" />
+          <span className="text-sm text-white/80">What We Deliver</span>
         </div>
+
+        {/* Main Title with Gradient */}
+        <h2 className="font-[Recoleta] text-4xl md:text-5xl mb-5 text-white">
+          Growth-Ready Digital Products
+        </h2>
+
+        {/* Subtitle */}
+        <p className="text-white/70 text-xl max-w-5xl mx-auto">
+          We design and build scalable digital platforms that solve real
+          business problems. By combining thoughtful design with robust
+          engineering, we turn complex requirements into clean, reliable systems
+          that support growth, performance, and long-term success.
+        </p>
+      </motion.div>
+
+      {/* Services Grid */}
+      <div
+        ref={gridRef}
+        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-6"
+      >
+        {services.map((service, index) => (
+          <motion.div
+            key={index}
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: index * 0.1 }}
+            onMouseEnter={() => setActiveService(index)}
+            onMouseLeave={() => setActiveService(null)}
+          >
+            {/* Card Container */}
+            {/* Background Gradient */}
+            <Glass variant="blue" className="p-6 h-full">
+              {/* Icon Container */}
+              <div
+                className={`relative w-14 h-14 rounded-xl bg-gradient-to-br ${service.gradient} flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-500`}
+              >
+                <div className="text-white text-2xl">{service.icon}</div>
+              </div>
+
+              {/* Service Title */}
+              <h3 className="font-[Recoleta] text-xl text-white mb-3">
+                {service.title}
+              </h3>
+
+              {/* Description */}
+              <p className="text-white/60 text-sm mb-6">{service.subtitle}</p>
+
+              {/* Tags */}
+              <div className="flex flex-wrap gap-2 mb-8">
+                {service.tags.map((tag, tagIndex) => (
+                  <span
+                    key={tagIndex}
+                    className="px-3 py-1 text-xs font-medium rounded-full border border-white/10 bg-white/5 text-white/70"
+                  >
+                    {tag}
+                  </span>
+                ))}
+              </div>
+
+              {/* Footer */}
+              <div className="flex items-center justify-between pt-6 border-t border-white/10">
+                <span className="text-xs text-white/50">
+                  {service.duration}
+                </span>
+
+                {/* Arrow Button */}
+                <button
+                  className="relative w-10 h-10 rounded-full border border-white/10 bg-white/5 flex items-center justify-center group/btn overflow-hidden"
+                  onClick={() => (window.location.href = service.link)}
+                >
+                  <div
+                    className={`absolute inset-0 bg-gradient-to-br ${service.gradient} opacity-0 group-hover/btn:opacity-100 transition-opacity duration-300`}
+                  />
+                  <FaArrowRight className="relative z-10 w-4 h-4 text-white/70 group-hover/btn:text-white transition-colors transition-transform" />
+                </button>
+              </div>
+            </Glass>
+          </motion.div>
+        ))}
       </div>
     </section>
   );

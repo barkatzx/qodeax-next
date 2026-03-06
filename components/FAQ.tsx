@@ -2,14 +2,7 @@
 
 import { AnimatePresence, motion } from "framer-motion";
 import { useState } from "react";
-import {
-  FaChevronDown,
-  FaCogs,
-  FaHeadset,
-  FaLayerGroup,
-  FaQuestionCircle,
-  FaTag,
-} from "react-icons/fa";
+import { FaChevronDown } from "react-icons/fa";
 import Glass from "./ui/Glass";
 
 interface FAQItem {
@@ -94,57 +87,16 @@ export default function FAQComponent() {
     setOpenItem(openItem === id ? null : id);
   };
 
-  const getCategoryIcon = (category: FAQItem["category"] | "all") => {
-    switch (category) {
-      case "all":
-        return FaLayerGroup;
-      case "general":
-        return FaQuestionCircle;
-      case "technical":
-        return FaCogs;
-      case "pricing":
-        return FaTag;
-      case "support":
-        return FaHeadset;
-      default:
-        return FaQuestionCircle;
-    }
-  };
-
-  const categoryData = [
-    { id: "all", label: "All Questions", count: faqItems.length },
-    {
-      id: "general",
-      label: "General",
-      count: faqItems.filter((item) => item.category === "general").length,
-    },
-    {
-      id: "technical",
-      label: "Technical",
-      count: faqItems.filter((item) => item.category === "technical").length,
-    },
-    {
-      id: "pricing",
-      label: "Pricing",
-      count: faqItems.filter((item) => item.category === "pricing").length,
-    },
-    {
-      id: "support",
-      label: "Support",
-      count: faqItems.filter((item) => item.category === "support").length,
-    },
-  ];
-
   return (
     <section>
-      <div className="container mx-auto max-w-7xl">
+      <div className="container mx-auto">
         {/* Elegant Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
           viewport={{ once: true }}
-          className="text-center mb-8"
+          className="text-center mb-12"
         >
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
@@ -152,93 +104,20 @@ export default function FAQComponent() {
             transition={{ duration: 0.5 }}
           >
             {/* Elegant Badge */}
-            <div className="inline-flex items-center gap-3 px-4 py-2 rounded-full border border-white/10 bg-white/5 backdrop-blur-sm mb-8">
-              <span className="w-2 h-2 rounded-full bg-gradient-to-r from-blue-500 to-cyan-500 animate-pulse" />
+            <div className="inline-flex items-center gap-3 px-4 py-2 rounded-full border border-white/10 bg-white/5 backdrop-blur-sm mb-5">
+              <span className="w-2 h-2 rounded-full bg-blue-500 animate-pulse" />
               <span className="text-sm text-white/80">Knowledge Base</span>
             </div>
           </motion.div>
 
-          <h1 className="font-[Recoleta] text-4xl md:text-5xl mb-6 bg-gradient-to-r from-white via-white/90 to-white/70 bg-clip-text text-transparent">
+          <h1 className="font-[Recoleta] text-4xl md:text-5xl mb-5 text-white">
             Question and Answer
           </h1>
 
-          <p className="text-white/70 text-xl max-w-2xl mx-auto">
+          <p className="text-white/70 text-xl max-w-5xl mx-auto">
             Detailed insights about our services, process, and how we,
             collaborate to deliver exceptional results
           </p>
-        </motion.div>
-
-        {/* Modern Category Filter */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.1 }}
-          viewport={{ once: true }}
-          className="mb-10"
-        >
-          <div className="flex flex-wrap justify-center gap-3">
-            {categoryData.map((category) => {
-              const Icon = getCategoryIcon(
-                category.id as FAQItem["category"] | "all"
-              );
-              const isActive = activeCategory === category.id;
-
-              return (
-                <motion.button
-                  key={category.id}
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.98 }}
-                  onHoverStart={() => setHoveredCategory(category.id)}
-                  onHoverEnd={() => setHoveredCategory(null)}
-                  onClick={() =>
-                    setActiveCategory(
-                      category.id as FAQItem["category"] | "all"
-                    )
-                  }
-                  className="relative min-w-[160px]"
-                >
-                  <Glass
-                    variant="white"
-                    className={`px-5 py-4 rounded-xl flex items-center gap-3 transition-all duration-300 group ${isActive ? "border-blue-500/30" : ""}`}
-                  >
-                    {/* Icon */}
-                    <div className="relative">
-                      <div
-                        className={`w-10 h-10 rounded-lg flex items-center justify-center ${isActive ? "bg-white/5" : "bg-white/[0.02]"} group-hover:bg-white/5 transition-all duration-300`}
-                      >
-                        <Icon
-                          className={`text-lg ${isActive ? "text-blue-400" : "text-white/40"} group-hover:text-white/60 transition-colors duration-300`}
-                        />
-                      </div>
-                    </div>
-
-                    {/* Text */}
-                    <div className="text-left flex-1">
-                      <div className="flex items-center gap-2">
-                        <span
-                          className={`font-medium ${isActive ? "text-white" : "text-white/70"} group-hover:text-white transition-colors duration-300`}
-                        >
-                          {category.label}
-                        </span>
-                      </div>
-                      <div className="text-xs text-white/40 mt-1">
-                        {category.count}{" "}
-                        {category.count === 1 ? "question" : "questions"}
-                      </div>
-                    </div>
-
-                    {/* Active indicator */}
-                    {isActive && (
-                      <motion.div
-                        layoutId="activeCategory"
-                        className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-8 h-0.5 bg-gradient-to-r from-blue-400 to-blue-600 rounded-t-full"
-                      />
-                    )}
-                  </Glass>
-                </motion.button>
-              );
-            })}
-          </div>
         </motion.div>
 
         {/* FAQ Grid */}
@@ -252,7 +131,7 @@ export default function FAQComponent() {
               viewport={{ once: true }}
             >
               <Glass
-                variant="white"
+                variant="blue"
                 className={`h-full rounded-xl overflow-hidden transition-all duration-300 ${openItem === item.id ? "border-blue-500/30" : ""}`}
               >
                 {/* Question Header */}
