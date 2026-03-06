@@ -7,7 +7,13 @@ import { PortableText, type SanityDocument } from "next-sanity";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { FaBookReader, FaCalendarAlt, FaFacebook, FaLinkedin } from "react-icons/fa";
+import { BiSolidCategory } from "react-icons/bi";
+import {
+  FaBookReader,
+  FaCalendarAlt,
+  FaFacebook,
+  FaLinkedin,
+} from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
 
 // GROQ query for fetching post by slug
@@ -81,31 +87,15 @@ export default async function PostPage(props: { params: tParams }) {
     Math.max(5, Math.ceil((post.body?.length || 0) / 1500));
 
   // Get current URL for sharing (will be handled client-side)
-  const shareUrl = typeof window !== 'undefined' ? window.location.href : '';
+  const shareUrl = typeof window !== "undefined" ? window.location.href : "";
 
   return (
     <main>
       {/* Hero Section */}
-      <div className="px-4 md:px-20 py-6 md:py-12">
+      <div className="py-10">
         <div className="container mx-auto">
-          {/* Categories */}
-          {post.categories?.length > 0 && (
-            <Glass variant="blue" className="inline-flex items-center p-1 rounded-full mb-4">
-              <div className="flex gap-1">
-                {post.categories.map((cat: { title: string }, idx: number) => (
-                  <span
-                    key={idx}
-                    className="px-4 py-2 text-sm font-medium text-white"
-                  >
-                    {cat.title}
-                  </span>
-                ))}
-              </div>
-            </Glass>
-          )}
-
           {/* Post Title */}
-          <h1 className="font-[Recoleta] text-3xl md:text-5xl lg:text-6xl font-bold mb-4 md:mb-6 leading-tight text-white">
+          <h1 className="font-[Recoleta] text-3xl md:text-5xl lg:text-6xl mb-4 md:mb-6 text-white text-center">
             {post.title}
           </h1>
 
@@ -117,15 +107,28 @@ export default async function PostPage(props: { params: tParams }) {
           )} */}
 
           {/* Meta Info */}
-          <div className="flex items-center gap-4 text-white/60 text-sm md:text-base mb-6">
+          <div className="flex flex-wrap items-center justify-center gap-3 md:gap-4 text-white/60 text-sm md:text-base mb-6 text-center">
+            {/* Date */}
             <span className="flex items-center gap-2">
               <FaCalendarAlt className="text-[#00a8ff]" />
               {formattedDate}
             </span>
+
+            {/* Reading Time */}
             <span className="flex items-center gap-2">
               <FaBookReader className="text-[#4dc3ff]" />
               {readingTime} min read
             </span>
+
+            {/* Categories */}
+            {post.categories?.length > 0 && (
+              <span className="flex items-center gap-2 flex-wrap justify-center">
+                <BiSolidCategory className="text-[#4dc3ff]" />
+                {post.categories.map((cat: { title: string }, idx: number) => (
+                  <span key={idx}>{cat.title}</span>
+                ))}
+              </span>
+            )}
           </div>
         </div>
 
@@ -150,12 +153,15 @@ export default async function PostPage(props: { params: tParams }) {
       </div>
 
       {/* Content Section with Sidebar */}
-      <div className="px-4 md:px-20 py-6 md:py-8">
+      <div className="">
         <div className="container mx-auto">
           <div className="flex flex-col lg:flex-row gap-8">
             {/* Main Content - Left Side */}
             <div className="lg:w-2/3">
-              <Glass variant="blue" className="p-6 md:p-10 rounded-xl md:rounded-2xl">
+              <Glass
+                variant="blue"
+                className="p-6 md:p-10 rounded-xl md:rounded-2xl"
+              >
                 {/* Post Content */}
                 <div className="prose prose-invert max-w-none">
                   {Array.isArray(post.body) && (
@@ -171,9 +177,15 @@ export default async function PostPage(props: { params: tParams }) {
                       <div className="flex-shrink-0">
                         <div className="relative">
                           <Image
-                            src={post.author?.image 
-                              ? urlFor(post.author.image)?.width(120).height(120).quality(90).url() || "/default-avatar.png" 
-                              : "/default-avatar.png"}
+                            src={
+                              post.author?.image
+                                ? urlFor(post.author.image)
+                                    ?.width(120)
+                                    .height(120)
+                                    .quality(90)
+                                    .url() || "/default-avatar.png"
+                                : "/default-avatar.png"
+                            }
                             alt={post.author?.name || "Author"}
                             width={80}
                             height={80}
@@ -190,7 +202,7 @@ export default async function PostPage(props: { params: tParams }) {
                         <h3 className="text-xl font-bold text-white mb-1">
                           {post.author.name}
                         </h3>
-                        
+
                         {post.author.bio ? (
                           <div className="text-white/70 text-sm md:text-base leading-relaxed mb-4">
                             <PortableText value={post.author.bio} />
@@ -203,7 +215,9 @@ export default async function PostPage(props: { params: tParams }) {
 
                         {/* Social Share */}
                         <div className="flex items-center gap-3">
-                          <span className="text-white/50 text-sm">Share this article:</span>
+                          <span className="text-white/50 text-sm">
+                            Share this article:
+                          </span>
                           <div className="flex gap-2">
                             <a
                               href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(post.title)}&url=${encodeURIComponent(shareUrl)}`}
@@ -240,20 +254,27 @@ export default async function PostPage(props: { params: tParams }) {
 
             {/* Sidebar - Right Side (Recent Posts) */}
             <div className="lg:w-1/3">
-              <Glass variant="blue" className="p-6 rounded-xl md:rounded-2xl sticky top-24">
+              <Glass
+                variant="blue"
+                className="p-6 rounded-xl md:rounded-2xl sticky top-24"
+              >
                 <h2 className="font-[Recoleta] text-2xl font-bold text-white mb-5">
                   Recent Articles
                 </h2>
-                <div className="border-t border-white/10 mb-5"/>
-                
+                <div className="border-t border-white/10 mb-5" />
+
                 <div className="space-y-6">
                   {recentPosts.map((recentPost) => {
                     const recentPostImageUrl = recentPost.mainImage
-                      ? urlFor(recentPost.mainImage)?.width(400).height(300).quality(80).url()
+                      ? urlFor(recentPost.mainImage)
+                          ?.width(400)
+                          .height(300)
+                          .quality(80)
+                          .url()
                       : null;
-                    
+
                     return (
-                      <Link 
+                      <Link
                         key={recentPost.slug.current}
                         href={`/blogs/${recentPost.slug.current}`}
                         className="block group"
@@ -270,7 +291,7 @@ export default async function PostPage(props: { params: tParams }) {
                               />
                             </div>
                           )}
-                          
+
                           {/* Recent Post Info */}
                           <div className="flex-1">
                             <h3 className="text-white text-lg line-clamp-2 group-hover:text-[#00a8ff] transition-colors mb-1">
@@ -279,27 +300,29 @@ export default async function PostPage(props: { params: tParams }) {
                             {/* <h3 className="text-xs text-white/50 line-clamp-2 mb-1">
                               {recentPost.excerpt || "No excerpt available"}
                             </h3> */}
-                            
+
                             <div className="flex items-center gap-2 text-xs text-white/50">
-  {/* Category */}
-  {recentPost.categories?.length > 0 && (
-    <span>
-      {recentPost.categories[0].title}
-    </span>
-  )}
+                              {/* Category */}
+                              {recentPost.categories?.length > 0 && (
+                                <span>{recentPost.categories[0].title}</span>
+                              )}
 
-  {/* Separator */}
-  {recentPost.categories?.length > 0 && <span>•</span>}
+                              {/* Separator */}
+                              {recentPost.categories?.length > 0 && (
+                                <span>•</span>
+                              )}
 
-  {/* Date */}
-  <span>
-    {new Date(recentPost.publishedAt).toLocaleDateString("en-US", {
-      month: "short",
-      day: "numeric",
-      year: "numeric",
-    })}
-  </span>
-</div>
+                              {/* Date */}
+                              <span>
+                                {new Date(
+                                  recentPost.publishedAt,
+                                ).toLocaleDateString("en-US", {
+                                  month: "short",
+                                  day: "numeric",
+                                  year: "numeric",
+                                })}
+                              </span>
+                            </div>
                           </div>
                         </div>
                       </Link>

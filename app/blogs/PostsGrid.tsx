@@ -5,13 +5,9 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import {
-  FaArrowRight,
-  FaChevronLeft,
-  FaChevronRight,
-  FaClock,
-  FaFolder
-} from "react-icons/fa";
+import { BiSolidCategory } from "react-icons/bi";
+import { FaArrowRight, FaChevronLeft, FaChevronRight } from "react-icons/fa";
+import { IoTimer } from "react-icons/io5";
 import { Post } from "./page";
 
 interface PostGridProps {
@@ -22,6 +18,7 @@ export default function PostsGrid({ posts }: PostGridProps) {
   const [currentPage, setCurrentPage] = useState(1);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [hoveredPost, setHoveredPost] = useState<string | null>(null);
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const itemsPerPage = 6;
 
   useEffect(() => {
@@ -32,16 +29,35 @@ export default function PostsGrid({ posts }: PostGridProps) {
     return () => window.removeEventListener("mousemove", handleMouseMove);
   }, []);
 
-  const totalPages = Math.ceil(posts.length / itemsPerPage);
-  const paginatedPosts = posts.slice(
+  // Extract unique categories from all posts
+  const allCategories = Array.from(
+    new Set(
+      posts.flatMap((post) => post.categories?.map((cat) => cat.title) || []),
+    ),
+  ).sort();
+
+  // Filter posts by selected category
+  const filteredPosts = selectedCategory
+    ? posts.filter((post) =>
+        post.categories?.some((cat) => cat.title === selectedCategory),
+      )
+    : posts;
+
+  const totalPages = Math.ceil(filteredPosts.length / itemsPerPage);
+  const paginatedPosts = filteredPosts.slice(
     (currentPage - 1) * itemsPerPage,
-    currentPage * itemsPerPage
+    currentPage * itemsPerPage,
   );
 
   const handleNext = () =>
     setCurrentPage((prev) => Math.min(prev + 1, totalPages));
   const handlePrevious = () => setCurrentPage((prev) => Math.max(prev - 1, 1));
   const handlePageClick = (page: number) => setCurrentPage(page);
+
+  const handleCategoryClick = (category: string | null) => {
+    setSelectedCategory(category);
+    setCurrentPage(1); // Reset to first page when filtering
+  };
 
   // Modern color palette
   const colors = {
@@ -67,26 +83,26 @@ export default function PostsGrid({ posts }: PostGridProps) {
   // Format date helper
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
-    return new Intl.DateTimeFormat('en-US', {
-      month: 'short',
-      day: 'numeric',
-      year: 'numeric'
+    return new Intl.DateTimeFormat("en-US", {
+      month: "short",
+      day: "numeric",
+      year: "numeric",
     }).format(date);
   };
 
   return (
-    <section className="container mx-auto">
+    <section className="container mx-auto py-10">
       {/* Animated Background */}
-        <div 
-          className=""
-          style={{
-            left: `${mousePosition.x * 0.02}px`,
-            top: `${mousePosition.y * 0.02}px`,
-            transition: "transform 0.5s ease-out",
-          }}
-        />
+      <div
+        className=""
+        style={{
+          left: `${mousePosition.x * 0.02}px`,
+          top: `${mousePosition.y * 0.02}px`,
+          transition: "transform 0.5s ease-out",
+        }}
+      />
 
-      <div className="px-4 py-12 md:px-8 lg:px-16">
+      <div className="">
         {/* Section Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -99,23 +115,112 @@ export default function PostsGrid({ posts }: PostGridProps) {
             initial={{ scale: 0.9 }}
             animate={{ scale: 1 }}
             transition={{ duration: 0.5, delay: 0.2 }}
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 mb-6"
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 mb-5"
           >
             <span className="w-2 h-2 rounded-full bg-blue-400 animate-pulse" />
-            <span className="text-sm font-medium text-white/80">Latest Articles</span>
+            <span className="text-sm font-medium text-white/80">
+              Latest Articles
+            </span>
           </motion.div>
 
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-[Recoleta] text-white mb-6">
-            Insights and
-              Stories
+          <h2 className="text-4xl md:text-5xl lg:text-6xl font-[Recoleta] text-white mb-5">
+            Insights, Code & Creative Thinking
           </h2>
-          
-          <p className="text-xl text-white/60 max-w-2xl mx-auto">
-            Exploring the intersection of technology, design, and creative thinking
+
+          <p className="text-xl text-white/60 max-w-5xl mx-auto">
+            Thoughtful explorations where technology, design, and creative
+            thinking come together. Discover practical insights, real
+            experiences, and fresh perspectives from the world of modern
+            development and digital innovation.
           </p>
         </motion.div>
 
-        {posts.length === 0 ? (
+        {/* Category Navigation - Added right after the title paragraph */}
+        {allCategories.length > 0 && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            viewport={{ once: true }}
+            className="mb-10"
+          >
+            <div className="flex flex-wrap items-center justify-center gap-3">
+              {/* All Categories Button */}
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                onClick={() => handleCategoryClick(null)}
+                className={`px-5 py-2.5 rounded-full text-sm font-medium transition-all duration-300 ${
+                  selectedCategory === null
+                    ? "bg-blue-400 text-white shadow-lg shadow-blue-500/25"
+                    : "bg-white/5 text-white/70 hover:text-white hover:bg-white/10 border border-white/10"
+                }`}
+              >
+                All Posts
+                <span className="ml-2 text-xs opacity-70">
+                  ({posts.length})
+                </span>
+              </motion.button>
+
+              {/* Individual Category Buttons */}
+              {allCategories.map((category, index) => {
+                const categoryPostCount = posts.filter((post) =>
+                  post.categories?.some((cat) => cat.title === category),
+                ).length;
+
+                return (
+                  <motion.button
+                    key={category}
+                    initial={{ opacity: 0, y: 10 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.3, delay: index * 0.05 }}
+                    viewport={{ once: true }}
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    onClick={() => handleCategoryClick(category)}
+                    className={`px-5 py-2.5 rounded-full text-sm font-medium transition-all duration-300 flex items-center gap-2 ${
+                      selectedCategory === category
+                        ? "bg-gradient-to-r from-blue-500 to-purple-500 text-white shadow-lg shadow-blue-500/25"
+                        : "bg-white/5 text-white/70 hover:text-white hover:bg-white/10 border border-white/10"
+                    }`}
+                  >
+                    <BiSolidCategory
+                      className={`w-3 h-3 ${
+                        selectedCategory === category
+                          ? "text-white"
+                          : "text-blue-400"
+                      }`}
+                    />
+                    {category}
+                    <span className="text-xs opacity-70">
+                      ({categoryPostCount})
+                    </span>
+                  </motion.button>
+                );
+              })}
+            </div>
+
+            {/* Active Filter Indicator */}
+            {selectedCategory && (
+              <motion.div
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="text-center mt-4"
+              >
+                <p className="text-sm text-white/50">
+                  Showing posts in{" "}
+                  <span className="text-blue-400 font-medium">
+                    {selectedCategory}
+                  </span>{" "}
+                  ({filteredPosts.length}{" "}
+                  {filteredPosts.length === 1 ? "article" : "articles"})
+                </p>
+              </motion.div>
+            )}
+          </motion.div>
+        )}
+
+        {filteredPosts.length === 0 ? (
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -127,8 +232,18 @@ export default function PostsGrid({ posts }: PostGridProps) {
                 <span className="text-4xl">📝</span>
               </div>
             </div>
-            <h3 className="text-2xl font-semibold text-white mb-2">No posts yet</h3>
-            <p className="text-white/60">Check back soon for new content</p>
+            <h3 className="text-2xl font-semibold text-white mb-2">
+              No posts in this category
+            </h3>
+            <p className="text-white/60 mb-4">
+              Try selecting a different category
+            </p>
+            <button
+              onClick={() => handleCategoryClick(null)}
+              className="px-6 py-2 rounded-full bg-blue-500 text-white text-sm font-medium hover:bg-blue-600 transition-colors"
+            >
+              View all posts
+            </button>
           </motion.div>
         ) : (
           <>
@@ -146,7 +261,10 @@ export default function PostsGrid({ posts }: PostGridProps) {
                   className="group relative"
                 >
                   {/* Card Container */}
-                  <Glass variant="blue" className="relative h-full rounded-2xl overflow-hidden transition-all duration-500 hover:scale-[1.02] hover:shadow-2xl hover:shadow-blue-500/10">
+                  <Glass
+                    variant="blue"
+                    className="relative h-full rounded-2xl overflow-hidden transition-all duration-500 hover:scale-[1.02] hover:shadow-2xl hover:shadow-blue-500/10"
+                  >
                     {/* Image Container */}
                     <div className="relative h-48 overflow-hidden">
                       {post.mainImage?.asset?.url ? (
@@ -160,7 +278,7 @@ export default function PostsGrid({ posts }: PostGridProps) {
                       ) : (
                         <div className="w-full h-full bg-gradient-to-br from-gray-800 to-gray-900" />
                       )}
-                      
+
                       {/* Image Overlay */}
                       <div className="absolute inset-0 bg-gradient-to-t from-gray-900 via-transparent to-transparent opacity-60" />
                     </div>
@@ -169,31 +287,26 @@ export default function PostsGrid({ posts }: PostGridProps) {
                     <div className="p-5">
                       {/* Title */}
                       <Link href={`/blogs/${post.slug.current}`}>
-                        <h3 className="text-2xl font-[Recoleta] text-white mb-2  hover:text-blue-400 transition-colors duration-300 mb-5">
+                        <h3 className="text-xl font-[Recoleta] text-white mb-2 hover:text-blue-400 transition-colors duration-300 line-clamp-2">
                           {post.title}
                         </h3>
                       </Link>
+
                       {/* Author, Category, Reading Time - All in one line */}
                       <div className="flex items-center gap-3 text-xs text-white/50 mb-5 flex-wrap">
-                        {/* {post.author && (
-                          <span className="flex items-center gap-1">
-                            <FaUser className="w-3 h-3 text-blue-400" />
-                            {post.author.name}
-                          </span>
-                        )} */}
-                        
                         {post.categories && post.categories.length > 0 && (
                           <>
                             <span className="flex items-center gap-1">
-                              <FaFolder className="w-3 h-3 text-blue-400" />
+                              <BiSolidCategory className="w-3 h-3 text-blue-400" />
                               {post.categories[0].title}
-                              {post.categories.length > 1 && ` +${post.categories.length - 1}`}
+                              {post.categories.length > 1 &&
+                                ` +${post.categories.length - 1}`}
                             </span>
                           </>
                         )}
-                        
+
                         <span className="flex items-center gap-1">
-                          <FaClock className="w-3 h-3 text-blue-400" />
+                          <IoTimer className="w-3 h-3 text-blue-400" />
                           {post.estimatedReadingTime || 5} min read
                         </span>
                       </div>
@@ -210,8 +323,8 @@ export default function PostsGrid({ posts }: PostGridProps) {
                         <span className="text-xs text-white/30">
                           {formatDate(post.publishedAt)}
                         </span>
-                        
-                        <Link 
+
+                        <Link
                           href={`/blogs/${post.slug.current}`}
                           className="inline-flex items-center gap-1.5 text-xs font-medium text-white/70 hover:text-blue-400 transition-colors duration-300 group/link"
                         >
@@ -222,96 +335,105 @@ export default function PostsGrid({ posts }: PostGridProps) {
                     </div>
 
                     {/* Hover Effect Gradient */}
-                    <div 
+                    <div
                       className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
                       style={{
                         background: `radial-gradient(600px circle at ${mousePosition.x}px ${mousePosition.y}px, rgba(59, 130, 246, 0.1), transparent 40%)`,
                       }}
                     />
-                    </Glass>
+                  </Glass>
                 </motion.article>
               ))}
             </div>
 
-            {/* Modern Pagination */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.3 }}
-              className="mt-16"
-            >
-              <div className="flex flex-col items-center gap-6">
-                {/* Pagination Controls */}
-                <div className="flex items-center gap-3">
-                  <button
-                    onClick={handlePrevious}
-                    disabled={currentPage === 1}
-                    className={`p-3 rounded-xl transition-all duration-300 ${
-                      currentPage === 1
-                        ? "opacity-30 cursor-not-allowed"
-                        : "hover:bg-white/10 hover:scale-105"
-                    }`}
-                    style={glassStyle}
-                  >
-                    <FaChevronLeft className="w-4 h-4 text-white" />
-                  </button>
+            {/* Modern Pagination - Only show if there are multiple pages */}
+            {totalPages > 1 && (
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.3 }}
+                className="mt-16"
+              >
+                <div className="flex flex-col items-center gap-6">
+                  {/* Pagination Controls */}
+                  <div className="flex items-center gap-3">
+                    <button
+                      onClick={handlePrevious}
+                      disabled={currentPage === 1}
+                      className={`p-3 rounded-xl transition-all duration-300 ${
+                        currentPage === 1
+                          ? "opacity-30 cursor-not-allowed"
+                          : "hover:bg-white/10 hover:scale-105"
+                      }`}
+                      style={glassStyle}
+                    >
+                      <FaChevronLeft className="w-4 h-4 text-white" />
+                    </button>
 
-                  <div className="flex items-center gap-2">
-                    {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
-                      let pageNum;
-                      if (totalPages <= 5) {
-                        pageNum = i + 1;
-                      } else if (currentPage <= 3) {
-                        pageNum = i + 1;
-                      } else if (currentPage >= totalPages - 2) {
-                        pageNum = totalPages - 4 + i;
-                      } else {
-                        pageNum = currentPage - 2 + i;
-                      }
+                    <div className="flex items-center gap-2">
+                      {Array.from(
+                        { length: Math.min(5, totalPages) },
+                        (_, i) => {
+                          let pageNum;
+                          if (totalPages <= 5) {
+                            pageNum = i + 1;
+                          } else if (currentPage <= 3) {
+                            pageNum = i + 1;
+                          } else if (currentPage >= totalPages - 2) {
+                            pageNum = totalPages - 4 + i;
+                          } else {
+                            pageNum = currentPage - 2 + i;
+                          }
 
-                      return (
-                        <button
-                          key={pageNum}
-                          onClick={() => handlePageClick(pageNum)}
-                          className={`w-10 h-10 rounded-xl font-medium transition-all duration-300 ${
-                            currentPage === pageNum
-                              ? "text-white shadow-lg scale-110"
-                              : "text-white/60 hover:text-white hover:bg-white/10 hover:scale-105"
-                          }`}
-                          style={currentPage === pageNum ? buttonStyle : glassStyle}
-                        >
-                          {pageNum}
-                        </button>
-                      );
-                    })}
+                          return (
+                            <button
+                              key={pageNum}
+                              onClick={() => handlePageClick(pageNum)}
+                              className={`w-10 h-10 rounded-xl font-medium transition-all duration-300 ${
+                                currentPage === pageNum
+                                  ? "text-white shadow-lg scale-110"
+                                  : "text-white/60 hover:text-white hover:bg-white/10 hover:scale-105"
+                              }`}
+                              style={
+                                currentPage === pageNum
+                                  ? buttonStyle
+                                  : glassStyle
+                              }
+                            >
+                              {pageNum}
+                            </button>
+                          );
+                        },
+                      )}
+                    </div>
+
+                    <button
+                      onClick={handleNext}
+                      disabled={currentPage === totalPages}
+                      className={`p-3 rounded-xl transition-all duration-300 ${
+                        currentPage === totalPages
+                          ? "opacity-30 cursor-not-allowed"
+                          : "hover:bg-white/10 hover:scale-105"
+                      }`}
+                      style={glassStyle}
+                    >
+                      <FaChevronRight className="w-4 h-4 text-white" />
+                    </button>
                   </div>
 
-                  <button
-                    onClick={handleNext}
-                    disabled={currentPage === totalPages}
-                    className={`p-3 rounded-xl transition-all duration-300 ${
-                      currentPage === totalPages
-                        ? "opacity-30 cursor-not-allowed"
-                        : "hover:bg-white/10 hover:scale-105"
-                    }`}
-                    style={glassStyle}
-                  >
-                    <FaChevronRight className="w-4 h-4 text-white" />
-                  </button>
+                  {/* Page Info */}
+                  <div className="flex items-center gap-4 text-sm">
+                    <span className="text-white/40">
+                      Page {currentPage} of {totalPages}
+                    </span>
+                    <span className="w-1 h-1 rounded-full bg-white/20" />
+                    <span className="text-white/40">
+                      {filteredPosts.length} total articles
+                    </span>
+                  </div>
                 </div>
-
-                {/* Page Info */}
-                <div className="flex items-center gap-4 text-sm">
-                  <span className="text-white/40">
-                    Page {currentPage} of {totalPages}
-                  </span>
-                  <span className="w-1 h-1 rounded-full bg-white/20" />
-                  <span className="text-white/40">
-                    {posts.length} total articles
-                  </span>
-                </div>
-              </div>
-            </motion.div>
+              </motion.div>
+            )}
           </>
         )}
       </div>
