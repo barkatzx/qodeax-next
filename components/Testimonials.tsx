@@ -1,14 +1,10 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, useAnimation } from "framer-motion";
 import Image from "next/image";
-import { useCallback, useEffect, useRef, useState } from "react";
-import {
-  FaChevronLeft,
-  FaChevronRight,
-  FaQuoteLeft,
-  FaStar,
-} from "react-icons/fa";
+import { useEffect, useMemo } from "react";
+import { FaQuoteLeft } from "react-icons/fa";
+import Glass from "./ui/Glass";
 
 interface Testimonial {
   id: number;
@@ -19,415 +15,260 @@ interface Testimonial {
   avatar: string;
   rating: number;
   project?: string;
-  date?: string;
+}
+
+const testimonials: Testimonial[] = [
+  {
+    id: 1,
+    name: "Sarah Johnson",
+    role: "Marketing Director",
+    company: "GrowthTech Inc.",
+    content:
+      "Qodeax delivered a complete full-stack solution that transformed our digital presence. Their team understood our business goals and built a scalable platform that improved performance and accelerated our growth.",
+    avatar:
+      "https://images.unsplash.com/photo-1494790108777-2961285e9489?w=400&h=400&fit=crop&crop=face",
+    rating: 5,
+    project: "Full Stack Platform",
+  },
+  {
+    id: 2,
+    name: "Michael Chen",
+    role: "Project Manager",
+    company: "Tech Solutions Firm",
+    content:
+      "Working with Qodeax was an outstanding experience. Their developers built a powerful SaaS product with clean architecture, strong security practices, and excellent performance optimization.",
+    avatar:
+      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop&crop=face",
+    rating: 5,
+    project: "SaaS Platform",
+  },
+  {
+    id: 3,
+    name: "Emma Rodriguez",
+    role: "Startup Founder",
+    company: "Innovate Labs",
+    content:
+      "Qodeax helped us turn our startup idea into a working MVP in record time. Their ability to move from concept to launch while maintaining code quality was impressive.",
+    avatar:
+      "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=400&h=400&fit=crop&crop=face",
+    rating: 5,
+    project: "Startup MVP",
+  },
+  {
+    id: 4,
+    name: "James Wilson",
+    role: "CTO",
+    company: "Digital Ventures",
+    content:
+      "The Qodeax team built a high-performance mobile application that runs flawlessly across devices. Their attention to performance, scalability, and user experience truly stands out.",
+    avatar:
+      "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&h=400&fit=crop&crop=face",
+    rating: 5,
+    project: "Mobile Application",
+  },
+  {
+    id: 5,
+    name: "Lisa Anderson",
+    role: "Product Manager",
+    company: "InnovateHub",
+    content:
+      "We needed a secure and scalable backend for our growing platform, and Qodeax delivered beyond expectations. Their expertise in system architecture and security gave us complete confidence.",
+    avatar:
+      "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=400&h=400&fit=crop&crop=face",
+    rating: 5,
+    project: "Secure Backend System",
+  },
+  {
+    id: 6,
+    name: "David Kim",
+    role: "CEO",
+    company: "StartUp Labs",
+    content:
+      "Qodeax built our SaaS product with a modern tech stack and scalable infrastructure. The platform is fast, reliable, and designed to grow with our business.",
+    avatar:
+      "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&h=400&fit=crop&crop=face",
+    rating: 5,
+    project: "SaaS Product Development",
+  },
+  {
+    id: 7,
+    name: "Rachel Green",
+    role: "Creative Director",
+    company: "Design Studio",
+    content:
+      "Qodeax has an incredible ability to transform product ideas into polished digital experiences. Their team balances design, engineering, and performance beautifully.",
+    avatar:
+      "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=400&h=400&fit=crop&crop=face",
+    rating: 5,
+    project: "Product Development",
+  },
+  {
+    id: 8,
+    name: "Tom Harris",
+    role: "Technical Lead",
+    company: "DevCorp",
+    content:
+      "From architecture planning to deployment, Qodeax delivered a rock-solid full-stack solution. Clean code, secure infrastructure, and excellent collaboration throughout the project.",
+    avatar:
+      "https://images.unsplash.com/photo-1568602471122-7832951cc4c5?w=400&h=400&fit=crop&crop=face",
+    rating: 5,
+    project: "Full Stack System",
+  },
+];
+
+function TestimonialCard({ testimonial }: { testimonial: Testimonial }) {
+  return (
+    <motion.div
+      whileHover={{ scale: 1.02, y: -5 }}
+      className="relative group w-[380px] flex-shrink-0"
+    >
+      <Glass
+        variant="blue"
+        className="relative p-6 border hover:border-white/10 transition-all duration-300"
+      >
+        <div className="absolute top-4 right-4 text-blue-400/30">
+          <FaQuoteLeft className="text-2xl" />
+        </div>
+        <p className="text-white/80 text-sm leading-relaxed mb-4 line-clamp-3">
+          &ldquo;{testimonial.content}&rdquo;
+        </p>
+
+        <div className="flex items-center gap-3">
+          <div className="relative w-12 h-12 flex-shrink-0">
+            <Image
+              src={testimonial.avatar}
+              alt={testimonial.name}
+              width={48}
+              height={48}
+              className="w-12 h-12 rounded-full object-cover border-2 border-blue-400/50"
+            />
+          </div>
+          <div>
+            <h4 className="text-white font-medium text-sm">
+              {testimonial.name}
+            </h4>
+            <p className="text-white/40 text-xs">
+              {testimonial.role} • {testimonial.company}
+            </p>
+          </div>
+        </div>
+
+        {testimonial.project && (
+          <div className="mt-3 pt-3 border-t border-white/10">
+            <span className="text-xs text-blue-400/70">
+              Project: {testimonial.project}
+            </span>
+          </div>
+        )}
+      </Glass>
+    </motion.div>
+  );
 }
 
 export default function TestimonialSlider() {
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [isPaused, setIsPaused] = useState(false);
-  const autoRotateRef = useRef<NodeJS.Timeout | null>(null);
+  const controls = useAnimation();
 
-  const testimonials: Testimonial[] = [
-    {
-      id: 1,
-      name: "Sarah Johnson",
-      role: "Marketing Director",
-      company: "GrowthTech Inc.",
-      content:
-        "Working with Barkat Ullah has been a game-changer for our business. His deep expertise in full-stack development and WordPress solutions enabled us to bring our vision to life faster and more efficiently than we ever thought possible.",
-      avatar:
-        "https://res.cloudinary.com/dnzvylpzu/image/upload/v1745678289/barkat-portfolio/psepga9cpbmqk26hqjm6.webp",
-      rating: 5,
-      project: "E-commerce Platform",
-      date: "January 2024",
-    },
-    {
-      id: 2,
-      name: "Michael Chen",
-      role: "Project Manager",
-      company: "Tech Solutions Firm",
-      content:
-        "Barkat Ullah consistently delivers beyond expectations. His full-stack capabilities, combined with his mastery of WordPress, bring a rare blend of technical precision and creative innovation.",
-      avatar:
-        "https://res.cloudinary.com/dnzvylpzu/image/upload/v1745678288/barkat-portfolio/hyugchl4cujqxjkfjoyp.jpg",
-      rating: 5,
-      project: "Enterprise CMS",
-      date: "November 2023",
-    },
-    {
-      id: 3,
-      name: "Emma Rodriguez",
-      role: "Startup Founder",
-      company: "Innovate Labs",
-      content:
-        "It has been a pleasure working with Barkat Ullah. His knowledge of both front-end and back-end technologies, alongside his WordPress expertise, resulted in a seamless development process.",
-      avatar:
-        "https://res.cloudinary.com/dnzvylpzu/image/upload/v1745678289/barkat-portfolio/l60pctadwpw2qjhbsxbe.jpg",
-      rating: 5,
-      project: "SaaS Application",
-      date: "March 2024",
-    },
-    {
-      id: 4,
-      name: "James Wilson",
-      role: "CTO",
-      company: "Digital Ventures",
-      content:
-        "Exceptional attention to detail and proactive problem-solving. The delivered solution exceeded our performance benchmarks.",
-      avatar:
-        "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&h=400&fit=crop&crop=face",
-      rating: 5,
-      project: "Mobile Banking App",
-      date: "February 2024",
-    },
-  ];
-
-  const nextTestimonial = useCallback(() => {
-    setCurrentIndex((prev) =>
-      prev === testimonials.length - 1 ? 0 : prev + 1
-    );
-  }, [testimonials.length]);
-
-  const prevTestimonial = () => {
-    setCurrentIndex((prev) =>
-      prev === 0 ? testimonials.length - 1 : prev - 1
-    );
-  };
-
-  const goToTestimonial = (index: number) => {
-    setCurrentIndex(index);
-  };
-
-  // Auto-rotation
-  const startAutoRotate = useCallback(() => {
-    if (autoRotateRef.current) {
-      clearInterval(autoRotateRef.current);
-    }
-
-    autoRotateRef.current = setInterval(() => {
-      if (!isPaused) {
-        nextTestimonial();
-      }
-    }, 5000);
-  }, [isPaused, nextTestimonial]);
-
-  useEffect(() => {
-    startAutoRotate();
-    return () => {
-      if (autoRotateRef.current) {
-        clearInterval(autoRotateRef.current);
-      }
-    };
-  }, [startAutoRotate]);
-
-  const handleMouseEnter = () => setIsPaused(true);
-  const handleMouseLeave = () => setIsPaused(false);
-
-  // Generate star rating component
-  const renderStars = (rating: number) => (
-    <div className="flex items-center gap-1">
-      {[...Array(5)].map((_, i) => (
-        <FaStar
-          key={i}
-          className={`w-4 h-4 ${i < rating ? "text-yellow-500" : "text-white/20"}`}
-        />
-      ))}
-      <span className="ml-2 text-sm text-white/60">({rating}.0)</span>
-    </div>
+  const items = useMemo(
+    () => [...testimonials, ...testimonials, ...testimonials],
+    [],
   );
 
-  // Glass effect styles
-  const glassEffect = {
-    background: "rgba(255, 255, 255, 0.05)",
-    backdropFilter: "blur(10px)",
-    border: "1px solid rgba(255, 255, 255, 0.1)",
-    boxShadow: "0 8px 32px rgba(0, 0, 0, 0.2)",
-  };
+  const startAnimation = () =>
+    controls.start({
+      x: [0, -1920],
+      transition: {
+        duration: 25,
+        repeat: Infinity,
+        ease: "linear",
+        repeatType: "loop",
+      },
+    });
 
-  const glassEffectHover = {
-    background: "rgba(255, 255, 255, 0.08)",
-    backdropFilter: "blur(12px)",
-    border: "1px solid rgba(255, 255, 255, 0.15)",
-    boxShadow: "0 12px 40px rgba(0, 0, 0, 0.25)",
-  };
-
-  const blueGlassEffect = {
-    background: "rgba(59, 130, 246, 0.1)",
-    backdropFilter: "blur(10px)",
-    border: "1px solid rgba(59, 130, 246, 0.2)",
-    boxShadow: "0 8px 32px rgba(59, 130, 246, 0.15)",
-  };
+  useEffect(() => {
+    startAnimation();
+  }, []);
 
   return (
-    <section className="relative bg-black py-20 px-4 overflow-hidden">
-      {/* Background Glass Effect */}
-      <div className="absolute inset-0">
-        <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 via-transparent to-purple-500/5" />
-        {/* Grid pattern overlay */}
-        <div
-          className="absolute inset-0 opacity-[0.03]"
-          style={{
-            backgroundImage: `linear-gradient(to right, #fff 1px, transparent 1px),
-                              linear-gradient(to bottom, #fff 1px, transparent 1px)`,
-            backgroundSize: "50px 50px",
-          }}
-        />
-      </div>
-
-      <div className="relative max-w-7xl mx-auto">
-        {/* Header with Glass Effect */}
+    <section className="container mx-auto py-20">
+      {/* Header */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+        viewport={{ once: true }}
+        className="text-center mb-10"
+      >
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
+          initial={{ opacity: 0, scale: 0.9 }}
+          whileInView={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.5 }}
-          viewport={{ once: true }}
-          className="text-center mb-16"
+          className="inline-flex items-center gap-3 px-4 py-2 rounded-full border border-white/10 bg-white/5 backdrop-blur-sm mb-8"
         >
-          {/* Section Label */}
-          <motion.div
-            style={glassEffect}
-            className="inline-flex items-center gap-3 px-6 py-3 rounded-full mb-8"
-          >
-            <div className="relative">
-              <div className="absolute inset-0 bg-blue-500/30 rounded-full blur-sm" />
-              <div className="relative w-3 h-3 bg-blue-500 rounded-full" />
-            </div>
-            <span className="text-sm font-medium text-blue-400">
-              Client Testimonials
-            </span>
-          </motion.div>
-
-          {/* Main Title */}
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
-            <span className="text-white">Trusted by</span>
-            <br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-blue-600">
-              Industry Leaders
-            </span>
-          </h2>
-
-          {/* Subtitle */}
-          <p className="text-white/70 text-lg max-w-3xl mx-auto">
-            Join hundreds of satisfied clients who&apos;ve transformed their
-            digital presence with cutting-edge solutions
-          </p>
+          <div className="relative">
+            <div className="absolute inset-0 bg-blue-500 rounded-full animate-ping opacity-20" />
+            <div className="w-2 h-2 bg-blue-500 rounded-full animate-pulse" />
+          </div>
+          <span className="text-sm text-white/80">Client Success Stories</span>
         </motion.div>
 
-        {/* Stats Grid with Glass Effect */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.1 }}
-          viewport={{ once: true }}
-          className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-16"
-        >
-          {[
-            {
-              value: "100%",
-              label: "Client Satisfaction",
-              color: "from-blue-500/20 to-blue-600/10",
-            },
-            {
-              value: "50+",
-              label: "Projects Delivered",
-              color: "from-purple-500/20 to-purple-600/10",
-            },
-            {
-              value: "24/7",
-              label: "Support Available",
-              color: "from-emerald-500/20 to-emerald-600/10",
-            },
-            {
-              value: "99.9%",
-              label: "Uptime Guarantee",
-              color: "from-amber-500/20 to-amber-600/10",
-            },
-          ].map((stat, index) => (
-            <motion.div
-              key={index}
-              whileHover={{ y: -5 }}
-              style={glassEffect}
-              className="p-6 rounded-2xl text-center transition-all duration-300 hover:border-blue-500/30"
-            >
-              <div
-                className={`text-3xl md:text-4xl font-bold bg-gradient-to-r ${stat.color} bg-clip-text text-transparent mb-2`}
-              >
-                {stat.value}
-              </div>
-              <div className="text-white/90 font-medium">{stat.label}</div>
-            </motion.div>
-          ))}
-        </motion.div>
+        <h2 className="font-[Recoleta] text-5xl md:text-6xl mb-6">
+          <span className="text-white">Trusted by Industry Leaders</span>
+        </h2>
 
-        {/* Main Testimonial Slider */}
+        <p className="text-white/60 text-xl max-w-2xl mx-auto">
+          Join hundreds of satisfied clients who&apos;ve transformed their
+          digital presence
+        </p>
+      </motion.div>
+
+      {/* Single Infinite Slider */}
+      <div className="relative">
+        <div className="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-black to-transparent z-20 pointer-events-none" />
+        <div className="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-black to-transparent z-20 pointer-events-none" />
+
         <div
-          className="relative"
-          onMouseEnter={handleMouseEnter}
-          onMouseLeave={handleMouseLeave}
+          className="relative overflow-hidden"
+          onMouseEnter={() => controls.stop()}
+          onMouseLeave={() => startAnimation()}
         >
-          {/* Testimonial Card with Glass Effect */}
           <motion.div
-            key={currentIndex}
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.5 }}
-            style={glassEffect}
-            className="rounded-3xl p-8 md:p-12 relative overflow-hidden"
+            animate={controls}
+            className="flex gap-6"
+            style={{ width: "fit-content" }}
           >
-            {/* Background Pattern */}
-            <div className="absolute inset-0 opacity-5">
-              <div className="absolute top-0 left-0 w-32 h-32 border-t-2 border-l-2 border-blue-500/50 rounded-tl-3xl" />
-              <div className="absolute bottom-0 right-0 w-32 h-32 border-b-2 border-r-2 border-blue-500/50 rounded-br-3xl" />
-            </div>
-
-            {/* Quote Icon */}
-            <div className="absolute top-8 right-8">
-              <div className="relative">
-                <div className="absolute inset-0 bg-blue-500/20 rounded-xl blur-md" />
-                <div
-                  style={blueGlassEffect}
-                  className="relative w-16 h-16 rounded-2xl flex items-center justify-center"
-                >
-                  <FaQuoteLeft className="text-2xl text-blue-400" />
-                </div>
-              </div>
-            </div>
-
-            {/* Content */}
-            <div className="relative">
-              <div className="mb-6">
-                {renderStars(testimonials[currentIndex].rating)}
-              </div>
-
-              <p className="text-xl text-white/90 leading-relaxed mb-8 italic">
-                &ldquo;{testimonials[currentIndex].content}&rdquo;
-              </p>
-
-              {/* Project Tag */}
-              {testimonials[currentIndex].project && (
-                <div className="inline-block mb-8">
-                  <div
-                    style={blueGlassEffect}
-                    className="px-4 py-2 rounded-full"
-                  >
-                    <span className="text-sm font-medium text-blue-400">
-                      Project: {testimonials[currentIndex].project}
-                    </span>
-                  </div>
-                </div>
-              )}
-            </div>
-
-            {/* Author Info with Glass Effect */}
-            <div
-              style={glassEffect}
-              className="mt-8 p-6 rounded-2xl flex items-center gap-6"
-            >
-              <div className="relative">
-                <div className="absolute -inset-1 bg-gradient-to-r from-blue-500/30 to-purple-500/30 rounded-full blur-sm" />
-                <div className="relative w-20 h-20 rounded-full overflow-hidden border-2 border-white/20">
-                  <Image
-                    src={testimonials[currentIndex].avatar}
-                    alt={testimonials[currentIndex].name}
-                    width={80}
-                    height={80}
-                    className="object-cover w-full h-full"
-                    onError={(e) => {
-                      const target = e.target as HTMLImageElement;
-                      target.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(testimonials[currentIndex].name)}&background=3b82f6&color=fff&size=80`;
-                    }}
-                  />
-                </div>
-              </div>
-
-              <div className="flex-1">
-                <h4 className="text-2xl font-bold text-white mb-2">
-                  {testimonials[currentIndex].name}
-                </h4>
-                <div className="flex items-center gap-3 mb-2">
-                  <p className="text-blue-400 font-medium">
-                    {testimonials[currentIndex].role}
-                  </p>
-                  {testimonials[currentIndex].company && (
-                    <>
-                      <span className="text-white/30">•</span>
-                      <p className="text-white/70">
-                        {testimonials[currentIndex].company}
-                      </p>
-                    </>
-                  )}
-                </div>
-                {testimonials[currentIndex].date && (
-                  <p className="text-white/50 text-sm">
-                    {testimonials[currentIndex].date}
-                  </p>
-                )}
-              </div>
-            </div>
+            {items.map((testimonial, index) => (
+              <TestimonialCard
+                key={`${testimonial.id}-${index}`}
+                testimonial={testimonial}
+              />
+            ))}
           </motion.div>
-
-          {/* Navigation Controls with Glass Effect */}
-          <div className="flex items-center justify-between mt-8">
-            {/* Dots Indicator */}
-            <div className="flex gap-3">
-              {testimonials.map((_, index) => (
-                <motion.button
-                  key={index}
-                  onClick={() => goToTestimonial(index)}
-                  whileHover={{ scale: 1.2 }}
-                  whileTap={{ scale: 0.9 }}
-                  style={index === currentIndex ? blueGlassEffect : glassEffect}
-                  className={`w-3 h-3 rounded-full transition-all duration-300 ${
-                    index === currentIndex ? "scale-125" : ""
-                  }`}
-                  aria-label={`View testimonial from ${testimonials[index].name}`}
-                />
-              ))}
-            </div>
-
-            {/* Arrow Buttons with Glass Effect */}
-            <div className="flex gap-4">
-              <motion.button
-                onClick={prevTestimonial}
-                whileHover={{ scale: 1.1, x: -2 }}
-                whileTap={{ scale: 0.9 }}
-                style={glassEffect}
-                className="w-14 h-14 rounded-2xl flex items-center justify-center hover:border-blue-500/30 transition-all duration-300"
-                aria-label="Previous testimonial"
-              >
-                <FaChevronLeft className="text-white/70 hover:text-blue-400 transition-colors" />
-              </motion.button>
-
-              <motion.button
-                onClick={nextTestimonial}
-                whileHover={{ scale: 1.1, x: 2 }}
-                whileTap={{ scale: 0.9 }}
-                style={glassEffect}
-                className="w-14 h-14 rounded-2xl flex items-center justify-center hover:border-blue-500/30 transition-all duration-300"
-                aria-label="Next testimonial"
-              >
-                <FaChevronRight className="text-white/70 hover:text-blue-400 transition-colors" />
-              </motion.button>
-            </div>
-          </div>
-
-          {/* Counter with Glass Effect */}
-          <div className="text-center mt-8">
-            <div
-              style={glassEffect}
-              className="inline-flex items-center gap-4 px-6 py-3 rounded-full"
-            >
-              <span className="text-white/90">
-                <span className="text-blue-400 font-bold">
-                  {currentIndex + 1}
-                </span>
-                <span className="text-white/50"> / {testimonials.length}</span>
-              </span>
-              <div className="text-white/50 text-sm">Testimonials</div>
-            </div>
-          </div>
         </div>
       </div>
+
+      {/* Footer note */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, delay: 0.4 }}
+        viewport={{ once: true }}
+        className="text-center mt-12"
+      >
+        <p className="text-white/40 text-sm">
+          Join{" "}
+          <span className="text-white font-semibold">
+            50+ satisfied clients
+          </span>{" "}
+          who trust us with their digital success
+        </p>
+        <motion.div
+          animate={{ opacity: [0.5, 1, 0.5] }}
+          transition={{ duration: 2, repeat: Infinity }}
+          className="mt-4 text-xs text-white/30"
+        >
+          Hover to pause
+        </motion.div>
+      </motion.div>
     </section>
   );
 }

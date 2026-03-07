@@ -7,7 +7,6 @@ import {
   FaArrowRight,
   FaAward,
   FaBolt,
-  FaChartLine,
   FaChevronRight,
   FaCrown,
   FaGlobe,
@@ -15,8 +14,10 @@ import {
   FaRocket,
   FaShieldAlt,
   FaStar,
-  FaTrophy,
 } from "react-icons/fa";
+import { GiWorld } from "react-icons/gi";
+import { HiTrendingUp } from "react-icons/hi";
+import { SiCardmarket } from "react-icons/si";
 import { useInView } from "react-intersection-observer";
 import { theme } from "./lib/theme";
 import Glass from "./ui/Glass";
@@ -118,7 +119,6 @@ function Counter({
 
 export default function ModernHero() {
   const controls = useAnimation();
-  // FIX: attach this ref to the main content wrapper so inView triggers correctly
   const [inViewRef, inView] = useInView({ threshold: 0.1, triggerOnce: true });
   const [isLoaded, setIsLoaded] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -131,9 +131,7 @@ export default function ModernHero() {
   const backgroundY = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]);
   const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
 
-  // FIX: Start animation immediately on mount as well, don't rely solely on inView
   useEffect(() => {
-    // Trigger immediately so content is visible right away
     controls.start("visible");
     setIsLoaded(true);
 
@@ -145,7 +143,6 @@ export default function ModernHero() {
     return () => window.removeEventListener("mousemove", handleMouseMove);
   }, [controls]);
 
-  // Also re-trigger if inView fires (e.g. after a page transition)
   useEffect(() => {
     if (inView) {
       controls.start("visible");
@@ -184,7 +181,7 @@ export default function ModernHero() {
           }}
         />
 
-        {/* Secondary Gradient */}
+        {/* Secondary Gradient - Reduced opacity to minimize purple influence */}
         <motion.div
           animate={{
             scale: [1.2, 1, 1.2],
@@ -196,7 +193,7 @@ export default function ModernHero() {
             repeat: Infinity,
             ease: "easeInOut",
           }}
-          className="absolute w-[600px] h-[600px] rounded-full bg-gradient-to-l from-[#7928ca]/20 via-[#ff0080]/10 to-transparent blur-3xl"
+          className="absolute w-[600px] h-[600px] rounded-full bg-gradient-to-l from-[#7928ca]/5 via-[#ff0080]/5 to-transparent blur-3xl"
           style={{
             right: "10%",
             bottom: "10%",
@@ -272,7 +269,7 @@ export default function ModernHero() {
         </defs>
       </svg>
 
-      {/* Main Content Container — FIX: attach inViewRef here */}
+      {/* Main Content Container */}
       <div ref={inViewRef} className="container mx-auto">
         <div className="grid lg:grid-cols-12 gap-12 lg:gap-16 items-center">
           {/* Left Content */}
@@ -318,7 +315,7 @@ export default function ModernHero() {
                   {[...Array(5)].map((_, i) => (
                     <FaStar
                       key={i}
-                      className="w-3 h-3 text-yellow-400 fill-current"
+                      className="w-3 h-3 text-yellow-500 fill-current"
                     />
                   ))}
                 </div>
@@ -327,17 +324,15 @@ export default function ModernHero() {
 
             {/* Main Headline */}
             <motion.div variants={itemVariants} className="max-w-3xl">
-              <h1 className="font-[Recoleta] text-5xl">
-                <span className="bg-gradient-to-r from-white via-white to-white/80 bg-clip-text text-transparent">
-                  Web platforms built to support Real business growth
-                </span>
+              <h1 className="font-[Recoleta] text-5xl text-white">
+                Web platforms built to support Real business growth
               </h1>
             </motion.div>
 
             {/* Description */}
             <motion.p
               variants={itemVariants}
-              className="text-xl text-white/50 leading-relaxed max-w-2xl mt-5"
+              className="text-xl text-white/50 max-w-2xl mt-5"
             >
               We partner with startups and growing companies to design and build
               fast, secure, and scalable web platforms. From high-performance
@@ -355,7 +350,7 @@ export default function ModernHero() {
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className="group relative px-10 py-5 text-white font-[Recoleta] text-lg rounded-2xl overflow-hidden"
+                className="group relative px-10 py-5 text-white rounded-2xl text-lg overflow-hidden"
                 style={buttonStyle}
               >
                 <span className="flex items-center justify-center gap-3">
@@ -378,9 +373,9 @@ export default function ModernHero() {
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className="group px-10 py-5 text-white font-medium text-lg rounded-2xl border border-white/20 hover:border-[#00a8ff]/50 backdrop-blur-xl relative overflow-hidden"
+                className="group px-10 py-5 text-white font-medium text-lg rounded-2xl border border-white/20 hover:border-[#00a8ff]/50 relative overflow-hidden"
               >
-                <span className="relative z-10 flex items-center justify-center gap-3">
+                <span className="flex items-center justify-center gap-3">
                   <Link href="https://calendly.com/barkatzx">
                     Book Consultation
                   </Link>
@@ -395,7 +390,6 @@ export default function ModernHero() {
                     repeat: Infinity,
                     ease: "easeInOut",
                   }}
-                  className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent"
                 />
               </motion.button>
             </motion.div>
@@ -443,15 +437,18 @@ export default function ModernHero() {
             animate={controls}
             className="lg:col-span-5"
           >
-            {/* Main Stats Card */}
+            {/* Main Stats Card - Updated with blue shadow only */}
             <motion.div variants={itemVariants}>
               <Glass
                 variant="blue"
-                className="p-8 rounded-3xl backdrop-blur-2xl"
+                className="p-8 rounded-2xl transition-all duration-300"
               >
                 <div className="grid grid-cols-2 gap-6">
                   {/* Years of Experience */}
-                  <div className="text-center">
+                  <motion.div
+                    whileHover={{ y: -5 }}
+                    className="text-center p-4 rounded-2xl bg-white/5 border border-white/10 hover:border-[#00a8ff]/30 transition-all duration-300"
+                  >
                     <motion.div
                       animate={{ y: [0, -5, 0] }}
                       transition={{
@@ -462,17 +459,20 @@ export default function ModernHero() {
                       className="mb-3"
                     >
                       <div className="w-16 h-16 mx-auto rounded-2xl bg-gradient-to-br from-[#00a8ff]/20 to-[#4dc3ff]/10 flex items-center justify-center">
-                        <FaTrophy className="w-6 h-6 text-[#00a8ff]" />
+                        <SiCardmarket className="w-8 h-8 text-[#00a8ff]" />
                       </div>
                     </motion.div>
-                    <Counter target={5} suffix="+" />
+                    <Counter target={1} suffix="+" />
                     <div className="text-sm text-white/50 mt-1">
-                      Years of Excellence
+                      Years in Market
                     </div>
-                  </div>
+                  </motion.div>
 
                   {/* Projects Delivered */}
-                  <div className="text-center">
+                  <motion.div
+                    whileHover={{ y: -5 }}
+                    className="text-center p-4 rounded-2xl bg-white/5  border border-white/10 hover:border-[#00a8ff]/30 transition-all duration-300"
+                  >
                     <motion.div
                       animate={{ y: [0, -5, 0] }}
                       transition={{
@@ -484,17 +484,20 @@ export default function ModernHero() {
                       className="mb-3"
                     >
                       <div className="w-16 h-16 mx-auto rounded-2xl bg-gradient-to-br from-[#00a8ff]/20 to-[#4dc3ff]/10 flex items-center justify-center">
-                        <FaRocket className="w-6 h-6 text-[#00a8ff]" />
+                        <FaRocket className="w-8 h-8 text-[#00a8ff]" />
                       </div>
                     </motion.div>
-                    <Counter target={120} suffix="+" />
+                    <Counter target={5} suffix="+" />
                     <div className="text-sm text-white/50 mt-1">
                       Projects Delivered
                     </div>
-                  </div>
+                  </motion.div>
 
                   {/* Global Clients */}
-                  <div className="text-center">
+                  <motion.div
+                    whileHover={{ y: -5 }}
+                    className="text-center p-4 rounded-2xl bg-white/5 border border-white/10 hover:border-[#00a8ff]/30 transition-all duration-300"
+                  >
                     <motion.div
                       animate={{ y: [0, -5, 0] }}
                       transition={{
@@ -506,17 +509,20 @@ export default function ModernHero() {
                       className="mb-3"
                     >
                       <div className="w-16 h-16 mx-auto rounded-2xl bg-gradient-to-br from-[#00a8ff]/20 to-[#4dc3ff]/10 flex items-center justify-center">
-                        <FaGlobe className="w-6 h-6 text-[#00a8ff]" />
+                        <GiWorld className="w-8 h-8 text-[#00a8ff]" />
                       </div>
                     </motion.div>
                     <Counter target={80} suffix="+" />
                     <div className="text-sm text-white/50 mt-1">
                       Global Clients
                     </div>
-                  </div>
+                  </motion.div>
 
                   {/* Success Rate */}
-                  <div className="text-center">
+                  <motion.div
+                    whileHover={{ y: -5 }}
+                    className="text-center p-4 rounded-2xl bg-white/5 border border-white/10 hover:border-[#00a8ff]/30 transition-all duration-300"
+                  >
                     <motion.div
                       animate={{ y: [0, -5, 0] }}
                       transition={{
@@ -528,14 +534,14 @@ export default function ModernHero() {
                       className="mb-3"
                     >
                       <div className="w-16 h-16 mx-auto rounded-2xl bg-gradient-to-br from-[#00a8ff]/20 to-[#4dc3ff]/10 flex items-center justify-center">
-                        <FaChartLine className="w-6 h-6 text-[#00a8ff]" />
+                        <HiTrendingUp className="w-8 h-8 text-[#00a8ff]" />
                       </div>
                     </motion.div>
                     <Counter target={98} suffix="%" />
                     <div className="text-sm text-white/50 mt-1">
                       Success Rate
                     </div>
-                  </div>
+                  </motion.div>
                 </div>
 
                 {/* Tech Stack Pills */}
@@ -569,6 +575,7 @@ export default function ModernHero() {
                         style={{
                           background:
                             "linear-gradient(135deg, rgba(0, 168, 255, 0.1) 0%, rgba(0, 168, 255, 0.05) 100%)",
+                          boxShadow: "0 2px 8px -4px rgba(0, 168, 255, 0.2)",
                         }}
                       >
                         {tech}
@@ -579,28 +586,29 @@ export default function ModernHero() {
               </Glass>
             </motion.div>
 
-            {/* Feature Highlights */}
+            {/* Feature Highlights - Updated with blue shadow only */}
             <motion.div
               variants={itemVariants}
               className="grid grid-cols-3 gap-3 mt-6"
             >
               {[
-                { icon: FaBolt, label: "Lightning Fast", color: "#00a8ff" },
+                { icon: FaBolt, label: "Lightning Fast" },
                 {
                   icon: FaShieldAlt,
                   label: "Bank-Level Security",
-                  color: "#00a8ff",
                 },
                 {
                   icon: FaHandshake,
                   label: "Dedicated Support",
-                  color: "#00a8ff",
                 },
               ].map((feature, i) => (
                 <motion.div
                   key={i}
                   whileHover={{ scale: 1.05, y: -5 }}
-                  className="p-4 rounded-2xl border border-white/10 hover:border-[#00a8ff]/30 backdrop-blur-lg text-center group"
+                  className="p-4 rounded-2xl border border-white/10 hover:border-[#00a8ff]/30 backdrop-blur-lg text-center group transition-all duration-300"
+                  style={{
+                    boxShadow: "0 4px 15px -8px rgba(0, 168, 255, 0.3)",
+                  }}
                 >
                   <feature.icon className="w-5 h-5 text-[#00a8ff] mx-auto mb-2 group-hover:scale-110 transition-transform" />
                   <span className="text-xs text-white/70">{feature.label}</span>
@@ -628,16 +636,16 @@ export default function ModernHero() {
         </motion.div>
       </motion.div>
 
-      {/* Floating Orbs */}
+      {/* Floating Orbs - Reduced purple influence */}
       <motion.div
         animate={{ scale: [1, 1.2, 1], opacity: [0.3, 0.5, 0.3] }}
         transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
         className="absolute top-20 right-20 w-32 h-32 rounded-full bg-gradient-to-r from-[#00a8ff]/20 to-[#4dc3ff]/10 blur-2xl"
       />
       <motion.div
-        animate={{ scale: [1, 1.3, 1], opacity: [0.2, 0.4, 0.2] }}
+        animate={{ scale: [1, 1.3, 1], opacity: [0.1, 0.2, 0.1] }}
         transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
-        className="absolute bottom-20 left-20 w-40 h-40 rounded-full bg-gradient-to-r from-[#7928ca]/20 to-[#ff0080]/10 blur-2xl"
+        className="absolute bottom-20 left-20 w-40 h-40 rounded-full bg-gradient-to-r from-[#7928ca]/5 to-[#ff0080]/5 blur-2xl"
       />
     </section>
   );

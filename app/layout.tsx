@@ -10,7 +10,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       <head>
         <meta charSet="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Barkat Ullah - Portfolio</title>
+        <title>Qodeax-Engineering Ideas Into Powerful Software.</title>
       </head>
       <body>
         <Header />
