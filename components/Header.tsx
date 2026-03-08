@@ -1,9 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/Button";
-import logo from "@/public/img/logo.png";
 import { AnimatePresence, motion, Variants } from "framer-motion";
-import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { FaGithub, FaLinkedin, FaTwitter } from "react-icons/fa";
@@ -42,13 +40,11 @@ export default function Header() {
       opacity: 0,
       y: -20,
       scale: 0.95,
-      filter: "blur(10px)",
     },
     visible: {
       opacity: 1,
       y: 0,
       scale: 1,
-      filter: "blur(0px)",
       transition: {
         type: "spring",
         stiffness: 260,
@@ -118,27 +114,34 @@ export default function Header() {
         className="hidden md:block fixed z-50 top-2 left-8 right-8 rounded-2xl container mx-auto"
       >
         <Glass variant="blue">
-          <div className="relative z-10 mx-auto px-8 py-3">
+          <div className="mx-auto px-8 py-3">
             <div className="flex items-center justify-between">
               {/* Logo */}
               <motion.div
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
               >
-                <Link href="/">
-                  <Image
-                    src={logo}
-                    alt="Barkat Ullah"
-                    width={96}
-                    height={48}
-                    priority
-                  />
+                <Link href="/" className="flex items-center gap-2.5">
+                  {/* Animated orb dot */}
+                  <span className="relative flex h-2.5 w-2.5">
+                    <span
+                      className="animate-ping absolute inline-flex h-full w-full rounded-full opacity-60"
+                      style={{ background: "#00a8ff" }}
+                    />
+                    <span
+                      className="relative inline-flex rounded-full h-2.5 w-2.5"
+                      style={{ background: "#00a8ff" }}
+                    />
+                  </span>
+                  <span className="font-[Recoleta] text-white text-2xl tracking-tight group-hover:text-[#00a8ff] transition-colors duration-300">
+                    Qodeax
+                  </span>
                 </Link>
               </motion.div>
 
               {/* Desktop Navigation */}
               <nav className="flex items-center">
-                <div className="flex items-center gap-1 bg-white/10 backdrop-blur-lg rounded-2xl px-2 py-2 border border-white/10">
+                <div className="flex items-center gap-1 bg-white/10 rounded-2xl px-2 py-2 border border-white/10">
                   {navItems.map((item, i) => (
                     <motion.div
                       key={item.label}
@@ -151,10 +154,9 @@ export default function Header() {
                     >
                       <Link
                         href={item.href}
-                        className="relative px-5 py-2.5 text-white/90 hover:text-white rounded-xl transition-all duration-300 group"
+                        className="relative px-5 py-2.5 text-white/90 hover:text-white"
                       >
                         <span>{item.label}</span>
-                        <span className="absolute bottom-2 left-1/2 -translate-x-1/2 w-0 h-0.5 bg-[#00a8ff] group-hover:w-3/5 transition-all duration-300 rounded-full" />
                       </Link>
                     </motion.div>
                   ))}
@@ -165,7 +167,7 @@ export default function Header() {
               <div className="flex items-center gap-3">
                 {/* Social Links */}
                 <motion.div
-                  className="flex items-center gap-2 p-2 bg-white/5 backdrop-blur-lg rounded-2xl border border-white/10"
+                  className="flex items-center gap-2 p-2 bg-white/5 rounded-xl border border-white/10"
                   whileHover={{ scale: 1.02 }}
                 >
                   {socialLinks.map((social) => (
@@ -174,12 +176,11 @@ export default function Header() {
                       href={social.href}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="relative w-10 h-10 rounded-xl bg-white/20 border border-white/10 flex items-center justify-center group overflow-hidden"
+                      className="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center group overflow-hidden"
                       whileHover={{ scale: 1.15, y: -2 }}
                       whileTap={{ scale: 0.95 }}
                     >
-                      <div className="absolute inset-0 bg-gradient-to-br from-[#00a8ff]/0 to-[#00a8ff]/0 group-hover:from-[#00a8ff]/20 group-hover:to-[#00a8ff]/10 transition-all duration-300" />
-                      <span className="relative text-white/70 group-hover:text-white">
+                      <span className="text-white/70 group-hover:text-white">
                         {social.icon}
                       </span>
                     </motion.a>
@@ -192,12 +193,8 @@ export default function Header() {
                   whileTap={{ scale: 0.95 }}
                 >
                   <Link href="/contact">
-                    <Button
-                      variant="gradient"
-                      className="relative px-6 py-6 rounded-xl overflow-hidden group"
-                    >
-                      <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
-                      <span className="font-[Recoleta] relative z-10 flex items-center gap-2">
+                    <Button variant="gradient" className="px-6 py-6 rounded-xl">
+                      <span className="flex items-center gap-2 font-bold">
                         Get In Touch
                         <motion.span
                           animate={{ x: [0, 3, 0] }}
@@ -220,24 +217,31 @@ export default function Header() {
         initial={{ y: -100, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.5, type: "spring" }}
-        className="md:hidden fixed top-2 left-2 right-2 z-50 rounded-2xl"
+        className="fixed z-50 top-2 left-2 right-2 md:hidden"
       >
         <Glass variant="blue">
-          <div className="relative z-10 px-5 py-4">
+          <div className="px-5 py-5">
             <div className="flex items-center justify-between">
               {/* Mobile Logo */}
               <motion.div
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
               >
-                <Link href="/">
-                  <Image
-                    src={logo}
-                    alt="Barkat Ullah"
-                    width={96}
-                    height={40}
-                    priority
-                  />
+                <Link href="/" className="flex items-center gap-2.5">
+                  {/* Animated orb dot */}
+                  <span className="relative flex h-2.5 w-2.5">
+                    <span
+                      className="animate-ping absolute inline-flex h-full w-full rounded-full opacity-60"
+                      style={{ background: "#00a8ff" }}
+                    />
+                    <span
+                      className="relative inline-flex rounded-full h-2.5 w-2.5"
+                      style={{ background: "#00a8ff" }}
+                    />
+                  </span>
+                  <span className="font-[Recoleta] text-white text-2xl tracking-tight group-hover:text-[#00a8ff] transition-colors duration-300">
+                    Qodeax
+                  </span>
                 </Link>
               </motion.div>
 
@@ -264,41 +268,19 @@ export default function Header() {
         <AnimatePresence>
           {isMenuOpen && (
             <>
-              {/* Backdrop */}
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                onClick={closeMenu}
-                className="fixed inset-0 z-40"
-              />
-
               {/* Mobile Menu Panel */}
               <motion.div
                 variants={menuVariants}
                 initial="hidden"
                 animate="visible"
                 exit="exit"
-                className="absolute top-full left-4 right-4 z-50 overflow-hidden mt-2"
+                className="top-full left-8 right-8 z-50 overflow-hidden mt-2 rounded-2xl"
                 style={{
                   background:
                     "linear-gradient(135deg, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.9) 100%)",
                   border: "1px solid rgba(255,255,255,0.1)",
-                  borderRadius: "24px",
                 }}
               >
-                {/* Animated background */}
-                <div className="absolute inset-0 overflow-hidden">
-                  <div
-                    className="absolute w-[400px] h-[400px] rounded-full bg-gradient-to-r from-[#00a8ff]/10 to-[#00a8ff]/5 animate-pulse"
-                    style={{
-                      left: `${mousePosition.x * 0.03}px`,
-                      top: `${mousePosition.y * 0.03}px`,
-                      filter: "blur(80px)",
-                    }}
-                  />
-                </div>
-
                 {/* Menu Items */}
                 <nav className="relative z-10 py-6">
                   {navItems.map((item, i) => (
@@ -358,9 +340,8 @@ export default function Header() {
                     <Link href="/contact" onClick={closeMenu}>
                       <Button
                         variant="gradient"
-                        className="w-full py-4 font-semibold flex items-center justify-center gap-2 font-[Recoleta]"
+                        className="w-full py-4 font-semibold flex items-center justify-center gap-2"
                       >
-                        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full hover:translate-x-full transition-transform duration-700" />
                         Contact Me
                         <FiArrowRight className="group-hover:translate-x-2 transition-transform duration-300" />
                       </Button>

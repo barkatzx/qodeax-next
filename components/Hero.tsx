@@ -160,59 +160,6 @@ export default function ModernHero() {
       ref={containerRef}
       className="relative min-h-screen flex items-center justify-center overflow-hidden rounded-xl"
     >
-      {/* Animated Background Layers */}
-      <motion.div style={{ y: backgroundY }} className="absolute inset-0">
-        {/* Primary Gradient Orb */}
-        <motion.div
-          animate={{
-            scale: [1, 1.2, 1],
-            rotate: [0, 180, 360],
-          }}
-          transition={{
-            duration: 20,
-            repeat: Infinity,
-            ease: "linear",
-          }}
-          className="absolute w-[800px] h-[800px] rounded-full bg-gradient-to-r from-[#00a8ff]/20 via-[#4dc3ff]/15 to-transparent blur-3xl"
-          style={{
-            left: "50%",
-            top: "50%",
-            transform: "translate(-50%, -50%)",
-          }}
-        />
-
-        {/* Secondary Gradient - Reduced opacity to minimize purple influence */}
-        <motion.div
-          animate={{
-            scale: [1.2, 1, 1.2],
-            x: [0, 100, 0],
-            y: [0, -100, 0],
-          }}
-          transition={{
-            duration: 15,
-            repeat: Infinity,
-            ease: "easeInOut",
-          }}
-          className="absolute w-[600px] h-[600px] rounded-full bg-gradient-to-l from-[#7928ca]/5 via-[#ff0080]/5 to-transparent blur-3xl"
-          style={{
-            right: "10%",
-            bottom: "10%",
-          }}
-        />
-
-        {/* Grid Pattern */}
-        <div
-          className="absolute inset-0 opacity-20"
-          style={{
-            backgroundImage: `
-              linear-gradient(rgba(0, 168, 255, 0.1) 1px, transparent 1px),
-              linear-gradient(90deg, rgba(0, 168, 255, 0.1) 1px, transparent 1px)
-            `,
-            backgroundSize: "50px 50px",
-          }}
-        />
-      </motion.div>
-
       {/* Floating Particles */}
       <div className="absolute inset-0 overflow-hidden">
         {PARTICLE_POSITIONS.map((position, i) => (
@@ -332,7 +279,7 @@ export default function ModernHero() {
             {/* Description */}
             <motion.p
               variants={itemVariants}
-              className="text-xl text-white/50 max-w-2xl mt-5"
+              className="text-xl text-white/70 max-w-2xl mt-5"
             >
               We partner with startups and growing companies to design and build
               fast, secure, and scalable web platforms. From high-performance
@@ -350,7 +297,7 @@ export default function ModernHero() {
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className="group relative px-10 py-5 text-white rounded-2xl text-lg overflow-hidden"
+                className="group relative px-10 py-5 text-white font-[Recoleta] text-lg rounded-2xl overflow-hidden"
                 style={buttonStyle}
               >
                 <span className="flex items-center justify-center gap-3">
@@ -373,9 +320,9 @@ export default function ModernHero() {
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className="group px-10 py-5 text-white font-medium text-lg rounded-2xl border border-white/20 hover:border-[#00a8ff]/50 relative overflow-hidden"
+                className="group px-10 py-5 text-white font-medium text-lg rounded-2xl border border-white/20 hover:border-[#00a8ff]/50 backdrop-blur-xl relative overflow-hidden"
               >
-                <span className="flex items-center justify-center gap-3">
+                <span className="relative z-10 flex items-center justify-center gap-3">
                   <Link href="https://calendly.com/barkatzx">
                     Book Consultation
                   </Link>
@@ -390,6 +337,7 @@ export default function ModernHero() {
                     repeat: Infinity,
                     ease: "easeInOut",
                   }}
+                  className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent"
                 />
               </motion.button>
             </motion.div>

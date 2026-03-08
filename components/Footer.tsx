@@ -1,8 +1,6 @@
 "use client";
 
-import logo from "@/public/img/logo.png";
 import { motion } from "framer-motion";
-import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import {
@@ -109,31 +107,21 @@ export default function Footer() {
         {/* Brand Section */}
         <div className="space-y-6">
           {/* Logo */}
-          <Link href="/" className="inline-block">
-            <div className="relative group">
-              <div
-                className="absolute -inset-4 rounded-2xl opacity-0 group-hover:opacity-30 transition-opacity duration-500"
-                style={{
-                  background:
-                    "radial-gradient(circle at center, rgba(0,168,255,0.2) 0%, transparent 70%)",
-                }}
-              ></div>
-              <div className="p-4 rounded-2xl transition-all duration-300 group-hover:scale-[1.02]">
-                <div className="flex items-center gap-4">
-                  <div className="relative">
-                    <Image
-                      src={logo}
-                      alt="Barkat Ullah Logo"
-                      width={96}
-                      height={60}
-                      className="rounded-xl"
-                      priority
-                    />
-                    <div className="absolute -inset-1 rounded-xl border border-[#00a8ff]/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                  </div>
-                </div>
-              </div>
-            </div>
+          <Link href="/" className="flex items-center gap-2.5">
+            {/* Animated orb dot */}
+            <span className="relative flex h-2.5 w-2.5">
+              <span
+                className="animate-ping absolute inline-flex h-full w-full rounded-full opacity-60"
+                style={{ background: "#00a8ff" }}
+              />
+              <span
+                className="relative inline-flex rounded-full h-2.5 w-2.5"
+                style={{ background: "#00a8ff" }}
+              />
+            </span>
+            <span className="font-[Recoleta] text-white text-2xl tracking-tight group-hover:text-[#00a8ff] transition-colors duration-300">
+              Qodeax
+            </span>
           </Link>
 
           {/* Description */}
