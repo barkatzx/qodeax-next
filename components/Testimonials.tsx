@@ -13,7 +13,6 @@ interface Testimonial {
   company?: string;
   content: string;
   avatar: string;
-  rating: number;
   project?: string;
 }
 
@@ -26,8 +25,7 @@ const testimonials: Testimonial[] = [
     content:
       "Qodeax delivered a complete full-stack solution that transformed our digital presence. Their team understood our business goals and built a scalable platform that improved performance and accelerated our growth.",
     avatar:
-      "https://images.unsplash.com/photo-1494790108777-2961285e9489?w=400&h=400&fit=crop&crop=face",
-    rating: 5,
+      "https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?w=400&h=400&fit=crop&crop=face",
     project: "Full Stack Platform",
   },
   {
@@ -39,7 +37,6 @@ const testimonials: Testimonial[] = [
       "Working with Qodeax was an outstanding experience. Their developers built a powerful SaaS product with clean architecture, strong security practices, and excellent performance optimization.",
     avatar:
       "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop&crop=face",
-    rating: 5,
     project: "SaaS Platform",
   },
   {
@@ -51,7 +48,6 @@ const testimonials: Testimonial[] = [
       "Qodeax helped us turn our startup idea into a working MVP in record time. Their ability to move from concept to launch while maintaining code quality was impressive.",
     avatar:
       "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=400&h=400&fit=crop&crop=face",
-    rating: 5,
     project: "Startup MVP",
   },
   {
@@ -63,7 +59,6 @@ const testimonials: Testimonial[] = [
       "The Qodeax team built a high-performance mobile application that runs flawlessly across devices. Their attention to performance, scalability, and user experience truly stands out.",
     avatar:
       "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&h=400&fit=crop&crop=face",
-    rating: 5,
     project: "Mobile Application",
   },
   {
@@ -75,7 +70,6 @@ const testimonials: Testimonial[] = [
       "We needed a secure and scalable backend for our growing platform, and Qodeax delivered beyond expectations. Their expertise in system architecture and security gave us complete confidence.",
     avatar:
       "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=400&h=400&fit=crop&crop=face",
-    rating: 5,
     project: "Secure Backend System",
   },
   {
@@ -87,7 +81,6 @@ const testimonials: Testimonial[] = [
       "Qodeax built our SaaS product with a modern tech stack and scalable infrastructure. The platform is fast, reliable, and designed to grow with our business.",
     avatar:
       "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&h=400&fit=crop&crop=face",
-    rating: 5,
     project: "SaaS Product Development",
   },
   {
@@ -99,7 +92,6 @@ const testimonials: Testimonial[] = [
       "Qodeax has an incredible ability to transform product ideas into polished digital experiences. Their team balances design, engineering, and performance beautifully.",
     avatar:
       "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=400&h=400&fit=crop&crop=face",
-    rating: 5,
     project: "Product Development",
   },
   {
@@ -111,7 +103,6 @@ const testimonials: Testimonial[] = [
       "From architecture planning to deployment, Qodeax delivered a rock-solid full-stack solution. Clean code, secure infrastructure, and excellent collaboration throughout the project.",
     avatar:
       "https://images.unsplash.com/photo-1568602471122-7832951cc4c5?w=400&h=400&fit=crop&crop=face",
-    rating: 5,
     project: "Full Stack System",
   },
 ];
@@ -120,11 +111,11 @@ function TestimonialCard({ testimonial }: { testimonial: Testimonial }) {
   return (
     <motion.div
       whileHover={{ scale: 1.02, y: -5 }}
-      className="relative group w-[380px] flex-shrink-0"
+      className="relative w-[380px] flex-shrink-0"
     >
       <Glass
         variant="blue"
-        className="relative p-6 border hover:border-white/10 transition-all duration-300"
+        className="relative p-6 transition-all duration-300"
       >
         <div className="absolute top-4 right-4 text-blue-400/30">
           <FaQuoteLeft className="text-2xl" />
@@ -134,15 +125,13 @@ function TestimonialCard({ testimonial }: { testimonial: Testimonial }) {
         </p>
 
         <div className="flex items-center gap-3">
-          <div className="relative w-12 h-12 flex-shrink-0">
-            <Image
-              src={testimonial.avatar}
-              alt={testimonial.name}
-              width={48}
-              height={48}
-              className="w-12 h-12 rounded-full object-cover border-2 border-blue-400/50"
-            />
-          </div>
+          <Image
+            src={testimonial.avatar}
+            alt={testimonial.name}
+            width={48}
+            height={48}
+            className="w-12 h-12 rounded-full object-cover border-2 border-blue-400/50 flex-shrink-0"
+          />
           <div>
             <h4 className="text-white font-medium text-sm">
               {testimonial.name}
@@ -198,21 +187,16 @@ export default function TestimonialSlider() {
         viewport={{ once: true }}
         className="text-center mb-10"
       >
-        <motion.div
-          initial={{ opacity: 0, scale: 0.9 }}
-          whileInView={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.5 }}
-          className="inline-flex items-center gap-3 px-4 py-2 rounded-full border border-white/10 bg-white/5 backdrop-blur-sm mb-8"
-        >
+        <div className="inline-flex items-center gap-3 px-4 py-2 rounded-full border border-white/10 bg-white/5 backdrop-blur-sm mb-8">
           <div className="relative">
             <div className="absolute inset-0 bg-blue-500 rounded-full animate-ping opacity-20" />
             <div className="w-2 h-2 bg-blue-500 rounded-full animate-pulse" />
           </div>
           <span className="text-sm text-white/80">Client Success Stories</span>
-        </motion.div>
+        </div>
 
-        <h2 className="font-[Recoleta] text-5xl md:text-6xl mb-6">
-          <span className="text-white">Trusted by Industry Leaders</span>
+        <h2 className="font-[Recoleta] text-5xl md:text-6xl mb-6 text-white">
+          Trusted by Industry Leaders
         </h2>
 
         <p className="text-white/60 text-xl max-w-2xl mx-auto">
@@ -221,7 +205,7 @@ export default function TestimonialSlider() {
         </p>
       </motion.div>
 
-      {/* Single Infinite Slider */}
+      {/* Slider */}
       <div className="relative">
         <div className="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-black to-transparent z-20 pointer-events-none" />
         <div className="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-black to-transparent z-20 pointer-events-none" />

@@ -12,76 +12,67 @@ interface FAQItem {
   category: "general" | "technical" | "pricing" | "support";
 }
 
+const faqItems: FAQItem[] = [
+  {
+    id: 1,
+    question: "How long does a typical project take?",
+    answer:
+      "Project timelines depend on scope and complexity. Launch websites typically take 1–2 weeks, growth-focused business websites 2–4 weeks, and custom digital systems or web applications usually range from 4–12 weeks. A clear timeline is defined during the discovery and planning phase before development begins.",
+    category: "general",
+  },
+  {
+    id: 2,
+    question: "What technologies do you use?",
+    answer:
+      "We work with modern, production-ready technologies selected based on project needs. Our core stack includes Next.js, React, TypeScript, Node.js, and WordPress for CMS-driven platforms. We also work with scalable databases and cloud infrastructure to ensure performance, security, and long-term maintainability.",
+    category: "technical",
+  },
+  {
+    id: 3,
+    question: "Do you offer post-launch support and maintenance?",
+    answer:
+      "Yes. Every project includes post-launch support to ensure a smooth handover. Ongoing maintenance, performance monitoring, and feature enhancements are available through flexible support and retainer plans for teams that require long-term partnership.",
+    category: "support",
+  },
+  {
+    id: 4,
+    question: "How does pricing work?",
+    answer:
+      "Pricing is transparent and scope-based. Projects typically start from defined baseline budgets for launch websites, business platforms, and e-commerce solutions. Custom applications and complex systems are quoted after discovery. Final pricing reflects requirements, integrations, and delivery timelines.",
+    category: "pricing",
+  },
+  {
+    id: 5,
+    question: "Can you work with existing designs or codebases?",
+    answer:
+      "Absolutely. We frequently collaborate with existing teams and assets. This includes working from Figma designs, improving legacy codebases, refactoring for performance, or extending existing platforms with new features.",
+    category: "technical",
+  },
+  {
+    id: 6,
+    question: "How do you ensure quality and reliability?",
+    answer:
+      "Quality is built into the process. Every project follows structured development practices, performance optimization, and thorough testing across devices and browsers. Code is written with scalability, security, and long-term maintainability in mind.",
+    category: "technical",
+  },
+  {
+    id: 7,
+    question: "Do you handle hosting and deployment?",
+    answer:
+      "Yes. We manage deployment, hosting configuration, SSL setup, and production readiness. Platforms are selected based on performance and scalability requirements, ensuring a stable and secure launch environment.",
+    category: "support",
+  },
+  {
+    id: 8,
+    question: "How does feedback and revision work?",
+    answer:
+      "Our process is collaborative and structured. Projects are delivered in phases with defined feedback checkpoints. Revisions are handled efficiently during each stage to ensure alignment, clarity, and high-quality outcomes without unnecessary delays.",
+    category: "general",
+  },
+];
+
 export default function FAQComponent() {
   const [openItem, setOpenItem] = useState<number | null>(null);
-  const [activeCategory, setActiveCategory] = useState<
-    FAQItem["category"] | "all"
-  >("all");
-  const [hoveredCategory, setHoveredCategory] = useState<string | null>(null);
-
-  const faqItems: FAQItem[] = [
-    {
-      id: 1,
-      question: "How long does a typical project take?",
-      answer:
-        "Project timelines depend on scope and complexity. Launch websites typically take 1–2 weeks, growth-focused business websites 2–4 weeks, and custom digital systems or web applications usually range from 4–12 weeks. A clear timeline is defined during the discovery and planning phase before development begins.",
-      category: "general",
-    },
-    {
-      id: 2,
-      question: "What technologies do you use?",
-      answer:
-        "We work with modern, production-ready technologies selected based on project needs. Our core stack includes Next.js, React, TypeScript, Node.js, and WordPress for CMS-driven platforms. We also work with scalable databases and cloud infrastructure to ensure performance, security, and long-term maintainability.",
-      category: "technical",
-    },
-    {
-      id: 3,
-      question: "Do you offer post-launch support and maintenance?",
-      answer:
-        "Yes. Every project includes post-launch support to ensure a smooth handover. Ongoing maintenance, performance monitoring, and feature enhancements are available through flexible support and retainer plans for teams that require long-term partnership.",
-      category: "support",
-    },
-    {
-      id: 4,
-      question: "How does pricing work?",
-      answer:
-        "Pricing is transparent and scope-based. Projects typically start from defined baseline budgets for launch websites, business platforms, and e-commerce solutions. Custom applications and complex systems are quoted after discovery. Final pricing reflects requirements, integrations, and delivery timelines.",
-      category: "pricing",
-    },
-    {
-      id: 5,
-      question: "Can you work with existing designs or codebases?",
-      answer:
-        "Absolutely. We frequently collaborate with existing teams and assets. This includes working from Figma designs, improving legacy codebases, refactoring for performance, or extending existing platforms with new features.",
-      category: "technical",
-    },
-    {
-      id: 6,
-      question: "How do you ensure quality and reliability?",
-      answer:
-        "Quality is built into the process. Every project follows structured development practices, performance optimization, and thorough testing across devices and browsers. Code is written with scalability, security, and long-term maintainability in mind.",
-      category: "technical",
-    },
-    {
-      id: 7,
-      question: "Do you handle hosting and deployment?",
-      answer:
-        "Yes. We manage deployment, hosting configuration, SSL setup, and production readiness. Platforms are selected based on performance and scalability requirements, ensuring a stable and secure launch environment.",
-      category: "support",
-    },
-    {
-      id: 8,
-      question: "How does feedback and revision work?",
-      answer:
-        "Our process is collaborative and structured. Projects are delivered in phases with defined feedback checkpoints. Revisions are handled efficiently during each stage to ensure alignment, clarity, and high-quality outcomes without unnecessary delays.",
-      category: "general",
-    },
-  ];
-
-  const filteredItems =
-    activeCategory === "all"
-      ? faqItems
-      : faqItems.filter((item) => item.category === activeCategory);
 
   const toggleItem = (id: number) => {
     setOpenItem(openItem === id ? null : id);
@@ -90,7 +81,7 @@ export default function FAQComponent() {
   return (
     <section>
       <div className="container mx-auto">
-        {/* Elegant Header */}
+        {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -98,31 +89,24 @@ export default function FAQComponent() {
           viewport={{ once: true }}
           className="text-center mb-12"
         >
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.5 }}
-          >
-            {/* Elegant Badge */}
-            <div className="inline-flex items-center gap-3 px-4 py-2 rounded-full border border-white/10 bg-white/5 backdrop-blur-sm mb-5">
-              <span className="w-2 h-2 rounded-full bg-blue-500 animate-pulse" />
-              <span className="text-sm text-white/80">Knowledge Base</span>
-            </div>
-          </motion.div>
+          <div className="inline-flex items-center gap-3 px-4 py-2 rounded-full border border-white/10 bg-white/5 backdrop-blur-sm mb-5">
+            <span className="w-2 h-2 rounded-full bg-blue-500 animate-pulse" />
+            <span className="text-sm text-white/80">Knowledge Base</span>
+          </div>
 
           <h1 className="font-[Recoleta] text-4xl md:text-5xl mb-5 text-white">
             Question and Answer
           </h1>
 
           <p className="text-white/70 text-xl max-w-5xl mx-auto">
-            Detailed insights about our services, process, and how we,
+            Detailed insights about our services, process, and how we
             collaborate to deliver exceptional results
           </p>
         </motion.div>
 
         {/* FAQ Grid */}
         <div className="grid md:grid-cols-2 gap-6">
-          {filteredItems.map((item, index) => (
+          {faqItems.map((item, index) => (
             <motion.div
               key={item.id}
               initial={{ opacity: 0, y: 20 }}
@@ -134,29 +118,22 @@ export default function FAQComponent() {
                 variant="blue"
                 className={`h-full rounded-xl overflow-hidden transition-all duration-300 ${openItem === item.id ? "border-blue-500/30" : ""}`}
               >
-                {/* Question Header */}
                 <button
                   onClick={() => toggleItem(item.id)}
                   className="w-full p-6 flex items-start justify-between group"
                 >
                   <div className="flex-1">
                     <div className="flex items-center gap-3 mb-3">
-                      <div
-                        className={`w-2 h-2 rounded-full bg-blue-400 to-cyan-600`}
-                      />
+                      <div className="w-2 h-2 rounded-full bg-blue-400" />
                       <span className="text-xs font-medium uppercase tracking-wider text-white/50">
                         {item.category}
                       </span>
                     </div>
-
-                    <div className="text-left">
-                      <h3 className="font-[Recoleta] text-xl text-white group-hover:text-blue-400 transition-colors duration-300 mb-2 pr-8">
-                        {item.question}
-                      </h3>
-                    </div>
+                    <h3 className="font-[Recoleta] text-xl text-white text-left group-hover:text-blue-400 transition-colors duration-300 pr-8">
+                      {item.question}
+                    </h3>
                   </div>
 
-                  {/* Chevron Icon */}
                   <motion.div
                     animate={{ rotate: openItem === item.id ? 180 : 0 }}
                     transition={{ duration: 0.3 }}
@@ -166,7 +143,6 @@ export default function FAQComponent() {
                   </motion.div>
                 </button>
 
-                {/* Answer Content */}
                 <AnimatePresence>
                   {openItem === item.id && (
                     <motion.div
@@ -181,8 +157,6 @@ export default function FAQComponent() {
                           <p className="text-white/70 leading-relaxed">
                             {item.answer}
                           </p>
-
-                          {/* Elegant separator */}
                           <div className="flex items-center gap-3 mt-4 pt-4 border-t border-white/10">
                             <div className="flex gap-1">
                               {[...Array(3)].map((_, i) => (

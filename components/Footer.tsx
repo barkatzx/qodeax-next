@@ -1,8 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
 import Link from "next/link";
-import { useEffect, useState } from "react";
 import {
   FaArrowRight,
   FaEnvelope,
@@ -15,100 +13,85 @@ import {
 import { MdWorkspacePremium } from "react-icons/md";
 import { SiBuymeacoffee, SiFreelancer, SiUpwork } from "react-icons/si";
 
+const currentYear = new Date().getFullYear();
+
+const menuItems = [
+  { label: "Home", href: "/" },
+  { label: "About", href: "/about" },
+  { label: "Projects", href: "/projects" },
+  { label: "Blog", href: "/blogs" },
+  { label: "Contact", href: "/contact" },
+];
+
+const hirePlatforms = [
+  {
+    href: "https://upwork.com/freelancers/barkatzx",
+    icon: <SiUpwork />,
+    label: "Upwork",
+    badge: "Top Rated (Active)",
+  },
+  {
+    href: "https://kwork.com/user/barkatzx",
+    icon: <MdWorkspacePremium />,
+    label: "Kwork",
+    badge: "New",
+  },
+  {
+    href: "https://freelancer.com/u/barkatzx",
+    icon: <SiFreelancer />,
+    label: "Freelancer",
+    badge: "New",
+  },
+  {
+    href: "https://buymeacoffee.com/barkatzx",
+    icon: <SiBuymeacoffee />,
+    label: "Buy Me Coffee",
+    badge: "Support",
+  },
+];
+
+const socialLinks = [
+  { href: "https://github.com/barkatzx", icon: <FaGithub />, label: "GitHub" },
+  {
+    href: "https://linkedin.com/in/barkatzx",
+    icon: <FaLinkedin />,
+    label: "LinkedIn",
+  },
+  {
+    href: "https://facebook.com/barkatzx",
+    icon: <FaFacebook />,
+    label: "Facebook",
+  },
+  {
+    href: "https://www.youtube.com/@BarkatUllahzx",
+    icon: <FaYoutube />,
+    label: "YouTube",
+  },
+];
+
+const contactInfo = [
+  {
+    href: "mailto:barkatullah.zx@gmail.com",
+    icon: <FaEnvelope />,
+    text: "barkatullah.zx@gmail.com",
+    label: "Email",
+  },
+  {
+    href: "tel:+8801989190199",
+    icon: <FaPhoneAlt />,
+    text: "+880 1989 190 199",
+    label: "Phone",
+  },
+];
+
 export default function Footer() {
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-  const currentYear = new Date().getFullYear();
-
-  useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      setMousePosition({ x: e.clientX, y: e.clientY });
-    };
-    window.addEventListener("mousemove", handleMouseMove);
-    return () => window.removeEventListener("mousemove", handleMouseMove);
-  }, []);
-
-  const menuItems = [
-    { label: "Home", href: "/" },
-    { label: "About", href: "/about" },
-    { label: "Projects", href: "/projects" },
-    { label: "Blog", href: "/blogs" },
-    { label: "Contact", href: "/contact" },
-  ];
-
-  const hirePlatforms = [
-    {
-      href: "https://upwork.com/freelancers/barkatzx",
-      icon: <SiUpwork />,
-      label: "Upwork",
-      badge: "Top Rated (Active)",
-    },
-    {
-      href: "https://kwork.com/user/barkatzx",
-      icon: <MdWorkspacePremium />,
-      label: "Kwork",
-      badge: "New",
-    },
-    {
-      href: "https://freelancer.com/u/barkatzx",
-      icon: <SiFreelancer />,
-      label: "Freelancer",
-      badge: "New",
-    },
-    {
-      href: "https://buymeacoffee.com/barkatzx",
-      icon: <SiBuymeacoffee />,
-      label: "Buy Me Coffee",
-      badge: "Support",
-    },
-  ];
-
-  const socialLinks = [
-    {
-      href: "https://github.com/barkatzx",
-      icon: <FaGithub />,
-      label: "GitHub",
-    },
-    {
-      href: "https://linkedin.com/in/barkatzx",
-      icon: <FaLinkedin />,
-      label: "LinkedIn",
-    },
-    {
-      href: "https://facebook.com/barkatzx",
-      icon: <FaFacebook />,
-      label: "Facebook",
-    },
-    {
-      href: "https://www.youtube.com/@BarkatUllahzx",
-      icon: <FaYoutube />,
-      label: "YouTube",
-    },
-  ];
-
   return (
     <footer className="container mx-auto">
-      {/* Floating Background Elements */}
-      <div className="">
-        <motion.div
-          animate={{
-            x: [0, 30, 0],
-            y: [0, 20, 0],
-          }}
-          transition={{
-            duration: 20,
-            repeat: Infinity,
-            ease: "easeInOut",
-          }}
-        />
-      </div>
-
       {/* Main Footer Grid */}
       <div className="grid lg:grid-cols-4 md:grid-cols-2 gap-8 mb-16">
         {/* Brand Section */}
         <div className="space-y-6">
-          {/* Logo */}
           <Link href="/" className="flex items-center gap-2.5">
-            {/* Animated orb dot */}
             <span className="relative flex h-2.5 w-2.5">
               <span
                 className="animate-ping absolute inline-flex h-full w-full rounded-full opacity-60"
@@ -119,35 +102,20 @@ export default function Footer() {
                 style={{ background: "#00a8ff" }}
               />
             </span>
-            <span className="font-[Recoleta] text-white text-2xl tracking-tight group-hover:text-[#00a8ff] transition-colors duration-300">
+            <span className="font-[Recoleta] text-white text-2xl tracking-tight">
               Qodeax
             </span>
           </Link>
 
-          {/* Description */}
           <p className="text-white/70 text-lg leading-relaxed pl-4">
             Creating exceptional digital experiences with modern technology and
             innovative solutions. Let&apos;s build something amazing together.
           </p>
 
-          {/* Contact Info */}
           <div className="space-y-3">
-            {[
-              {
-                href: "mailto:barkatullah.zx@gmail.com",
-                icon: <FaEnvelope />,
-                text: "barkatullah.zx@gmail.com",
-                label: "Email",
-              },
-              {
-                href: "tel:+8801989190199",
-                icon: <FaPhoneAlt />,
-                text: "+880 1989 190 199",
-                label: "Phone",
-              },
-            ].map((contact, idx) => (
+            {contactInfo.map((contact) => (
               <a
-                key={idx}
+                key={contact.label}
                 href={contact.href}
                 className="flex items-center gap-3 p-3 rounded-xl transition-all duration-300 hover:scale-[1.02] group"
               >
@@ -168,19 +136,17 @@ export default function Footer() {
         {/* Quick Links */}
         <div>
           <h3 className="font-[Recoleta] text-lg text-white mb-6 flex items-center gap-2">
-            <div className="w-1.5 h-1.5 rounded-full bg-gradient-to-r from-[#00a8ff] to-[#4dc3ff]"></div>
+            <div className="w-1.5 h-1.5 rounded-full bg-gradient-to-r from-[#00a8ff] to-[#4dc3ff]" />
             Quick Links
           </h3>
-          <div className="">
+          <div>
             {menuItems.map((item) => (
               <Link
                 key={item.label}
                 href={item.href}
                 className="flex items-center gap-3 p-3 rounded-xl transition-all duration-300 hover:pl-4 group"
               >
-                <div className="text-[#00a8ff] opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  <FaArrowRight className="text-xs" />
-                </div>
+                <FaArrowRight className="text-xs text-[#00a8ff] opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                 <span className="text-white/80 group-hover:text-white transition-colors">
                   {item.label}
                 </span>
@@ -192,7 +158,7 @@ export default function Footer() {
         {/* Hire Platforms */}
         <div>
           <h3 className="font-[Recoleta] text-lg text-white mb-2 flex items-center gap-2">
-            <div className="w-1.5 h-1.5 rounded-full bg-gradient-to-r from-[#00a8ff] to-[#4dc3ff]"></div>
+            <div className="w-1.5 h-1.5 rounded-full bg-gradient-to-r from-[#00a8ff] to-[#4dc3ff]" />
             Hire Me On
           </h3>
           <div className="space-y-3">
@@ -202,27 +168,24 @@ export default function Footer() {
                 href={platform.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group relative overflow-hidden"
+                className="group flex items-center justify-between p-4 transition-all duration-300 hover:scale-[1.01]"
               >
-                <div className="absolute inset-0"></div>
-                <div className="relative flex items-center justify-between p-4 transition-all duration-300 group-hover:scale-[1.01]">
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-lg flex items-center justify-center text-white bg-gradient-to-br from-[#00a8ff]/20 to-[#00a8ff]/10">
-                      {platform.icon}
-                    </div>
-                    <div>
-                      <div className="text-white font-medium">
-                        {platform.label}
-                      </div>
-                      {platform.badge && (
-                        <div className="text-xs text-[#00a8ff] font-medium">
-                          {platform.badge}
-                        </div>
-                      )}
-                    </div>
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-lg flex items-center justify-center text-white bg-gradient-to-br from-[#00a8ff]/20 to-[#00a8ff]/10">
+                    {platform.icon}
                   </div>
-                  <FaArrowRight className="text-white/40 group-hover:text-[#00a8ff] transform group-hover:translate-x-1 transition-all" />
+                  <div>
+                    <div className="text-white font-medium">
+                      {platform.label}
+                    </div>
+                    {platform.badge && (
+                      <div className="text-xs text-[#00a8ff] font-medium">
+                        {platform.badge}
+                      </div>
+                    )}
+                  </div>
                 </div>
+                <FaArrowRight className="text-white/40 group-hover:text-[#00a8ff] group-hover:translate-x-1 transition-all" />
               </a>
             ))}
           </div>
@@ -231,7 +194,7 @@ export default function Footer() {
         {/* Connect Section */}
         <div>
           <h3 className="font-[Recoleta] text-lg text-white flex items-center gap-2">
-            <div className="w-1.5 h-1.5 rounded-full bg-gradient-to-r from-[#00a8ff] to-[#4dc3ff]"></div>
+            <div className="w-1.5 h-1.5 rounded-full bg-gradient-to-r from-[#00a8ff] to-[#4dc3ff]" />
             Let&apos;s Connect
           </h3>
 
@@ -241,7 +204,6 @@ export default function Footer() {
               discuss your next project.
             </p>
 
-            {/* Social Links Grid */}
             <div className="grid grid-cols-2 gap-3">
               {socialLinks.map((social) => (
                 <a
@@ -249,7 +211,7 @@ export default function Footer() {
                   href={social.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="rounded-lg bg-gradient-to-br from-[#00a8ff]/20 to-[#00a8ff]/10 p-3 transition-all duration-300 hover:text-white hover:scale-[1.02] group"
+                  className="rounded-lg bg-gradient-to-br from-[#00a8ff]/20 to-[#00a8ff]/10 p-3 transition-all duration-300 hover:scale-[1.02] group"
                 >
                   <div className="flex items-center gap-3">
                     <div className="text-white/70 group-hover:text-[#00a8ff] transition-colors">
@@ -273,22 +235,15 @@ export default function Footer() {
           background:
             "linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent)",
         }}
-      ></div>
+      />
 
       {/* Bottom Section */}
       <div className="flex flex-col md:flex-row justify-between items-center gap-6">
-        {/* Copyright */}
-        <div className="text-center md:text-left">
-          <div className="inline-flex items-center gap-4 px-6 py-3 rounded-xl">
-            <div className="text-white/70">
-              © {currentYear}{" "}
-              <span className="text-white font-medium">Qodeax</span>. All rights
-              reserved.
-            </div>
-          </div>
+        <div className="text-white/70 px-6 py-3">
+          © {currentYear} <span className="text-white font-medium">Qodeax</span>
+          . All rights reserved.
         </div>
 
-        {/* Legal Links */}
         <div className="flex items-center gap-4">
           {["Privacy", "Terms", "Sitemap"].map((item) => (
             <Link
@@ -308,7 +263,7 @@ export default function Footer() {
           onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
           className="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm text-white/60 hover:text-white transition-colors hover:bg-white/5"
         >
-          <FaArrowRight className="transform rotate-90" />
+          <FaArrowRight className="-rotate-90" />
           Back to Top
         </button>
       </div>

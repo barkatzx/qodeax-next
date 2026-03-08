@@ -11,104 +11,102 @@ import {
 } from "react-icons/fa";
 import Glass from "./ui/Glass";
 
-export default function PricingComponent() {
-  const pricingPlans = [
-    {
-      id: 1,
-      title: "Landing Page",
-      description:
-        "A focused, conversion-driven website designed to validate your offer and generate leads fast.",
-      price: "$500+",
-      priceNote: "Starting at $500",
-      icon: <FaGlobe className="text-2xl" />,
-      features: [
-        "1-3 Page Website",
-        "Mobile Responsive Design",
-        "SEO Optimization",
-        "Contact Form Integration",
-        "Social Media Integration",
-        "Google Analytics Setup",
-        "Post-launch support included",
-      ],
-      popular: false,
-    },
-    {
-      id: 2,
-      title: "Business Website",
-      description:
-        "A scalable, professional website built to establish credibility, attract customers, and support long-term growth.",
-      price: "$1,200+",
-      priceNote: "From $1,200",
-      icon: <FaStore className="text-2xl" />,
-      features: [
-        "5-10 Page Website",
-        "Custom Design",
-        "SEO Optimized",
-        "Blog Integration",
-        "Admin Dashboard",
-        "Contact Management",
-        "Performance Optimization",
-        "Post-launch support included",
-      ],
-      popular: true,
-    },
-    {
-      id: 3,
-      title: "E-commerce",
-      description:
-        "A revenue-ready e-commerce platform engineered for smooth checkout, operational efficiency, and scale.",
-      price: "$2,500+",
-      priceNote: "From $2,500",
-      icon: <FaShoppingCart className="text-2xl" />,
-      features: [
-        "Product Management",
-        "Shopping Cart",
-        "Payment Gateway Integration",
-        "User Accounts",
-        "Order Management",
-        "Inventory System",
-        "Security Features",
-        "Post-launch support included",
-      ],
-      popular: false,
-    },
-    {
-      id: 4,
-      title: "Web Application",
-      description:
-        "A fully custom digital system built to support your internal workflows, customers, or product vision.",
-      price: "Custom",
-      priceNote: "Get a quote",
-      icon: <FaCode className="text-2xl" />,
-      features: [
-        "Custom Features",
-        "User Authentication",
-        "Real-time Features",
-        "API Integration",
-        "Scalable Architecture",
-        "Advanced Security",
-        "Performance Monitoring",
-        "Post-launch support included",
-      ],
-      popular: false,
-    },
-  ];
+const pricingPlans = [
+  {
+    id: 1,
+    title: "Landing Page",
+    description:
+      "A focused, conversion-driven website designed to validate your offer and generate leads fast.",
+    price: "$500+",
+    priceNote: "Starting at $500",
+    icon: <FaGlobe className="text-2xl" />,
+    features: [
+      "1-3 Page Website",
+      "Mobile Responsive Design",
+      "SEO Optimization",
+      "Contact Form Integration",
+      "Social Media Integration",
+      "Google Analytics Setup",
+      "Post-launch support included",
+    ],
+    popular: false,
+  },
+  {
+    id: 2,
+    title: "Business Website",
+    description:
+      "A scalable, professional website built to establish credibility, attract customers, and support long-term growth.",
+    price: "$1,200+",
+    priceNote: "From $1,200",
+    icon: <FaStore className="text-2xl" />,
+    features: [
+      "5-10 Page Website",
+      "Custom Design",
+      "SEO Optimized",
+      "Blog Integration",
+      "Admin Dashboard",
+      "Contact Management",
+      "Performance Optimization",
+      "Post-launch support included",
+    ],
+    popular: true,
+  },
+  {
+    id: 3,
+    title: "E-commerce",
+    description:
+      "A revenue-ready e-commerce platform engineered for smooth checkout, operational efficiency, and scale.",
+    price: "$2,500+",
+    priceNote: "From $2,500",
+    icon: <FaShoppingCart className="text-2xl" />,
+    features: [
+      "Product Management",
+      "Shopping Cart",
+      "Payment Gateway Integration",
+      "User Accounts",
+      "Order Management",
+      "Inventory System",
+      "Security Features",
+      "Post-launch support included",
+    ],
+    popular: false,
+  },
+  {
+    id: 4,
+    title: "Web Application",
+    description:
+      "A fully custom digital system built to support your internal workflows, customers, or product vision.",
+    price: "Custom",
+    priceNote: "Get a quote",
+    icon: <FaCode className="text-2xl" />,
+    features: [
+      "Custom Features",
+      "User Authentication",
+      "Real-time Features",
+      "API Integration",
+      "Scalable Architecture",
+      "Advanced Security",
+      "Performance Monitoring",
+      "Post-launch support included",
+    ],
+    popular: false,
+  },
+];
 
+export default function PricingComponent() {
   return (
     <section className="container mx-auto py-20">
       {/* Header */}
-      <div className="text-center py-10">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-        >
-          {/* Elegant Badge */}
-          <div className="inline-flex items-center gap-3 px-4 py-2 rounded-full border border-white/10 bg-white/5 backdrop-blur-sm mb-5">
-            <span className="w-2 h-2 rounded-full bg-blue-500 animate-pulse" />
-            <span className="text-sm text-white/80">Pricing</span>
-          </div>
-        </motion.div>
+      <motion.div
+        className="text-center py-10"
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+      >
+        <div className="inline-flex items-center gap-3 px-4 py-2 rounded-full border border-white/10 bg-white/5 backdrop-blur-sm mb-5">
+          <span className="w-2 h-2 rounded-full bg-blue-500 animate-pulse" />
+          <span className="text-sm text-white/80">Pricing</span>
+        </div>
 
         <h2 className="font-[Recoleta] text-4xl md:text-5xl mb-5 text-white">
           Transparent Pricing
@@ -118,7 +116,7 @@ export default function PricingComponent() {
           Every project is scoped carefully. Final pricing depends on
           requirements, integrations, and timeline.
         </p>
-      </div>
+      </motion.div>
 
       {/* Pricing Cards */}
       <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -132,7 +130,7 @@ export default function PricingComponent() {
           >
             <Glass variant="blue" className="p-5 h-full">
               {plan.popular && (
-                <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
+                <div className="absolute -top-3 left-1/2 -translate-x-1/2">
                   <span className="px-4 py-1 bg-gradient-to-r from-[#00a8ff] to-[#4dc3ff] text-white text-xs font-semibold rounded-full">
                     Most Popular
                   </span>
@@ -175,8 +173,8 @@ export default function PricingComponent() {
                 ))}
               </ul>
 
-              <Link href={"/contact"}>
-                <button className="w-full py-3 rounded-xl font-semibold transition-all duration-300 bg-gradient-to-r from-[#00a8ff] to-[#4dc3ff] text-white bg-white/10 text-white/80 hover:bg-white/20">
+              <Link href="/contact">
+                <button className="w-full py-3 rounded-xl font-semibold transition-colors duration-300 bg-gradient-to-r from-[#00a8ff] to-[#4dc3ff] text-white hover:opacity-90">
                   Select Plan
                 </button>
               </Link>

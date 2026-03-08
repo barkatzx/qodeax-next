@@ -1,7 +1,6 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { useRef, useState } from "react";
 import {
   FaArrowRight,
   FaCode,
@@ -31,7 +30,7 @@ const services = [
     icon: <FaCode className="w-8 h-8" />,
     title: "Custom Applications",
     subtitle:
-      "We design and develop custom web applications tailored to your exact business needs—whether it’s an internal dashboard, client portal, or data-driven system. Every solution is built with performance, security, and maintainability in mind.",
+      "We design and develop custom web applications tailored to your exact business needs—whether it's an internal dashboard, client portal, or data-driven system. Every solution is built with performance, security, and maintainability in mind.",
     tags: [
       "Business Systems",
       "Custom Workflows",
@@ -75,13 +74,8 @@ const services = [
 ];
 
 export default function ServicesShowcase() {
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-  const [activeService, setActiveService] = useState<number | null>(null);
-  const containerRef = useRef<HTMLDivElement>(null);
-  const gridRef = useRef<HTMLDivElement>(null);
-
   return (
-    <section className="container mx-auto ">
+    <section className="container mx-auto">
       {/* Header */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
@@ -90,18 +84,15 @@ export default function ServicesShowcase() {
         viewport={{ once: true }}
         className="text-center py-20"
       >
-        {/* Elegant Badge */}
         <div className="inline-flex items-center gap-3 px-4 py-2 rounded-full border border-white/10 bg-white/5 backdrop-blur-sm mb-5">
           <span className="w-2 h-2 rounded-full bg-blue-500 animate-pulse" />
           <span className="text-sm text-white/80">What We Deliver</span>
         </div>
 
-        {/* Main Title with Gradient */}
         <h2 className="font-[Recoleta] text-4xl md:text-5xl mb-5 text-white">
           Growth-Ready Digital Products
         </h2>
 
-        {/* Subtitle */}
         <p className="text-white/70 text-xl max-w-5xl mx-auto">
           We design and build scalable digital platforms that solve real
           business problems. By combining thoughtful design with robust
@@ -111,38 +102,27 @@ export default function ServicesShowcase() {
       </motion.div>
 
       {/* Services Grid */}
-      <div
-        ref={gridRef}
-        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-6"
-      >
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {services.map((service, index) => (
           <motion.div
             key={index}
             initial={{ opacity: 0, y: 40 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: index * 0.1 }}
-            onMouseEnter={() => setActiveService(index)}
-            onMouseLeave={() => setActiveService(null)}
           >
-            {/* Card Container */}
-            {/* Background Gradient */}
             <Glass variant="blue" className="p-6 h-full">
-              {/* Icon Container */}
               <div
-                className={`relative w-14 h-14 rounded-xl bg-gradient-to-br ${service.gradient} flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-500`}
+                className={`w-14 h-14 rounded-xl bg-gradient-to-br ${service.gradient} flex items-center justify-center mb-6`}
               >
                 <div className="text-white text-2xl">{service.icon}</div>
               </div>
 
-              {/* Service Title */}
               <h3 className="font-[Recoleta] text-xl text-white mb-3">
                 {service.title}
               </h3>
 
-              {/* Description */}
               <p className="text-white/60 text-sm mb-6">{service.subtitle}</p>
 
-              {/* Tags */}
               <div className="flex flex-wrap gap-2 mb-8">
                 {service.tags.map((tag, tagIndex) => (
                   <span
@@ -154,21 +134,19 @@ export default function ServicesShowcase() {
                 ))}
               </div>
 
-              {/* Footer */}
               <div className="flex items-center justify-between pt-6 border-t border-white/10">
                 <span className="text-xs text-white/50">
                   {service.duration}
                 </span>
 
-                {/* Arrow Button */}
                 <button
-                  className="relative w-10 h-10 rounded-full border border-white/10 bg-white/5 flex items-center justify-center group/btn overflow-hidden"
+                  className="relative w-10 h-10 rounded-full border border-white/10 bg-white/5 flex items-center justify-center group overflow-hidden"
                   onClick={() => (window.location.href = service.link)}
                 >
                   <div
-                    className={`absolute inset-0 bg-gradient-to-br ${service.gradient} opacity-0 group-hover/btn:opacity-100 transition-opacity duration-300`}
+                    className={`absolute inset-0 bg-gradient-to-br ${service.gradient} opacity-0 group-hover:opacity-100 transition-opacity duration-300`}
                   />
-                  <FaArrowRight className="relative z-10 w-4 h-4 text-white/70 group-hover/btn:text-white transition-colors transition-transform" />
+                  <FaArrowRight className="relative z-10 w-4 h-4 text-white/70 group-hover:text-white transition-colors" />
                 </button>
               </div>
             </Glass>

@@ -46,7 +46,6 @@ const itemVariants = {
   },
 };
 
-// Enhanced particle positions with sizes
 const PARTICLE_POSITIONS = [
   { left: "5%", top: "15%", size: "w-2 h-2", delay: 0 },
   { left: "15%", top: "45%", size: "w-1 h-1", delay: 0.2 },
@@ -65,7 +64,6 @@ const PARTICLE_POSITIONS = [
   { left: "90%", top: "30%", size: "w-2.5 h-2.5", delay: 2.8 },
 ];
 
-// Counter component with intersection observer
 interface CounterProps {
   target: number;
   duration?: number;
@@ -134,13 +132,6 @@ export default function ModernHero() {
   useEffect(() => {
     controls.start("visible");
     setIsLoaded(true);
-
-    const handleMouseMove = (e: MouseEvent) => {
-      // mouse parallax removed (mousePosition was unused)
-    };
-
-    window.addEventListener("mousemove", handleMouseMove);
-    return () => window.removeEventListener("mousemove", handleMouseMove);
   }, [controls]);
 
   useEffect(() => {
@@ -201,11 +192,7 @@ export default function ModernHero() {
               "M0,100 Q150,50 300,100 T600,100",
             ],
           }}
-          transition={{
-            duration: 10,
-            repeat: Infinity,
-            ease: "easeInOut",
-          }}
+          transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
         />
         <defs>
           <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="0%">
@@ -230,10 +217,7 @@ export default function ModernHero() {
             <motion.div variants={itemVariants} className="py-10">
               <div className="inline-flex items-center gap-3 px-5 py-2.5 rounded-full backdrop-blur-xl border border-white/10 bg-white/5 hover:border-[#00a8ff]/30 transition-all duration-300">
                 <motion.div
-                  animate={{
-                    scale: [1, 1.2, 1],
-                    rotate: [0, 360, 0],
-                  }}
+                  animate={{ scale: [1, 1.2, 1], rotate: [0, 360, 0] }}
                   transition={{
                     duration: 3,
                     repeat: Infinity,
@@ -243,10 +227,7 @@ export default function ModernHero() {
                 >
                   <FaCrown className="w-4 h-4 text-[#00a8ff]" />
                   <motion.div
-                    animate={{
-                      scale: [1, 1.5, 1],
-                      opacity: [0.5, 0, 0.5],
-                    }}
+                    animate={{ scale: [1, 1.5, 1], opacity: [0.5, 0, 0.5] }}
                     transition={{
                       duration: 2,
                       repeat: Infinity,
@@ -305,9 +286,7 @@ export default function ModernHero() {
                   <FaArrowRight className="w-4 h-4 transform group-hover:translate-x-1 transition-transform" />
                 </span>
                 <motion.div
-                  animate={{
-                    x: ["-100%", "200%"],
-                  }}
+                  animate={{ x: ["-100%", "200%"] }}
                   transition={{
                     duration: 2,
                     repeat: Infinity,
@@ -329,9 +308,7 @@ export default function ModernHero() {
                   <FaChevronRight className="w-3 h-3 transform group-hover:translate-x-1 transition-transform" />
                 </span>
                 <motion.div
-                  animate={{
-                    opacity: [0, 0.5, 0],
-                  }}
+                  animate={{ opacity: [0, 0.5, 0] }}
                   transition={{
                     duration: 2,
                     repeat: Infinity,
@@ -385,111 +362,72 @@ export default function ModernHero() {
             animate={controls}
             className="lg:col-span-5"
           >
-            {/* Main Stats Card - Updated with blue shadow only */}
             <motion.div variants={itemVariants}>
               <Glass
                 variant="blue"
                 className="p-8 rounded-2xl transition-all duration-300"
               >
                 <div className="grid grid-cols-2 gap-6">
-                  {/* Years of Experience */}
-                  <motion.div
-                    whileHover={{ y: -5 }}
-                    className="text-center p-4 rounded-2xl bg-white/5 border border-white/10 hover:border-[#00a8ff]/30 transition-all duration-300"
-                  >
-                    <motion.div
-                      animate={{ y: [0, -5, 0] }}
-                      transition={{
-                        duration: 4,
-                        repeat: Infinity,
-                        ease: "easeInOut",
-                      }}
-                      className="mb-3"
-                    >
-                      <div className="w-16 h-16 mx-auto rounded-2xl bg-gradient-to-br from-[#00a8ff]/20 to-[#4dc3ff]/10 flex items-center justify-center">
-                        <SiCardmarket className="w-8 h-8 text-[#00a8ff]" />
-                      </div>
-                    </motion.div>
-                    <Counter target={1} suffix="+" />
-                    <div className="text-sm text-white/50 mt-1">
-                      Years in Market
-                    </div>
-                  </motion.div>
-
-                  {/* Projects Delivered */}
-                  <motion.div
-                    whileHover={{ y: -5 }}
-                    className="text-center p-4 rounded-2xl bg-white/5  border border-white/10 hover:border-[#00a8ff]/30 transition-all duration-300"
-                  >
-                    <motion.div
-                      animate={{ y: [0, -5, 0] }}
-                      transition={{
-                        duration: 4,
-                        repeat: Infinity,
-                        ease: "easeInOut",
-                        delay: 0.2,
-                      }}
-                      className="mb-3"
-                    >
-                      <div className="w-16 h-16 mx-auto rounded-2xl bg-gradient-to-br from-[#00a8ff]/20 to-[#4dc3ff]/10 flex items-center justify-center">
-                        <FaRocket className="w-8 h-8 text-[#00a8ff]" />
-                      </div>
-                    </motion.div>
-                    <Counter target={5} suffix="+" />
-                    <div className="text-sm text-white/50 mt-1">
-                      Projects Delivered
-                    </div>
-                  </motion.div>
-
-                  {/* Global Clients */}
-                  <motion.div
-                    whileHover={{ y: -5 }}
-                    className="text-center p-4 rounded-2xl bg-white/5 border border-white/10 hover:border-[#00a8ff]/30 transition-all duration-300"
-                  >
-                    <motion.div
-                      animate={{ y: [0, -5, 0] }}
-                      transition={{
-                        duration: 4,
-                        repeat: Infinity,
-                        ease: "easeInOut",
-                        delay: 0.4,
-                      }}
-                      className="mb-3"
-                    >
-                      <div className="w-16 h-16 mx-auto rounded-2xl bg-gradient-to-br from-[#00a8ff]/20 to-[#4dc3ff]/10 flex items-center justify-center">
-                        <GiWorld className="w-8 h-8 text-[#00a8ff]" />
-                      </div>
-                    </motion.div>
-                    <Counter target={80} suffix="+" />
-                    <div className="text-sm text-white/50 mt-1">
-                      Global Clients
-                    </div>
-                  </motion.div>
-
-                  {/* Success Rate */}
-                  <motion.div
-                    whileHover={{ y: -5 }}
-                    className="text-center p-4 rounded-2xl bg-white/5 border border-white/10 hover:border-[#00a8ff]/30 transition-all duration-300"
-                  >
-                    <motion.div
-                      animate={{ y: [0, -5, 0] }}
-                      transition={{
-                        duration: 4,
-                        repeat: Infinity,
-                        ease: "easeInOut",
-                        delay: 0.6,
-                      }}
-                      className="mb-3"
-                    >
-                      <div className="w-16 h-16 mx-auto rounded-2xl bg-gradient-to-br from-[#00a8ff]/20 to-[#4dc3ff]/10 flex items-center justify-center">
-                        <HiTrendingUp className="w-8 h-8 text-[#00a8ff]" />
-                      </div>
-                    </motion.div>
-                    <Counter target={98} suffix="%" />
-                    <div className="text-sm text-white/50 mt-1">
-                      Success Rate
-                    </div>
-                  </motion.div>
+                  {[
+                    {
+                      icon: SiCardmarket,
+                      label: "Years in Market",
+                      target: 1,
+                      suffix: "+",
+                    },
+                    {
+                      icon: FaRocket,
+                      label: "Projects Delivered",
+                      target: 5,
+                      suffix: "+",
+                      delay: 0.2,
+                    },
+                    {
+                      icon: GiWorld,
+                      label: "Global Clients",
+                      target: 3,
+                      suffix: "+",
+                      delay: 0.4,
+                    },
+                    {
+                      icon: HiTrendingUp,
+                      label: "Success Rate",
+                      target: 100,
+                      suffix: "%",
+                      delay: 0.6,
+                    },
+                  ].map(
+                    ({ icon: Icon, label, target, suffix, delay = 0 }, i) => (
+                      <motion.div
+                        key={label}
+                        whileHover={{ y: -5 }}
+                        className="text-center p-4 rounded-2xl bg-white/5 border border-white/10 hover:border-[#00a8ff]/30 transition-all duration-300"
+                      >
+                        <motion.div
+                          animate={{ y: [0, -5, 0] }}
+                          transition={{
+                            duration: 4,
+                            repeat: Infinity,
+                            ease: "easeInOut",
+                            delay,
+                          }}
+                          className="mb-3"
+                        >
+                          <div className="w-16 h-16 mx-auto rounded-2xl bg-gradient-to-br from-[#00a8ff]/20 to-[#4dc3ff]/10 flex items-center justify-center">
+                            <Icon className="w-8 h-8 text-[#00a8ff]" />
+                          </div>
+                        </motion.div>
+                        <Counter
+                          target={target}
+                          suffix={suffix}
+                          delay={delay}
+                        />
+                        <div className="text-sm text-white/50 mt-1">
+                          {label}
+                        </div>
+                      </motion.div>
+                    ),
+                  )}
                 </div>
 
                 {/* Tech Stack Pills */}
@@ -534,21 +472,15 @@ export default function ModernHero() {
               </Glass>
             </motion.div>
 
-            {/* Feature Highlights - Updated with blue shadow only */}
+            {/* Feature Highlights */}
             <motion.div
               variants={itemVariants}
               className="grid grid-cols-3 gap-3 mt-6"
             >
               {[
                 { icon: FaBolt, label: "Lightning Fast" },
-                {
-                  icon: FaShieldAlt,
-                  label: "Bank-Level Security",
-                },
-                {
-                  icon: FaHandshake,
-                  label: "Dedicated Support",
-                },
+                { icon: FaShieldAlt, label: "Bank-Level Security" },
+                { icon: FaHandshake, label: "Dedicated Support" },
               ].map((feature, i) => (
                 <motion.div
                   key={i}
@@ -570,7 +502,7 @@ export default function ModernHero() {
       {/* Scroll Indicator */}
       <motion.div
         style={{ opacity }}
-        className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-30"
+        className="absolute bottom-8 left-1/2 -translate-x-1/2 z-30"
       >
         <motion.div
           animate={{ y: [0, 10, 0] }}
@@ -584,7 +516,7 @@ export default function ModernHero() {
         </motion.div>
       </motion.div>
 
-      {/* Floating Orbs - Reduced purple influence */}
+      {/* Floating Orbs */}
       <motion.div
         animate={{ scale: [1, 1.2, 1], opacity: [0.3, 0.5, 0.3] }}
         transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
