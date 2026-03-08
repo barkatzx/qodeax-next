@@ -1,6 +1,7 @@
 // app/layout.tsx
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
+import WhatsappPopup from "@/components/WhatsappPopup";
 import { ReactNode } from "react";
 import "./globals.css";
 
@@ -15,6 +16,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       <body>
         <Header />
         {children}
+        <WhatsappPopup />
         <Footer />
       </body>
     </html>
