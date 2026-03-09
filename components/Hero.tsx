@@ -149,7 +149,7 @@ export default function ModernHero() {
   return (
     <section
       ref={containerRef}
-      className="relative min-h-screen flex items-center justify-center overflow-hidden rounded-xl"
+      className="flex items-center justify-center overflow-hidden rounded-xl"
     >
       {/* Floating Particles */}
       <div className="absolute inset-0 overflow-hidden">
