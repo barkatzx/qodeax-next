@@ -129,7 +129,7 @@ export default function FAQComponent() {
                         {item.category}
                       </span>
                     </div>
-                    <h3 className="font-[Recoleta] text-xl text-white text-left group-hover:text-blue-400 transition-colors duration-300 pr-8">
+                    <h3 className="font-[Outfit-Regular] text-xl text-white text-left group-hover:text-blue-400 transition-colors duration-300 pr-8">
                       {item.question}
                     </h3>
                   </div>
