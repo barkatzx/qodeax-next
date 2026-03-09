@@ -15,58 +15,58 @@ interface FAQItem {
 const faqItems: FAQItem[] = [
   {
     id: 1,
-    question: "How long does a typical project take?",
+    question: "What is the typical timeline for a project?",
     answer:
-      "Project timelines depend on scope and complexity. Launch websites typically take 1–2 weeks, growth-focused business websites 2–4 weeks, and custom digital systems or web applications usually range from 4–12 weeks. A clear timeline is defined during the discovery and planning phase before development begins.",
+      "Project timelines vary depending on scope, complexity, and integrations. Marketing or launch websites generally take 1–2 weeks, business websites and growth platforms take around 2–4 weeks, while custom web applications or digital systems may require 4–12 weeks. During the discovery phase, we define a clear roadmap and delivery timeline before development begins.",
     category: "general",
   },
   {
     id: 2,
-    question: "What technologies do you use?",
+    question: "Which technologies do you specialize in?",
     answer:
-      "We work with modern, production-ready technologies selected based on project needs. Our core stack includes Next.js, React, TypeScript, Node.js, and WordPress for CMS-driven platforms. We also work with scalable databases and cloud infrastructure to ensure performance, security, and long-term maintainability.",
+      "We use modern, production-ready technologies selected according to the project's goals and scalability needs. Our primary stack includes Next.js, React, TypeScript, Node.js, and WordPress for CMS-driven platforms. We also work with robust databases, APIs, and cloud infrastructure to deliver secure, high-performance applications.",
     category: "technical",
   },
   {
     id: 3,
-    question: "Do you offer post-launch support and maintenance?",
+    question: "Do you provide support after the project is launched?",
     answer:
-      "Yes. Every project includes post-launch support to ensure a smooth handover. Ongoing maintenance, performance monitoring, and feature enhancements are available through flexible support and retainer plans for teams that require long-term partnership.",
+      "Yes. We provide post-launch support to ensure everything runs smoothly after deployment. For ongoing needs, we offer maintenance and support plans that include performance monitoring, security updates, feature enhancements, and technical assistance as your platform grows.",
     category: "support",
   },
   {
     id: 4,
-    question: "How does pricing work?",
+    question: "How is project pricing determined?",
     answer:
-      "Pricing is transparent and scope-based. Projects typically start from defined baseline budgets for launch websites, business platforms, and e-commerce solutions. Custom applications and complex systems are quoted after discovery. Final pricing reflects requirements, integrations, and delivery timelines.",
+      "Our pricing is scope-based and fully transparent. Standard website projects start from defined baseline budgets, while larger platforms, SaaS products, or custom applications are quoted after a discovery session. Final pricing depends on requirements, integrations, design complexity, and delivery timelines.",
     category: "pricing",
   },
   {
     id: 5,
-    question: "Can you work with existing designs or codebases?",
+    question: "Can you work with existing designs or ongoing projects?",
     answer:
-      "Absolutely. We frequently collaborate with existing teams and assets. This includes working from Figma designs, improving legacy codebases, refactoring for performance, or extending existing platforms with new features.",
+      "Absolutely. We often collaborate with existing teams, designers, and codebases. Whether you have Figma designs ready, an existing platform that needs improvements, or a legacy system requiring optimization, we can integrate seamlessly and extend the project efficiently.",
     category: "technical",
   },
   {
     id: 6,
-    question: "How do you ensure quality and reliability?",
+    question: "How do you ensure the quality of your work?",
     answer:
-      "Quality is built into the process. Every project follows structured development practices, performance optimization, and thorough testing across devices and browsers. Code is written with scalability, security, and long-term maintainability in mind.",
+      "Quality assurance is built into every stage of our workflow. We follow structured development practices, maintain clean and scalable code, and conduct thorough testing across browsers, devices, and performance benchmarks. Security, reliability, and long-term maintainability are always prioritized.",
     category: "technical",
   },
   {
     id: 7,
-    question: "Do you handle hosting and deployment?",
+    question: "Do you handle hosting, deployment, and infrastructure?",
     answer:
-      "Yes. We manage deployment, hosting configuration, SSL setup, and production readiness. Platforms are selected based on performance and scalability requirements, ensuring a stable and secure launch environment.",
+      "Yes. We manage the full deployment process, including hosting setup, server configuration, SSL installation, and performance optimization. Platforms are deployed using modern infrastructure designed for reliability, security, and scalability.",
     category: "support",
   },
   {
     id: 8,
-    question: "How does feedback and revision work?",
+    question: "How are feedback and revisions handled during the project?",
     answer:
-      "Our process is collaborative and structured. Projects are delivered in phases with defined feedback checkpoints. Revisions are handled efficiently during each stage to ensure alignment, clarity, and high-quality outcomes without unnecessary delays.",
+      "Our workflow is collaborative and milestone-driven. Projects are delivered in phases with structured review checkpoints. This allows clients to provide feedback early and ensures revisions are handled efficiently while keeping the project aligned with the original objectives and timeline.",
     category: "general",
   },
 ];
@@ -94,7 +94,7 @@ export default function FAQComponent() {
             <span className="text-sm text-white/80">Knowledge Base</span>
           </div>
 
-          <h1 className="font-[Recoleta] text-4xl md:text-5xl mb-5 text-white">
+          <h1 className="font-[Recoleta] text-4xl md:text-5xl mb-5 bg-gradient-to-r from-white to-gray-500 bg-clip-text text-transparent">
             Question and Answer
           </h1>
 
@@ -125,7 +125,7 @@ export default function FAQComponent() {
                   <div className="flex-1">
                     <div className="flex items-center gap-3 mb-3">
                       <div className="w-2 h-2 rounded-full bg-blue-400" />
-                      <span className="text-xs font-medium text-white/50 uppercase tracking-wider">
+                      <span className="text-xs font-medium text-white/50">
                         {item.category}
                       </span>
                     </div>

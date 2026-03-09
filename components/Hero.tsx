@@ -244,8 +244,8 @@ export default function ModernHero() {
 
             {/* Main Headline */}
             <motion.div variants={itemVariants} className="max-w-3xl">
-              <h1 className="font-[Recoleta] text-5xl text-white">
-                Web platforms built to support Real business growth
+              <h1 className="font-[Recoleta] text-4xl md:text-5xl bg-gradient-to-r from-white to-gray-500 bg-clip-text text-transparent">
+                Web platforms built to support for real business growth
               </h1>
             </motion.div>
 
@@ -496,23 +496,6 @@ export default function ModernHero() {
           </motion.div>
         </div>
       </div>
-
-      {/* Scroll Indicator */}
-      <motion.div
-        style={{ opacity }}
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 z-30"
-      >
-        <motion.div
-          animate={{ y: [0, 10, 0] }}
-          transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-          className="flex flex-col items-center gap-2"
-        >
-          <span className="text-xs font-medium text-white/40 tracking-widest">
-            DISCOVER MORE
-          </span>
-          <div className="w-0.5 h-12 bg-gradient-to-b from-[#00a8ff] via-[#4dc3ff] to-transparent rounded-full" />
-        </motion.div>
-      </motion.div>
 
       {/* Floating Orbs */}
       <motion.div

@@ -85,7 +85,7 @@ export default function ServicesShowcase() {
           <span className="text-sm text-white/80">What We Deliver</span>
         </div>
 
-        <h2 className="font-[Recoleta] text-4xl md:text-5xl mb-5 text-white">
+        <h2 className="font-[Recoleta] text-4xl md:text-5xl mb-5 bg-gradient-to-r from-white to-gray-500 bg-clip-text text-transparent">
           Growth-Ready Digital Products
         </h2>
 

@@ -108,8 +108,8 @@ export default function ProcessSection() {
             </span>
           </div>
 
-          <h2 className="text-4xl md:text-5xl font-bold text-white mb-5 font-[Recoleta]">
-            From Your Idea to a Product People Love{" "}
+          <h2 className="font-[Recoleta] text-4xl md:text-5xl mb-5 bg-gradient-to-r from-white to-gray-500 bg-clip-text text-transparent">
+            From Your Idea to Product Launch
           </h2>
 
           <p className="text-white/70 text-xl max-w-5xl mx-auto">
