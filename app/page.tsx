@@ -1,6 +1,6 @@
 import FAQComponent from "@/components/FAQ";
 import Hero from "@/components/Hero";
-import PricingComponent from "@/components/Pricing";
+import ProcessSection from "@/components/Process";
 import Services from "@/components/Services";
 import TestimonialSlider from "@/components/Testimonials";
 import "./globals.css";
@@ -10,7 +10,7 @@ export default function Home() {
     <div>
       <Hero />
       <Services />
-      <PricingComponent />
+      <ProcessSection />
       <FAQComponent />
       <TestimonialSlider />
     </div>

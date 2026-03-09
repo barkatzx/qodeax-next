@@ -22,9 +22,8 @@ const services = [
       "Fast Launch",
       "Scalable Architecture",
     ],
-    gradient: "from-purple-500 to-pink-500",
     duration: "4-6 weeks",
-    link: "/services/mvp",
+    link: "/services/mvp-development",
   },
   {
     icon: <FaCode className="w-8 h-8" />,
@@ -37,9 +36,8 @@ const services = [
       "Secure & Scalable",
       "Automation",
     ],
-    gradient: "from-blue-500 to-cyan-400",
     duration: "Custom",
-    link: "/services/custom",
+    link: "/services/custom-applications",
   },
   {
     icon: <FaWordpress className="w-8 h-8" />,
@@ -52,9 +50,8 @@ const services = [
       "Easy Management",
       "Conversion-Focused",
     ],
-    gradient: "from-emerald-500 to-teal-400",
     duration: "2-4 weeks",
-    link: "/services/business",
+    link: "/services/business-systems",
   },
   {
     icon: <FaShieldAlt className="w-8 h-8" />,
@@ -67,9 +64,8 @@ const services = [
       "Reliability",
       "Long-Term Support",
     ],
-    gradient: "from-violet-500 to-purple-400",
     duration: "Ongoing",
-    link: "/services/performance",
+    link: "/services/performance-security",
   },
 ];
 
@@ -84,7 +80,7 @@ export default function ServicesShowcase() {
         viewport={{ once: true }}
         className="text-center py-20"
       >
-        <div className="inline-flex items-center gap-3 px-4 py-2 rounded-full border border-white/10 bg-white/5 backdrop-blur-sm mb-5">
+        <div className="inline-flex items-center gap-3 px-4 py-2 rounded-full border border-white/10 bg-white/5 mb-5">
           <span className="w-2 h-2 rounded-full bg-blue-500 animate-pulse" />
           <span className="text-sm text-white/80">What We Deliver</span>
         </div>
@@ -102,7 +98,7 @@ export default function ServicesShowcase() {
       </motion.div>
 
       {/* Services Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 ">
         {services.map((service, index) => (
           <motion.div
             key={index}
@@ -112,9 +108,9 @@ export default function ServicesShowcase() {
           >
             <Glass variant="blue" className="p-6 h-full">
               <div
-                className={`w-14 h-14 rounded-xl bg-gradient-to-br ${service.gradient} flex items-center justify-center mb-6`}
+                className={`w-14 h-14 rounded-xl bg-[#2289FF38] flex items-center justify-center mb-6 `}
               >
-                <div className="text-white text-2xl">{service.icon}</div>
+                <div className="text-[#2289ff] text-2xl">{service.icon}</div>
               </div>
 
               <h3 className="font-[Recoleta] text-xl text-white mb-3">
@@ -144,7 +140,7 @@ export default function ServicesShowcase() {
                   onClick={() => (window.location.href = service.link)}
                 >
                   <div
-                    className={`absolute inset-0 bg-gradient-to-br ${service.gradient} opacity-0 group-hover:opacity-100 transition-opacity duration-300`}
+                    className={`absolute inset-0 bg-[#2289ff] opacity-0 group-hover:opacity-100 transition-opacity duration-300`}
                   />
                   <FaArrowRight className="relative z-10 w-4 h-4 text-white/70 group-hover:text-white transition-colors" />
                 </button>

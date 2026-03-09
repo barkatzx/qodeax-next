@@ -4,8 +4,10 @@ import { Button } from "@/components/ui/Button";
 import { AnimatePresence, motion, Variants } from "framer-motion";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { FaGithub, FaLinkedin, FaTwitter } from "react-icons/fa";
-import { FiArrowRight, FiMenu, FiX } from "react-icons/fi";
+import { FaArrowRight, FaGithub, FaLinkedin, FaTwitter } from "react-icons/fa";
+import { FiArrowRight, FiX } from "react-icons/fi";
+import { TiThMenu } from "react-icons/ti";
+import { theme } from "./lib/theme";
 import Glass from "./ui/Glass";
 
 export default function Header() {
@@ -17,6 +19,12 @@ export default function Header() {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  const buttonStyle = {
+    background: `linear-gradient(135deg, ${theme.primary} 0%, ${theme.primaryLight} 100%)`,
+    border: "1px solid rgba(255, 255, 255, 0.2)",
+    boxShadow: `0 8px 32px ${theme.primary}30, 0 2px 8px rgba(255, 255, 255, 0.1) inset`,
+  };
 
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
   const closeMenu = () => setIsMenuOpen(false);
@@ -136,47 +144,26 @@ export default function Header() {
               </nav>
 
               {/* Right Side - Social & CTA */}
-              <div className="flex items-center gap-3">
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="group relative px-6 py-3 text-white font-[Outfit-Regular]  text-lg rounded-2xl overflow-hidden"
+                style={buttonStyle}
+              >
+                <span className="flex items-center justify-center gap-3">
+                  <Link href="/contact">Get in Touch</Link>
+                  <FaArrowRight className="w-4 h-4 transform group-hover:translate-x-1 transition-transform" />
+                </span>
                 <motion.div
-                  className="flex items-center gap-2 p-2 bg-white/5 rounded-xl border border-white/10"
-                  whileHover={{ scale: 1.02 }}
-                >
-                  {socialLinks.map((social) => (
-                    <motion.a
-                      key={social.label}
-                      href={social.href}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center group"
-                      whileHover={{ scale: 1.15, y: -2 }}
-                      whileTap={{ scale: 0.95 }}
-                    >
-                      <span className="text-white/70 group-hover:text-white">
-                        {social.icon}
-                      </span>
-                    </motion.a>
-                  ))}
-                </motion.div>
-
-                <motion.div
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                >
-                  <Link href="/contact">
-                    <Button variant="gradient" className="px-6 py-6 rounded-xl">
-                      <span className="flex items-center gap-2 font-bold">
-                        Get In Touch
-                        <motion.span
-                          animate={{ x: [0, 3, 0] }}
-                          transition={{ repeat: Infinity, duration: 2 }}
-                        >
-                          <FiArrowRight />
-                        </motion.span>
-                      </span>
-                    </Button>
-                  </Link>
-                </motion.div>
-              </div>
+                  animate={{ x: ["-100%", "200%"] }}
+                  transition={{
+                    duration: 2,
+                    repeat: Infinity,
+                    ease: "easeInOut",
+                  }}
+                  className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent"
+                />
+              </motion.button>
             </div>
           </div>
         </Glass>
@@ -223,7 +210,7 @@ export default function Header() {
                   {isMenuOpen ? (
                     <FiX className="text-white" size={24} />
                   ) : (
-                    <FiMenu className="text-white" size={24} />
+                    <TiThMenu className="text-white" size={24} />
                   )}
                 </Button>
               </motion.div>
@@ -241,7 +228,7 @@ export default function Header() {
               className="top-full left-8 right-8 z-50 overflow-hidden mt-2 rounded-2xl"
               style={{
                 background:
-                  "linear-gradient(135deg, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.9) 100%)",
+                  "linear-gradient(135deg, rgb(37, 37, 37) 0%, rgb(0, 0, 0) 100%)",
                 border: "1px solid rgba(255,255,255,0.1)",
               }}
             >
@@ -251,7 +238,7 @@ export default function Header() {
                     key={item.label}
                     variants={navItemVariants}
                     custom={i}
-                    className="px-6"
+                    className="px-6 font-[Outfit-Regular] text-lg"
                     whileHover={{ x: 8 }}
                   >
                     <Link
@@ -269,40 +256,17 @@ export default function Header() {
                 ))}
               </nav>
 
-              <div className="relative z-10 p-6 bg-black/80 border-t border-white/10">
-                <div className="flex justify-center gap-4 mb-6">
-                  {socialLinks.map((social) => (
-                    <motion.a
-                      key={social.label}
-                      href={social.href}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      onClick={closeMenu}
-                      className="relative w-12 h-12 rounded-xl flex items-center justify-center group"
-                      whileTap={{ scale: 0.95 }}
-                    >
-                      <Button
-                        variant="gradient"
-                        className="w-full h-full flex items-center justify-center rounded-xl"
-                      >
-                        <span className="relative text-white/70 group-hover:text-white">
-                          {social.icon}
-                        </span>
-                      </Button>
-                    </motion.a>
-                  ))}
-                </div>
-
+              <div className="relative z-10 p-6 bg-white/10 border-t border-white/10">
                 <motion.div
                   whileTap={{ scale: 0.95 }}
-                  className="relative overflow-hidden rounded-xl"
+                  className="relative overflow-hidden rounded-xl font-[Outfit-Regular]"
                 >
                   <Link href="/contact" onClick={closeMenu}>
                     <Button
                       variant="gradient"
-                      className="w-full py-4 font-semibold flex items-center justify-center gap-2"
+                      className="w-full py-8 flex items-center justify-center gap-2 text-lg"
                     >
-                      Contact Me
+                      Get in Touch
                       <FiArrowRight className="group-hover:translate-x-2 transition-transform duration-300" />
                     </Button>
                   </Link>

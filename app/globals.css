@@ -15,6 +15,13 @@
 }
 
 @font-face {
+  font-family: "Outfit-Regular";
+  src: url("../public/font/Outfit-Regular.ttf") format("truetype");
+  font-weight: 200;
+  font-style: normal;
+}
+
+@font-face {
   font-family: "agave";
   src: url("../public/font/Agave Reguler.ttf") format("truetype");
   font-weight: 200;

@@ -1,6 +1,7 @@
 "use client";
 
 import { motion, useAnimation, useScroll, useTransform } from "framer-motion";
+import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import {
@@ -13,7 +14,6 @@ import {
   FaHandshake,
   FaRocket,
   FaShieldAlt,
-  FaStar,
 } from "react-icons/fa";
 import { GiWorld } from "react-icons/gi";
 import { HiTrendingUp } from "react-icons/hi";
@@ -237,16 +237,8 @@ export default function ModernHero() {
                   />
                 </motion.div>
                 <span className="text-sm font-medium text-white">
-                  Elite Digital Agency
+                  Your Partner in Digital Growth{" "}
                 </span>
-                <div className="flex items-center gap-1">
-                  {[...Array(5)].map((_, i) => (
-                    <FaStar
-                      key={i}
-                      className="w-3 h-3 text-yellow-500 fill-current"
-                    />
-                  ))}
-                </div>
               </div>
             </motion.div>
 
@@ -278,7 +270,7 @@ export default function ModernHero() {
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className="group relative px-10 py-5 text-white font-[Recoleta] text-lg rounded-2xl overflow-hidden"
+                className="group relative px-10 py-5 text-white font-[Outfit-Regular]  text-lg rounded-2xl overflow-hidden"
                 style={buttonStyle}
               >
                 <span className="flex items-center justify-center gap-3">
@@ -322,20 +314,26 @@ export default function ModernHero() {
             {/* Trust Indicators */}
             <motion.div
               variants={itemVariants}
-              className="flex flex-wrap items-center gap-8 mt-12 pt-8 border-t border-white/10"
+              className="flex flex-wrap items-center gap-8 mt-12 pt-5 border-t border-white/10"
             >
               <div className="flex items-center gap-3">
                 <div className="flex -space-x-2">
                   {[1, 2, 3, 4].map((i) => (
                     <div
                       key={i}
-                      className="w-8 h-8 rounded-full border-2 border-black bg-gradient-to-br from-[#00a8ff] to-[#4dc3ff] flex items-center justify-center text-xs font-bold text-white"
+                      className="w-8 h-8 rounded-full border-2 border-black overflow-hidden"
                     >
-                      {String.fromCharCode(64 + i)}
+                      <Image
+                        src={`/img/avator-${i}.jpg`}
+                        alt={`Client ${i}`}
+                        width={32}
+                        height={32}
+                        className="w-full h-full object-cover"
+                      />
                     </div>
                   ))}
                   <div className="w-8 h-8 rounded-full border-2 border-black bg-white/10 backdrop-blur flex items-center justify-center text-xs text-white">
-                    +20
+                    +02
                   </div>
                 </div>
                 <span className="text-sm text-white/60">Happy Clients</span>
@@ -422,7 +420,7 @@ export default function ModernHero() {
                           suffix={suffix}
                           delay={delay}
                         />
-                        <div className="text-sm text-white/50 mt-1">
+                        <div className="text-sm text-white/50 mt-1 font-[Outfit-Regular] ">
                           {label}
                         </div>
                       </motion.div>
@@ -437,8 +435,8 @@ export default function ModernHero() {
                   transition={{ delay: 1.2 }}
                   className="mt-8 pt-6 border-t border-white/10"
                 >
-                  <p className="text-sm font-medium text-white/50 mb-4 text-center">
-                    TRUSTED TECHNOLOGIES
+                  <p className="font-[Outfit-Regular] text-lg font-medium text-white/50 mb-4 text-center">
+                    Trusted Technologies We Use
                   </p>
                   <div className="flex flex-wrap justify-center gap-2">
                     {[

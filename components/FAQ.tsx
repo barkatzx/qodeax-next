@@ -105,7 +105,7 @@ export default function FAQComponent() {
         </motion.div>
 
         {/* FAQ Grid */}
-        <div className="grid md:grid-cols-2 gap-6">
+        <div className="grid md:grid-cols-2 gap-6 items-start">
           {faqItems.map((item, index) => (
             <motion.div
               key={item.id}
@@ -116,7 +116,7 @@ export default function FAQComponent() {
             >
               <Glass
                 variant="blue"
-                className={`h-full rounded-xl overflow-hidden transition-all duration-300 ${openItem === item.id ? "border-blue-500/30" : ""}`}
+                className={`rounded-xl overflow-hidden transition-colors duration-300 ${openItem === item.id ? "border-blue-500/30" : ""}`}
               >
                 <button
                   onClick={() => toggleItem(item.id)}
@@ -125,7 +125,7 @@ export default function FAQComponent() {
                   <div className="flex-1">
                     <div className="flex items-center gap-3 mb-3">
                       <div className="w-2 h-2 rounded-full bg-blue-400" />
-                      <span className="text-xs font-medium uppercase tracking-wider text-white/50">
+                      <span className="text-xs font-medium text-white/50 uppercase tracking-wider">
                         {item.category}
                       </span>
                     </div>
@@ -143,7 +143,7 @@ export default function FAQComponent() {
                   </motion.div>
                 </button>
 
-                <AnimatePresence>
+                <AnimatePresence initial={false}>
                   {openItem === item.id && (
                     <motion.div
                       initial={{ height: 0, opacity: 0 }}
@@ -157,22 +157,6 @@ export default function FAQComponent() {
                           <p className="text-white/70 leading-relaxed">
                             {item.answer}
                           </p>
-                          <div className="flex items-center gap-3 mt-4 pt-4 border-t border-white/10">
-                            <div className="flex gap-1">
-                              {[...Array(3)].map((_, i) => (
-                                <motion.div
-                                  key={i}
-                                  initial={{ scale: 0 }}
-                                  animate={{ scale: 1 }}
-                                  transition={{ delay: i * 0.1 }}
-                                  className="w-1.5 h-1.5 rounded-full bg-gradient-to-r from-blue-500/50 to-blue-400/50"
-                                />
-                              ))}
-                            </div>
-                            <span className="text-xs font-medium text-blue-400/70">
-                              Detailed Answer
-                            </span>
-                          </div>
                         </div>
                       </div>
                     </motion.div>
