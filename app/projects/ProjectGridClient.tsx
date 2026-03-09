@@ -113,7 +113,7 @@ export default function ProjectGridClient({
   const totalPages = Math.ceil(filteredProjects.length / itemsPerPage);
   const paginatedProjects = filteredProjects.slice(
     (currentPage - 1) * itemsPerPage,
-    currentPage * itemsPerPage
+    currentPage * itemsPerPage,
   );
 
   const handleNext = () =>
@@ -124,7 +124,7 @@ export default function ProjectGridClient({
       | "All Work"
       | "Digital Products"
       | "CMS Platforms"
-      | "Mobile Experiences"
+      | "Mobile Experiences",
   ) => {
     setActiveTab(tab);
     setCurrentPage(1);
@@ -189,40 +189,6 @@ export default function ProjectGridClient({
             WordPress websites, and Flutter mobile applications
           </p>
         </motion.div>
-
-        {/* Tabs with Liquid Glass Effect */}
-        <div className="sticky top-4 z-10 mb-12">
-          <div className="flex flex-col items-center justify-center">
-            <div className="inline-flex rounded-full p-1.5 md:p-2 backdrop-blur-sm w-full max-w-2xl">
-              <Glass variant="blue" className="p-1 rounded-full">
-                <div className="flex flex-nowrap overflow-x-auto w-full">
-                  {tabs.map((tab) => (
-                    <motion.button
-                      key={tab}
-                      onClick={() => handleTabClick(tab)}
-                      whileHover={{ scale: 1.05 }}
-                      whileTap={{ scale: 0.95 }}
-                      className={`px-3 py-2 text-xs md:text-sm font-semibold rounded-2xl transition-all duration-300 flex items-center justify-center flex-shrink-0 mx-0.5 whitespace-nowrap ${
-                        activeTab === tab
-                          ? "text-white"
-                          : "text-white/70 hover:text-white"
-                      }`}
-                      style={
-                        activeTab === tab
-                          ? {
-                              background: `linear-gradient(${theme.primary} 10%, ${theme.primaryDark} 80%)`,
-                            }
-                          : {}
-                      }
-                    >
-                      {tab}
-                    </motion.button>
-                  ))}
-                </div>
-              </Glass>
-            </div>
-          </div>
-        </div>
 
         {filteredProjects.length === 0 ? (
           <motion.div
@@ -306,7 +272,7 @@ export default function ProjectGridClient({
                         <div className="mb-4 flex-1">
                           <p className="text-white/80 text-sm leading-relaxed line-clamp-4">
                             {truncateDescription(
-                              project.description || "No description available"
+                              project.description || "No description available",
                             )}
                           </p>
                         </div>
@@ -433,7 +399,7 @@ export default function ProjectGridClient({
                         Math.min(totalPages, currentPage + 1),
                       ]
                         .filter(
-                          (page, index, array) => array.indexOf(page) === index
+                          (page, index, array) => array.indexOf(page) === index,
                         )
                         .map((page) => (
                           <button
@@ -499,12 +465,12 @@ export default function ProjectGridClient({
                   Showing{" "}
                   {Math.min(
                     (currentPage - 1) * itemsPerPage + 1,
-                    filteredProjects.length
+                    filteredProjects.length,
                   )}
                   -
                   {Math.min(
                     currentPage * itemsPerPage,
-                    filteredProjects.length
+                    filteredProjects.length,
                   )}{" "}
                   of {filteredProjects.length} projects
                 </span>

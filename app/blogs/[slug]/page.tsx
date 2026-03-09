@@ -95,56 +95,52 @@ export default async function PostPage(props: { params: tParams }) {
       <div className="py-10">
         <div className="container mx-auto">
           {/* Post Title */}
-          <h1 className="font-[Recoleta] text-3xl md:text-5xl lg:text-6xl mb-4 md:mb-6 text-white text-center">
+          <h1 className="font-[Recoleta] text-3xl md:text-5xl lg:text-6xl mb-4 md:mb-6 text-white/90 text-center">
             {post.title}
           </h1>
-
-          {/* Excerpt
-          {post.excerpt && (
-            <p className="text-lg md:text-xl text-white/70 mb-6 max-w-3xl leading-relaxed">
-              {post.excerpt}
-            </p>
-          )} */}
-
           {/* Meta Info */}
-          <div className="flex flex-wrap items-center justify-center gap-3 md:gap-4 text-white/60 text-sm md:text-base mb-6 text-center">
+          <div className="font-[Outfit-Regular] flex flex-wrap items-center justify-center gap-3 md:gap-4 text-white/60 text-sm md:text-base text-center">
             {/* Date */}
             <span className="flex items-center gap-2">
-              <FaCalendarAlt className="text-[#00a8ff]" />
+              <FaCalendarAlt />
               {formattedDate}
             </span>
 
             {/* Reading Time */}
             <span className="flex items-center gap-2">
-              <FaBookReader className="text-[#4dc3ff]" />
+              <FaBookReader />
               {readingTime} min read
             </span>
 
             {/* Categories */}
             {post.categories?.length > 0 && (
               <span className="flex items-center gap-2 flex-wrap justify-center">
-                <BiSolidCategory className="text-[#4dc3ff]" />
+                <BiSolidCategory />
                 {post.categories.map((cat: { title: string }, idx: number) => (
                   <span key={idx}>{cat.title}</span>
                 ))}
               </span>
             )}
           </div>
+          Excerpt
+          {post.excerpt && (
+            <p className="text-lg md:text-xl text-white/70 text-center max-w-5xl mx-auto">
+              {post.excerpt}
+            </p>
+          )}
         </div>
 
         {/* Featured Image */}
         {mainImageUrl && (
           <div className="mt-6 md:mt-8">
             <div className="container mx-auto">
-              <div className="relative rounded-xl md:rounded-2xl overflow-hidden border border-white/10">
+              <div className="relative overflow-hidden ">
                 <Image
                   src={mainImageUrl}
                   alt={post.title}
                   width={800}
                   height={600}
-                  className="w-full h-auto object-cover"
-                  priority
-                  sizes="(max-width: 768px) 100vw, 1200px"
+                  className="w-full h-full object-cover rounded-2xl shadow-xl"
                 />
               </div>
             </div>
@@ -199,7 +195,7 @@ export default async function PostPage(props: { params: tParams }) {
 
                       {/* Author Info */}
                       <div className="flex-1">
-                        <h3 className="text-xl font-bold text-white mb-1">
+                        <h3 className="text-xl font-[Outfit-Regular] text-white mb-1">
                           {post.author.name}
                         </h3>
 
@@ -255,7 +251,7 @@ export default async function PostPage(props: { params: tParams }) {
             {/* Sidebar - Right Side (Recent Posts) */}
             <div className="lg:w-1/3">
               <Glass
-                variant="blue"
+                variant="white"
                 className="p-6 rounded-xl md:rounded-2xl sticky top-24"
               >
                 <h2 className="font-[Recoleta] text-2xl font-bold text-white mb-5">
@@ -294,7 +290,7 @@ export default async function PostPage(props: { params: tParams }) {
 
                           {/* Recent Post Info */}
                           <div className="flex-1">
-                            <h3 className="text-white text-lg line-clamp-2 group-hover:text-[#00a8ff] transition-colors mb-1">
+                            <h3 className="font-[Outfit-Regular] text-white/90 text-lg line-clamp-2 group-hover:text-[#00a8ff] transition-colors mb-1">
                               {recentPost.title}
                             </h3>
                             {/* <h3 className="text-xs text-white/50 line-clamp-2 mb-1">

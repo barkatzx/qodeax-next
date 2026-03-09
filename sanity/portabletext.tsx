@@ -6,27 +6,27 @@ import Image from "next/image";
 export const components: PortableTextComponents = {
   block: {
     h1: ({ children }) => (
-      <h1 className="font-[Recoleta] text-5xl font-bold mt-12 mb-4 leading-tight text-white">
+      <h1 className="font-[Recoleta] text-5xl font-bold mt-12 mb-4 leading-tight text-white/90">
         {children}
       </h1>
     ),
     h2: ({ children }) => (
-      <h2 className="font-[Recoleta] text-4xl font-bold mt-10 mb-3 leading-snug text-white">
+      <h2 className="font-[Recoleta] text-4xl font-bold mt-10 mb-3 leading-snug text-white/90">
         {children}
       </h2>
     ),
     h3: ({ children }) => (
-      <h3 className="font-[Recoleta] text-3xl font-bold mt-8 mb-3 leading-snug text-white">
+      <h3 className="font-[Recoleta] text-3xl font-bold mt-8 mb-3 leading-snug text-white/90">
         {children}
       </h3>
     ),
     h4: ({ children }) => (
-      <h4 className="font-[Recoleta] text-2xl font-bold mt-6 mb-2 leading-snug text-white">
+      <h4 className="font-[Recoleta] text-2xl font-bold mt-6 mb-2 leading-snug text-white/90">
         {children}
       </h4>
     ),
     h5: ({ children }) => (
-      <h5 className="font-[Recoleta] text-xl font-bold mt-6 mb-2 leading-snug text-white">
+      <h5 className="font-[Recoleta] text-xl font-bold mt-6 mb-2 leading-snug text-white/90">
         {children}
       </h5>
     ),
@@ -43,19 +43,15 @@ export const components: PortableTextComponents = {
     strong: ({ children }) => (
       <strong className="font-bold text-white">{children}</strong>
     ),
-    em: ({ children }) => (
-      <em className="italic text-white/90">{children}</em>
-    ),
-    code: ({ children }) => (
-      <code>
-        {children}
-      </code>
-    ),
+    em: ({ children }) => <em className="italic text-white/90">{children}</em>,
+    code: ({ children }) => <code>{children}</code>,
     link: ({ value, children }) => (
       <a
         href={value?.href}
         target={value?.href?.startsWith("http") ? "_blank" : undefined}
-        rel={value?.href?.startsWith("http") ? "noopener noreferrer" : undefined}
+        rel={
+          value?.href?.startsWith("http") ? "noopener noreferrer" : undefined
+        }
         className="text-[#00a8ff] underline underline-offset-2 hover:text-[#4dc3ff] transition-colors"
       >
         {children}
@@ -103,9 +99,7 @@ export const components: PortableTextComponents = {
             className="rounded-2xl w-full h-auto object-cover border border-white/10"
           />
           {value.caption && (
-            <p className="text-sm text-white/50 mt-2 italic">
-              {value.caption}
-            </p>
+            <p className="text-sm text-white/50 mt-2 italic">{value.caption}</p>
           )}
         </div>
       );
@@ -113,8 +107,8 @@ export const components: PortableTextComponents = {
     // Add the codeBlock type handler
     codeBlock: ({ value }) => {
       return (
-        <CodeBlockClient 
-          code={value.code} 
+        <CodeBlockClient
+          code={value.code}
           language={value.language}
           title={value.title}
           showLineNumbers={value.showLineNumbers}
