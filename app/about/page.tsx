@@ -1,12 +1,12 @@
 "use client";
 
+import Glass from "@/components/ui/Glass";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import {
   FaArrowRight,
   FaAward,
-  FaBehance,
   FaBullseye,
   FaChartBar,
   FaChartLine,
@@ -15,7 +15,6 @@ import {
   FaCode,
   FaCogs,
   FaDatabase,
-  FaDribbble,
   FaEye,
   FaGithub,
   FaGlobe,
@@ -34,66 +33,34 @@ import {
 // Team members
 const teamMembers = [
   {
-    name: "Alex Chen",
+    name: "Barkat Ullah",
     role: "Founder & Lead Developer",
-    image: "/team/alex.jpg",
-    bio: "Full-stack developer with 8+ years of experience in building scalable web applications.",
+    image: "/team/barkat.jpg",
+    bio: "Full-stack developer with 3+ years of experience in building scalable web applications.",
     social: {
-      github: "https://github.com/alexchen",
-      linkedin: "https://linkedin.com/in/alexchen",
-      twitter: "https://twitter.com/alexchen",
+      github: "https://github.com/barkatzx",
+      linkedin: "https://linkedin.com/in/barkatzx",
+      twitter: "https://twitter.com/barkatzx",
     },
   },
   {
-    name: "Sarah Johnson",
-    role: "UI/UX Director",
+    name: "Ambar Zara",
+    role: "Team Lead & Backend Developer",
     image: "/team/sarah.jpg",
     bio: "Passionate about creating intuitive and beautiful user experiences that drive engagement.",
     social: {
-      dribbble: "https://dribbble.com/sarahj",
-      linkedin: "https://linkedin.com/in/sarahjohnson",
-      behance: "https://behance.net/sarahj",
+      github: "https://dribbble.com/",
+      linkedin: "https://linkedin.com/in/",
     },
   },
   {
-    name: "Marcus Rodriguez",
-    role: "Senior Backend Engineer",
-    image: "/team/marcus.jpg",
-    bio: "Specializes in cloud architecture and building robust, scalable backend systems.",
+    name: "Robiul Parvez",
+    role: "Senior Frontend Developer",
+    image: "/team/sarah.jpg",
+    bio: "Passionate about creating intuitive and beautiful user experiences that drive engagement.",
     social: {
-      github: "https://github.com/marcusr",
-      linkedin: "https://linkedin.com/in/marcusrodriguez",
-    },
-  },
-  {
-    name: "Emily Zhang",
-    role: "Lead Product Designer",
-    image: "/team/emily.jpg",
-    bio: "Crafts memorable brand experiences through thoughtful design and attention to detail.",
-    social: {
-      behance: "https://behance.net/emilyz",
-      linkedin: "https://linkedin.com/in/emilyzhang",
-      dribbble: "https://dribbble.com/emilyz",
-    },
-  },
-  {
-    name: "David Kim",
-    role: "AI/ML Engineer",
-    image: "/team/david.jpg",
-    bio: "Expert in machine learning and AI integration, building intelligent solutions for complex problems.",
-    social: {
-      github: "https://github.com/davidkim",
-      linkedin: "https://linkedin.com/in/davidkim",
-    },
-  },
-  {
-    name: "Lisa Patel",
-    role: "Cloud Architect",
-    image: "/team/lisa.jpg",
-    bio: "Designs and implements robust cloud infrastructure solutions for enterprise-scale applications.",
-    social: {
-      linkedin: "https://linkedin.com/in/lisapatel",
-      twitter: "https://twitter.com/lisapatel",
+      github: "https://dribbble.com/",
+      linkedin: "https://linkedin.com/in/",
     },
   },
 ];
@@ -129,19 +96,16 @@ const technologies = [
 
   // Backend
   { name: "nodejs", label: "Node.js", category: "Backend", icon: "nodejs" },
+  {
+    name: "expressjs",
+    label: "Express.js",
+    category: "Backend",
+    icon: "expressjs",
+  },
   { name: "python", label: "Python", category: "Backend", icon: "python" },
-  { name: "django", label: "Django", category: "Backend", icon: "django" },
-  { name: "flask", label: "Flask", category: "Backend", icon: "flask" },
   { name: "fastapi", label: "FastAPI", category: "Backend", icon: "fastapi" },
-  { name: "ruby", label: "Ruby on Rails", category: "Backend", icon: "rails" },
-  { name: "php", label: "PHP", category: "Backend", icon: "php" },
-  { name: "laravel", label: "Laravel", category: "Backend", icon: "laravel" },
   { name: "go", label: "Golang", category: "Backend", icon: "go" },
-  { name: "rust", label: "Rust", category: "Backend", icon: "rust" },
-  { name: "java", label: "Java", category: "Backend", icon: "java" },
-  { name: "spring", label: "Spring Boot", category: "Backend", icon: "spring" },
   { name: "csharp", label: "C#", category: "Backend", icon: "csharp" },
-  { name: "dotnet", label: ".NET Core", category: "Backend", icon: "dotnet" },
 
   // Mobile
   { name: "flutter", label: "Flutter", category: "Mobile", icon: "flutter" },
@@ -154,8 +118,6 @@ const technologies = [
   { name: "swift", label: "Swift", category: "Mobile", icon: "swift" },
   { name: "kotlin", label: "Kotlin", category: "Mobile", icon: "kotlin" },
   { name: "android", label: "Android", category: "Mobile", icon: "android" },
-  { name: "ionic", label: "Ionic", category: "Mobile", icon: "ionic" },
-  { name: "xamarin", label: "Xamarin", category: "Mobile", icon: "xamarin" },
 
   // Database
   { name: "mongodb", label: "MongoDB", category: "Database", icon: "mongodb" },
@@ -167,25 +129,6 @@ const technologies = [
   },
   { name: "mysql", label: "MySQL", category: "Database", icon: "mysql" },
   { name: "redis", label: "Redis", category: "Database", icon: "redis" },
-  {
-    name: "elasticsearch",
-    label: "Elasticsearch",
-    category: "Database",
-    icon: "elasticsearch",
-  },
-  {
-    name: "influxdb",
-    label: "InfluxDB",
-    category: "Database",
-    icon: "influxdb",
-  },
-  {
-    name: "cassandra",
-    label: "Cassandra",
-    category: "Database",
-    icon: "cassandra",
-  },
-  { name: "neo4j", label: "Neo4j", category: "Database", icon: "neo4j" },
   {
     name: "dynamodb",
     label: "DynamoDB",
@@ -238,7 +181,6 @@ const technologies = [
     category: "DevOps",
     icon: "kubernetes",
   },
-  { name: "jenkins", label: "Jenkins", category: "DevOps", icon: "jenkins" },
   {
     name: "githubactions",
     label: "GitHub Actions",
@@ -246,20 +188,6 @@ const technologies = [
     icon: "githubactions",
   },
   { name: "gitlab", label: "GitLab CI", category: "DevOps", icon: "gitlab" },
-  {
-    name: "terraform",
-    label: "Terraform",
-    category: "DevOps",
-    icon: "terraform",
-  },
-  { name: "ansible", label: "Ansible", category: "DevOps", icon: "ansible" },
-  {
-    name: "prometheus",
-    label: "Prometheus",
-    category: "DevOps",
-    icon: "prometheus",
-  },
-  { name: "grafana", label: "Grafana", category: "DevOps", icon: "grafana" },
   { name: "nginx", label: "Nginx", category: "DevOps", icon: "nginx" },
 
   // AI
@@ -277,24 +205,9 @@ const technologies = [
     category: "AI",
     icon: "huggingface",
   },
-  { name: "langchain", label: "LangChain", category: "AI", icon: "langchain" },
-  { name: "keras", label: "Keras", category: "AI", icon: "keras" },
-  {
-    name: "scikitlearn",
-    label: "Scikit-learn",
-    category: "AI",
-    icon: "scikitlearn",
-  },
   { name: "opencv", label: "OpenCV", category: "AI", icon: "opencv" },
 
   // Analytics
-  { name: "tableau", label: "Tableau", category: "Analytics", icon: "tableau" },
-  {
-    name: "powerbi",
-    label: "Power BI",
-    category: "Analytics",
-    icon: "powerbi",
-  },
   { name: "looker", label: "Looker", category: "Analytics", icon: "looker" },
   {
     name: "snowflake",
@@ -314,8 +227,6 @@ const technologies = [
     category: "Analytics",
     icon: "spark",
   },
-  { name: "hadoop", label: "Hadoop", category: "Analytics", icon: "hadoop" },
-  { name: "kafka", label: "Kafka", category: "Analytics", icon: "kafka" },
 ];
 
 const categoryIcons = {
@@ -413,31 +324,16 @@ export default function AboutPage() {
       : technologies.filter((tech) => tech.category === activeCategory);
 
   return (
-    <main className="min-h-screen bg-black rounded-3xl overflow-hidden">
+    <main>
       {/* Hero Section */}
-      <section className="relative px-5 md:px-20 py-16 md:py-24">
-        {/* Animated Background */}
-        <div className="absolute inset-0 overflow-hidden">
-          <div
-            className="absolute w-[800px] h-[800px] rounded-full bg-gradient-to-r from-[#00a8ff]/10 via-transparent to-[#00a8ff]/5 blur-3xl"
-            style={{
-              left: `${mousePosition.x * 0.01}px`,
-              top: `${mousePosition.y * 0.01}px`,
-              transition: "all 0.8s cubic-bezier(0.4, 0, 0.2, 1)",
-            }}
-          />
-          <div className="absolute top-0 left-1/4 w-96 h-96 bg-[#00a8ff]/10 rounded-full blur-3xl animate-pulse" />
-          <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-[#00a8ff]/10 rounded-full blur-3xl animate-pulse delay-1000" />
-        </div>
-
-        <div className="relative max-w-6xl mx-auto">
+      <section className="py-10 container mx-auto">
+        <div className="">
           {/* Agency Badge */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-full mb-8"
-            style={liquidGlassStyle}
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-full mb-5 bg-white/10 border border-white/20"
           >
             <span className="w-2 h-2 bg-[#00a8ff] rounded-full animate-ping" />
             <span className="w-2 h-2 bg-[#00a8ff] rounded-full" />
@@ -483,7 +379,7 @@ export default function AboutPage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.3 }}
-            className="flex flex-col sm:flex-row gap-4 mb-16"
+            className="flex flex-col sm:flex-row gap-4"
           >
             <motion.a
               href="/portfolio"
@@ -519,7 +415,7 @@ export default function AboutPage() {
       </section>
 
       {/* Mission & Vision Section */}
-      <section className="px-5 md:px-20 py-16 md:py-24">
+      <section className="py-20">
         <div className="max-w-6xl mx-auto">
           <div className="grid md:grid-cols-2 gap-8">
             {/* Mission */}
@@ -530,10 +426,7 @@ export default function AboutPage() {
               viewport={{ once: true }}
               className="relative"
             >
-              <div
-                className="rounded-3xl p-8 md:p-10 h-full"
-                style={liquidGlassStyle}
-              >
+              <Glass variant="white" className="rounded-3xl p-8 md:p-10 h-full">
                 <div className="flex items-center gap-4 mb-6">
                   <div
                     className="w-16 h-16 rounded-2xl flex items-center justify-center"
@@ -572,7 +465,7 @@ export default function AboutPage() {
                     </div>
                   </div>
                 </div>
-              </div>
+              </Glass>
             </motion.div>
 
             {/* Vision */}
@@ -583,10 +476,7 @@ export default function AboutPage() {
               viewport={{ once: true }}
               className="relative"
             >
-              <div
-                className="rounded-3xl p-8 md:p-10 h-full"
-                style={liquidGlassStyle}
-              >
+              <Glass variant="white" className="rounded-3xl p-8 md:p-10 h-full">
                 <div className="flex items-center gap-4 mb-6">
                   <div
                     className="w-16 h-16 rounded-2xl flex items-center justify-center"
@@ -627,7 +517,7 @@ export default function AboutPage() {
                     </span>
                   </div>
                 </div>
-              </div>
+              </Glass>
             </motion.div>
           </div>
 
@@ -639,7 +529,7 @@ export default function AboutPage() {
             viewport={{ once: true }}
             className="mt-8"
           >
-            <div className="rounded-3xl p-8 md:p-10" style={liquidGlassStyle}>
+            <Glass variant="blue" className="rounded-3xl p-8 md:p-10">
               <h3 className="font-[Recoleta] text-2xl md:text-3xl font-bold text-white mb-8 text-center">
                 Why Clients Trust Us
               </h3>
@@ -673,13 +563,13 @@ export default function AboutPage() {
                   </p>
                 </div>
               </div>
-            </div>
+            </Glass>
           </motion.div>
         </div>
       </section>
 
       {/* Stats Section */}
-      <section className="px-5 md:px-20 py-16">
+      <section className="py-10">
         <div className="max-w-6xl mx-auto">
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
             {stats.map((stat, index) => (
@@ -713,7 +603,7 @@ export default function AboutPage() {
       </section>
 
       {/* Values Section */}
-      <section className="px-5 md:px-20 py-16 md:py-24">
+      <section className="py-20">
         <div className="max-w-6xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -722,15 +612,15 @@ export default function AboutPage() {
             viewport={{ once: true }}
             className="text-center mb-16"
           >
-            <div
+            <Glass
+              variant="white"
               className="inline-flex items-center gap-2 px-4 py-2 rounded-full mb-4"
-              style={liquidGlassStyle}
             >
               <span className="w-2 h-2 bg-[#00a8ff] rounded-full"></span>
               <span className="text-sm font-semibold text-[#00a8ff]">
                 OUR PRINCIPLES
               </span>
-            </div>
+            </Glass>
             <h2 className="font-[Recoleta] text-3xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-white via-white/90 to-white/70 bg-clip-text text-transparent">
               What Drives Us Forward
             </h2>
@@ -750,9 +640,9 @@ export default function AboutPage() {
                 viewport={{ once: true }}
                 className="group"
               >
-                <div
+                <Glass
+                  variant="blue"
                   className="rounded-2xl hover:shadow-xl transition-all duration-500 p-6 h-full"
-                  style={liquidGlassStyle}
                 >
                   <div
                     className="w-16 h-16 rounded-xl flex items-center justify-center mb-6 shadow-lg group-hover:shadow-xl transition-all duration-500 group-hover:scale-110"
@@ -768,7 +658,7 @@ export default function AboutPage() {
                   <p className="text-white/70 leading-relaxed">
                     {value.description}
                   </p>
-                </div>
+                </Glass>
               </motion.div>
             ))}
           </div>
@@ -776,7 +666,7 @@ export default function AboutPage() {
       </section>
 
       {/* Technology Stack Section */}
-      <section className="px-5 md:px-20 py-16 md:py-24">
+      <section className="py-10">
         <div className="max-w-6xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -785,15 +675,15 @@ export default function AboutPage() {
             viewport={{ once: true }}
             className="text-center mb-16"
           >
-            <div
+            <Glass
+              variant="white"
               className="inline-flex items-center gap-2 px-4 py-2 rounded-full mb-4"
-              style={liquidGlassStyle}
             >
               <span className="w-2 h-2 bg-[#00a8ff] rounded-full"></span>
               <span className="text-sm font-semibold text-[#00a8ff]">
                 OUR TECHNOLOGY ECOSYSTEM
               </span>
-            </div>
+            </Glass>
             <h2 className="font-[Recoleta] text-3xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-white via-white/90 to-white/70 bg-clip-text text-transparent">
               Cutting-Edge Tech Stack
             </h2>
@@ -804,39 +694,43 @@ export default function AboutPage() {
           </motion.div>
 
           {/* Category Filter */}
+          {/* Category Filter */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.1 }}
             viewport={{ once: true }}
-            className="flex flex-wrap justify-center gap-3 mb-12"
+            className="mb-12"
           >
-            <button
-              onClick={() => setActiveCategory("All")}
-              className={`px-6 py-3 rounded-xl font-semibold transition-all duration-300 ${
-                activeCategory === "All"
-                  ? "bg-[#00a8ff] text-white"
-                  : "text-white/70 hover:text-white bg-white/5 hover:bg-white/10"
-              }`}
-            >
-              All Technologies
-            </button>
-            {Object.keys(categoryIcons).map((category) => (
+            <div className="flex overflow-x-auto whitespace-nowrap gap-3 justify-start md:justify-center scrollbar-hide px-2">
               <button
-                key={category}
-                onClick={() => setActiveCategory(category)}
-                className={`px-6 py-3 rounded-xl font-semibold transition-all duration-300 flex items-center gap-2 ${
-                  activeCategory === category
+                onClick={() => setActiveCategory("All")}
+                className={`flex-shrink-0 px-5 md:px-6 py-2.5 md:py-3 rounded-xl font-semibold transition-all duration-300 ${
+                  activeCategory === "All"
                     ? "bg-[#00a8ff] text-white"
                     : "text-white/70 hover:text-white bg-white/5 hover:bg-white/10"
                 }`}
               >
-                <span>
-                  {categoryIcons[category as keyof typeof categoryIcons]}
-                </span>
-                {category}
+                All Technologies
               </button>
-            ))}
+
+              {Object.keys(categoryIcons).map((category) => (
+                <button
+                  key={category}
+                  onClick={() => setActiveCategory(category)}
+                  className={`flex-shrink-0 px-5 md:px-6 py-2.5 md:py-3 rounded-xl font-semibold transition-all duration-300 flex items-center gap-2 ${
+                    activeCategory === category
+                      ? "bg-[#00a8ff] text-white"
+                      : "text-white/70 hover:text-white bg-white/5 hover:bg-white/10"
+                  }`}
+                >
+                  <span>
+                    {categoryIcons[category as keyof typeof categoryIcons]}
+                  </span>
+                  {category}
+                </button>
+              ))}
+            </div>
           </motion.div>
 
           {/* Technologies Grid */}
@@ -857,13 +751,7 @@ export default function AboutPage() {
                 whileHover={{ scale: 1.05, y: -5 }}
                 className="group"
               >
-                <div
-                  className="rounded-xl border border-white/10 hover:border-[#00a8ff]/30 hover:shadow-xl transition-all duration-300 p-4 flex flex-col items-center"
-                  style={{
-                    background:
-                      "linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.02) 100%)",
-                  }}
-                >
+                <div className="rounded-xl border border-white/10 hover:border-[#00a8ff]/30 hover:shadow-xl transition-all duration-300 p-4 flex flex-col items-center bg-white/5">
                   <div className="w-12 h-12 relative mb-2">
                     <Image
                       src={`https://skillicons.dev/icons?i=${tech.icon}`}
@@ -895,28 +783,36 @@ export default function AboutPage() {
           >
             <div className="text-center p-4 rounded-xl bg-white/5">
               <div className="text-2xl font-bold text-[#00a8ff] mb-1">50+</div>
-              <div className="text-white/60 text-sm">Technologies Mastered</div>
+              <div className="text-white/60 text-sm font-[Outfit-Regular]">
+                Technologies Mastered
+              </div>
             </div>
             <div className="text-center p-4 rounded-xl bg-white/5">
               <div className="text-2xl font-bold text-[#00a8ff] mb-1">100%</div>
-              <div className="text-white/60 text-sm">Cloud Certified</div>
+              <div className="text-white/60 text-sm font-[Outfit-Regular]">
+                Cloud Certified
+              </div>
             </div>
             <div className="text-center p-4 rounded-xl bg-white/5">
               <div className="text-2xl font-bold text-[#00a8ff] mb-1">24/7</div>
-              <div className="text-white/60 text-sm">Monitoring</div>
+              <div className="text-white/60 text-sm font-[Outfit-Regular]">
+                Monitoring
+              </div>
             </div>
             <div className="text-center p-4 rounded-xl bg-white/5">
               <div className="text-2xl font-bold text-[#00a8ff] mb-1">
                 99.9%
               </div>
-              <div className="text-white/60 text-sm">Uptime Guarantee</div>
+              <div className="text-white/60 text-sm font-[Outfit-Regular]">
+                Uptime Guarantee
+              </div>
             </div>
           </motion.div>
         </div>
       </section>
 
       {/* Team Section */}
-      <section className="px-5 md:px-20 py-16 md:py-24">
+      <section className="py-10">
         <div className="max-w-6xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -925,15 +821,15 @@ export default function AboutPage() {
             viewport={{ once: true }}
             className="text-center mb-16"
           >
-            <div
+            <Glass
+              variant="white"
               className="inline-flex items-center gap-2 px-4 py-2 rounded-full mb-4"
-              style={liquidGlassStyle}
             >
               <span className="w-2 h-2 bg-[#00a8ff] rounded-full"></span>
               <span className="text-sm font-semibold text-[#00a8ff]">
                 MEET THE EXPERTS
               </span>
-            </div>
+            </Glass>
             <h2 className="font-[Recoleta] text-3xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-white via-white/90 to-white/70 bg-clip-text text-transparent">
               The Minds Behind The Magic
             </h2>
@@ -953,10 +849,7 @@ export default function AboutPage() {
                 viewport={{ once: true }}
                 className="group"
               >
-                <div
-                  className="rounded-2xl overflow-hidden hover:shadow-xl transition-all duration-500"
-                  style={liquidGlassStyle}
-                >
+                <Glass variant="white" className="">
                   <div className="relative h-64 overflow-hidden">
                     <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent z-10" />
                     {/* Placeholder for team member image */}
@@ -970,7 +863,9 @@ export default function AboutPage() {
                     <h3 className="font-[Recoleta] text-xl font-bold text-white mb-1">
                       {member.name}
                     </h3>
-                    <p className="text-[#00a8ff] text-sm mb-3">{member.role}</p>
+                    <p className="text-[#00a8ff] text-sm mb-3 font-[Outfit-Regular]">
+                      {member.role}
+                    </p>
                     <p className="text-white/60 text-sm mb-4">{member.bio}</p>
                     <div className="flex gap-3">
                       {member.social.github && (
@@ -1003,7 +898,7 @@ export default function AboutPage() {
                           <FaTwitter />
                         </a>
                       )}
-                      {member.social.dribbble && (
+                      {/* {member.social.dribbble && (
                         <a
                           href={member.social.dribbble}
                           target="_blank"
@@ -1012,20 +907,10 @@ export default function AboutPage() {
                         >
                           <FaDribbble />
                         </a>
-                      )}
-                      {member.social.behance && (
-                        <a
-                          href={member.social.behance}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-white/40 hover:text-[#00a8ff] transition-colors"
-                        >
-                          <FaBehance />
-                        </a>
-                      )}
+                      )} */}
                     </div>
                   </div>
-                </div>
+                </Glass>
               </motion.div>
             ))}
           </div>

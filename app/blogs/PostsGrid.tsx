@@ -105,43 +105,48 @@ export default function PostsGrid({ posts }: PostGridProps) {
           viewport={{ once: true }}
           className="mb-10 font-[Outfit-Regular]"
         >
-          <div className="flex flex-wrap items-center justify-center gap-3">
-            <Button
-              variant="gradient"
-              onClick={() => handleCategoryClick(null)}
-              className={`px-5 py-2.5 rounded-full text-sm transition-all duration-300 ${
-                selectedCategory !== null ? "opacity-50 hover:opacity-100" : ""
-              }`}
-            >
-              Latest Blogs
-              <span className="ml-2 text-sm font-[Outfit-Regular]">
-                ({posts.length})
-              </span>
-            </Button>
+          {/* Slider */}
+          <div className="relative">
+            <div className="flex overflow-x-auto whitespace-nowrap gap-3 px-2 md:justify-center snap-x snap-mandatory scrollbar-hide">
+              <Button
+                variant="gradient"
+                onClick={() => handleCategoryClick(null)}
+                className={`flex-shrink-0 snap-start px-5 py-2.5 rounded-full text-sm transition-all duration-300 ${
+                  selectedCategory !== null
+                    ? "opacity-50 hover:opacity-100"
+                    : ""
+                }`}
+              >
+                Latest Blogs
+                <span className="ml-2 text-sm font-[Outfit-Regular]">
+                  ({posts.length})
+                </span>
+              </Button>
 
-            {allCategories.map((category) => {
-              const count = posts.filter((post) =>
-                post.categories?.some((cat) => cat.title === category),
-              ).length;
+              {allCategories.map((category) => {
+                const count = posts.filter((post) =>
+                  post.categories?.some((cat) => cat.title === category),
+                ).length;
 
-              return (
-                <Button
-                  key={category}
-                  variant="gradient"
-                  onClick={() => handleCategoryClick(category)}
-                  className={`px-5 py-2.5 rounded-full text-sm font-medium transition-all duration-300 flex items-center gap-2 ${
-                    selectedCategory !== category
-                      ? "opacity-70 hover:opacity-100"
-                      : ""
-                  }`}
-                >
-                  {category}
-                  <span className="font-[Outfit-Regular] text-sm">
-                    ({count})
-                  </span>
-                </Button>
-              );
-            })}
+                return (
+                  <Button
+                    key={category}
+                    variant="gradient"
+                    onClick={() => handleCategoryClick(category)}
+                    className={`flex-shrink-0 snap-start px-5 py-2.5 rounded-full text-sm font-medium transition-all duration-300 flex items-center gap-2 ${
+                      selectedCategory !== category
+                        ? "opacity-70 hover:opacity-100"
+                        : ""
+                    }`}
+                  >
+                    {category}
+                    <span className="font-[Outfit-Regular] text-sm">
+                      ({count})
+                    </span>
+                  </Button>
+                );
+              })}
+            </div>
           </div>
 
           {(selectedCategory || searchQuery) && (
