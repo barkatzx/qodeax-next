@@ -27,12 +27,6 @@ export default async function ApplyPage(props: { params: tParams }) {
   if (!job) {
     notFound();
   }
-  // export default async function ApplyPage({ params }: PageProps) {
-  //   const job = await getJobBySlug(params.slug);
-
-  //   if (!job) {
-  //     notFound();
-  //   }
 
   return <ApplicationFormClient job={job} />;
 }
