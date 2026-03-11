@@ -33,7 +33,7 @@ const menuItems = [
   { name: "Services", href: "/services" },
   { name: "Our Products", href: "/projects" },
   { name: "Case Studies", href: "/blogs" },
-  { name: "Careers", href: "/careers" },
+  { name: "Career", href: "/career" },
   { name: "Contact Us", href: "/contact" },
 ];
 
