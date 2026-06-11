@@ -1,8 +1,8 @@
 // app/careers/[slug]/apply/ApplicationFormClient.tsx
 "use client";
 
-import { submitApplication } from "@/app/api/submit-application/route";
 import Glass from "@/components/ui/Glass";
+import { submitApplication } from "@/lib/submitApplication";
 import { type Career } from "@/sanity/client";
 import { AnimatePresence, motion } from "framer-motion";
 import { useRouter } from "next/navigation";
@@ -159,9 +159,6 @@ export default function ApplicationFormClient({
         howDidYouHear: formData.howDidYouHear || undefined,
         referral: formData.referral || undefined,
       };
-
-      // Import the submit function
-      const { submitJobApplication } = await import("@/sanity/client");
 
       const result = await submitApplication(applicationData, resume);
 

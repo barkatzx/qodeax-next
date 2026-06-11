@@ -88,14 +88,14 @@ export default async function ProjectPage(props: { params: tParams }) {
             {project.title}
           </h1>
 
-          <div className="flex flex-wrap gap-6 mb-8">
+          {/* <div className="flex flex-wrap gap-6 mb-8">
             <div className="flex items-center gap-2 text-white/70">
               <FaCode className="text-[#4dc3ff]" />
               <span className="font-medium">
                 {project.technologies?.length ?? 0} Technologies
               </span>
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
 

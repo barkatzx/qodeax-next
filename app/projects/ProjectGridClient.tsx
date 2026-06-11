@@ -159,15 +159,15 @@ export default function ProjectGridClient({
           viewport={{ once: true }}
           className="text-center mb-16"
         >
-          <div className="inline-flex items-center justify-center mb-6 px-6 py-2 rounded-full">
-            <span className="text-sm font-semibold text-[#00a8ff]">
-              ✨ Digital Portfolio
-            </span>
+          <div className="inline-flex items-center gap-3 px-4 py-2 rounded-full border border-white/10 bg-white/5 mb-5">
+            <span className="w-2 h-2 rounded-full bg-blue-500 animate-pulse" />
+            <span className="text-sm text-white/80">Digital Portfolio</span>
           </div>
-          <h2 className="text-4xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-white via-white/90 to-white/70 bg-clip-text text-transparent">
+          <h2 className="font-[Recoleta] text-4xl md:text-5xl mb-5 bg-gradient-to-r from-white to-gray-500 bg-clip-text text-transparent">
             Interactive Showcase
           </h2>
-          <p className="text-white/70 max-w-3xl mx-auto text-lg leading-relaxed">
+
+          <p className="text-white/70 text-xl max-w-5xl mx-auto">
             Explore my complete portfolio featuring Full Stack applications,
             WordPress websites, and Flutter mobile applications
           </p>
@@ -238,15 +238,15 @@ export default function ProjectGridClient({
                             >
                               {primaryCategory}
                             </Glass>
-                            <Glass
+                            {/* <Glass
                               variant="blue"
                               className="px-3 py-1 text-white rounded-full text-xs flex items-center space-x-1.5"
                             >
                               <FaLayerGroup className="w-3 h-3" />
                               <span>
-                                {project.technologies?.length ?? 0} tech
+                                {project.technologies?.length ?? 0}+ tech
                               </span>
-                            </Glass>
+                            </Glass> */}
                           </div>
 
                           {/* Title */}

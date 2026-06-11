@@ -100,36 +100,3 @@ export async function POST(request: NextRequest) {
     );
   }
 }
-
-// NEW: Function to submit application via API
-export async function submitApplication(
-  applicationData: any,
-  resumeFile: File | null,
-) {
-  try {
-    console.log("📤 Sending to API...");
-
-    const formData = new FormData();
-    formData.append("application", JSON.stringify(applicationData));
-    if (resumeFile) {
-      formData.append("resume", resumeFile);
-    }
-
-    const response = await fetch("/api/submit-application", {
-      method: "POST",
-      body: formData,
-    });
-
-    const result = await response.json();
-
-    if (!response.ok) {
-      throw new Error(result.error || "Submission failed");
-    }
-
-    console.log("✅ API success:", result);
-    return { success: true, data: result };
-  } catch (error: any) {
-    console.error("❌ Submission error:", error);
-    return { success: false, error: error.message };
-  }
-}
