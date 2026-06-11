@@ -307,7 +307,7 @@ export default function CustomApplicationsPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-900 via-gray-800 to-gray-900 text-white overflow-hidden">
+    <div className="text-white overflow-hidden">
       {/* Animated Background */}
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute top-0 left-0 w-96 h-96 bg-[#00a8ff]/10 rounded-full blur-3xl" />
@@ -315,7 +315,7 @@ export default function CustomApplicationsPage() {
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-gradient-to-r from-[#00a8ff]/5 via-transparent to-[#4dc3ff]/5 rounded-full blur-3xl" />
       </div>
 
-      <div className="relative max-w-7xl mx-auto px-4 py-12 md:py-20">
+      <div className="relative max-w-7xl mx-auto px-4 py-12 md:py-10">
         {/* Hero Section */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -328,29 +328,18 @@ export default function CustomApplicationsPage() {
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.5 }}
-            className="inline-flex items-center gap-3 px-4 py-2 rounded-full mb-8"
-            style={{
-              border: `1px solid ${theme.primary}30`,
-              background: `linear-gradient(135deg, ${theme.primary}10, ${theme.primaryDark}05)`,
-            }}
+            className="text-center"
           >
-            <span
-              className="w-2 h-2 rounded-full animate-pulse"
-              style={accentStyle}
-            />
-            <span className="text-sm font-medium tracking-widest uppercase">
-              Custom Development
-            </span>
+            <div className="inline-flex items-center gap-3 px-4 py-2 rounded-full border border-white/10 bg-white/5 mb-5">
+              <span className="w-2 h-2 rounded-full bg-blue-500 animate-pulse" />
+              <span className="text-sm text-white/80">Custom Development</span>
+            </div>
           </motion.div>
 
           {/* Main Title */}
-          <h1 className="font-sans text-4xl md:text-6xl lg:text-7xl font-light mb-6 leading-tight">
-            <span className="bg-gradient-to-r from-white via-white/90 to-white/70 bg-clip-text text-transparent">
-              Bespoke Software
-            </span>
-            <br />
-            <span style={gradientText}>Solutions</span>
-          </h1>
+          <h2 className="font-[Recoleta] text-4xl md:text-5xl mb-5 bg-gradient-to-r from-white to-gray-500 bg-clip-text text-transparent">
+            Bespoke Software Solutions
+          </h2>
 
           {/* Subtitle */}
           <p className="text-lg md:text-xl text-white/60 max-w-3xl mx-auto mb-10 font-light leading-relaxed">
@@ -373,7 +362,6 @@ export default function CustomApplicationsPage() {
                 <FaArrowRight className="w-5 h-5" />
               </span>
             </motion.button>
-
             <button
               className="px-8 py-4 rounded-xl border transition-all duration-300 hover:bg-white/5"
               style={{
@@ -395,7 +383,7 @@ export default function CustomApplicationsPage() {
           className="mb-16 md:mb-24"
         >
           <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-light mb-4">
+            <h2 className="font-[Recoleta] text-3xl md:text-4xl font-light mb-4">
               <span className="bg-gradient-to-r from-white to-white/80 bg-clip-text text-transparent">
                 Types of Applications We Build
               </span>
@@ -428,7 +416,7 @@ export default function CustomApplicationsPage() {
                   </div>
 
                   {/* Title & Description */}
-                  <h3 className="text-xl font-semibold text-white mb-3">
+                  <h3 className="font-[Recoleta] text-xl font-semibold text-white mb-3">
                     {app.title}
                   </h3>
                   <p className="text-white/60 mb-6">{app.description}</p>
@@ -466,7 +454,7 @@ export default function CustomApplicationsPage() {
           className="mb-16 md:mb-24"
         >
           <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-light mb-4">
+            <h2 className="font-[Recoleta] text-3xl md:text-4xl font-light mb-4">
               <span style={gradientText}>Modern Technology Stack</span>
             </h2>
             <p className="text-white/60 max-w-2xl mx-auto">
@@ -547,7 +535,7 @@ export default function CustomApplicationsPage() {
           className="mb-16 md:mb-24"
         >
           <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-light mb-4">
+            <h2 className="font-[Recoleta] text-3xl md:text-4xl font-light mb-4">
               <span className="bg-gradient-to-r from-white to-white/80 bg-clip-text text-transparent">
                 Our Development Process
               </span>
@@ -625,7 +613,7 @@ export default function CustomApplicationsPage() {
                           >
                             {step.phase} • {step.duration}
                           </div>
-                          <h3 className="text-xl font-semibold text-white">
+                          <h3 className="font-[Recoleta] text-xl font-semibold text-white">
                             {step.title}
                           </h3>
                         </div>
@@ -666,7 +654,7 @@ export default function CustomApplicationsPage() {
           className="mb-16 md:mb-24"
         >
           <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-light mb-4">
+            <h2 className="font-[Recoleta] text-3xl md:text-4xl font-light mb-4">
               <span className="bg-gradient-to-r from-white to-white/80 bg-clip-text text-transparent">
                 Why Choose Custom Development
               </span>
@@ -696,7 +684,7 @@ export default function CustomApplicationsPage() {
                   </div>
 
                   {/* Title */}
-                  <h3 className="text-lg font-semibold text-white mb-3">
+                  <h3 className="font-[Recoleta] text-lg font-semibold text-white mb-3">
                     {benefit.title}
                   </h3>
 
@@ -717,7 +705,7 @@ export default function CustomApplicationsPage() {
           className="mb-16 md:mb-24"
         >
           <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-light mb-4">
+            <h2 className="font-[Recoleta] text-3xl md:text-4xl font-light mb-4">
               <span style={gradientText}>Success Stories</span>
             </h2>
             <p className="text-white/60 max-w-2xl mx-auto">
@@ -740,7 +728,7 @@ export default function CustomApplicationsPage() {
                   style={cardStyle}
                 >
                   {/* Title */}
-                  <h3 className="text-xl font-semibold text-white mb-4">
+                  <h3 className="font-[Recoleta] text-xl font-semibold text-white mb-4">
                     {study.title}
                   </h3>
 
@@ -829,7 +817,7 @@ export default function CustomApplicationsPage() {
           />
 
           <div className="relative p-8 md:p-12 text-center">
-            <h2 className="text-3xl md:text-4xl font-light mb-6">
+            <h2 className="font-[Recoleta] text-3xl md:text-4xl font-light mb-6">
               <span className="bg-gradient-to-r from-white to-white/80 bg-clip-text text-transparent">
                 Ready to Build Your Solution?
               </span>

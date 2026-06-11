@@ -22,10 +22,17 @@ import {
   FaUsers,
 } from "react-icons/fa";
 import {
+  SiApifox,
+  SiExpress,
+  SiFastapi,
   SiMongodb,
+  SiMysql,
   SiNextdotjs,
   SiNodedotjs,
+  SiPostgresql,
+  SiPython,
   SiReact,
+  SiSupabase,
   SiTailwindcss,
   SiTypescript,
 } from "react-icons/si";
@@ -116,9 +123,44 @@ const techStack = [
     description: "Backend runtime",
   },
   {
+    icon: <SiExpress className="w-8 h-8" />,
+    name: "Express.js",
+    description: "Backend framework",
+  },
+  {
+    icon: <SiPython className="w-8 h-8" />,
+    name: "Python",
+    description: "Backend development",
+  },
+  {
+    icon: <SiFastapi className="w-8 h-8" />,
+    name: "FastAPI",
+    description: "Modern, fast web framework",
+  },
+  {
+    icon: <SiApifox className="w-8 h-8" />,
+    name: "Rest API",
+    description: "Representational State Transfer",
+  },
+  {
     icon: <SiMongodb className="w-8 h-8" />,
     name: "MongoDB",
     description: "NoSQL database",
+  },
+  {
+    icon: <SiMysql className="w-8 h-8" />,
+    name: "MySQL",
+    description: "Relational database",
+  },
+  {
+    icon: <SiPostgresql className="w-8 h-8" />,
+    name: "PostgreSQL",
+    description: "Relational database",
+  },
+  {
+    icon: <SiSupabase className="w-8 h-8" />,
+    name: "Supabase",
+    description: "Backend as a service",
   },
   {
     icon: <FaMobileAlt className="w-8 h-8" />,
@@ -351,16 +393,17 @@ export default function MVPDevelopmentPage() {
                 </span>
               </Link>
             </button>
-
-            <button
-              className="px-8 py-4 rounded-xl border transition-all duration-300 hover:bg-white/5"
-              style={{
-                borderColor: `${theme.primary}40`,
-                background: `linear-gradient(135deg, ${theme.primary}05, ${theme.primaryDark}02)`,
-              }}
-            >
-              View Case Studies
-            </button>
+            <Link href="/blogs">
+              <button
+                className="px-8 py-4 rounded-xl border transition-all duration-300 hover:bg-white/5"
+                style={{
+                  borderColor: `${theme.primary}40`,
+                  background: `linear-gradient(135deg, ${theme.primary}05, ${theme.primaryDark}02)`,
+                }}
+              >
+                View Case Studies
+              </button>
+            </Link>
           </motion.div>
         </motion.div>
 
@@ -374,14 +417,14 @@ export default function MVPDevelopmentPage() {
         >
           {[
             { value: "6-8", label: "Weeks to Launch", icon: <FaClock /> },
-            { value: "100+", label: "MVPs Built", icon: <FaRocket /> },
+            { value: "2+", label: "MVPs Built", icon: <FaRocket /> },
             {
-              value: "$3M+",
+              value: "$1M+",
               label: "Raised by Clients",
               icon: <FaChartLine />,
             },
             {
-              value: "95%",
+              value: "99%",
               label: "Client Satisfaction",
               icon: <FaCheckCircle />,
             },
@@ -399,7 +442,7 @@ export default function MVPDevelopmentPage() {
               />
 
               <div
-                className="relative backdrop-blur-sm p-6 text-center transition-all duration-500"
+                className="relative p-6 text-center transition-all duration-500"
                 style={{
                   border: `1px solid ${theme.primary}20`,
                   background: `linear-gradient(135deg, ${theme.primary}05, ${theme.primaryDark}02)`,
@@ -435,7 +478,7 @@ export default function MVPDevelopmentPage() {
           viewport={{ once: true }}
           className="mb-16 md:mb-24"
         >
-          <h2 className="text-3xl md:text-4xl font-light text-center mb-12">
+          <h2 className="font-[Recoleta] text-3xl md:text-4xl font-light text-center mb-12">
             <span className="bg-gradient-to-r from-white to-white/80 bg-clip-text text-transparent">
               Why Build an MVP?
             </span>
@@ -479,7 +522,7 @@ export default function MVPDevelopmentPage() {
 
                     {/* Metric */}
                     <div
-                      className="text-2xl font-bold mb-2"
+                      className="font-[Recoleta] text-2xl font-bold mb-2"
                       style={{ color: theme.primaryLight }}
                     >
                       {benefit.metric}
@@ -516,7 +559,7 @@ export default function MVPDevelopmentPage() {
           className="mb-16 md:mb-24"
           ref={timelineRef}
         >
-          <h2 className="text-3xl md:text-4xl font-light text-center mb-12">
+          <h2 className="font-[Recoleta] text-3xl md:text-4xl font-light text-center mb-12">
             <span className="bg-gradient-to-r from-white to-white/80 bg-clip-text text-transparent">
               8-Week MVP Development Journey
             </span>
@@ -595,7 +638,7 @@ export default function MVPDevelopmentPage() {
                           >
                             {step.week}
                           </div>
-                          <h3 className="text-xl font-semibold text-white">
+                          <h3 className="font-[Recoleta] text-xl font-semibold text-white">
                             {step.title}
                           </h3>
                         </div>
@@ -633,7 +676,7 @@ export default function MVPDevelopmentPage() {
           viewport={{ once: true }}
           className="mb-16 md:mb-24"
         >
-          <h2 className="text-3xl md:text-4xl font-light text-center mb-12">
+          <h2 className="font-[Recoleta] text-3xl md:text-4xl font-light text-center mb-12">
             <span className="bg-gradient-to-r from-white to-white/80 bg-clip-text text-transparent">
               Modern Tech Stack
             </span>
@@ -684,7 +727,7 @@ export default function MVPDevelopmentPage() {
           viewport={{ once: true }}
           className="mb-16 md:mb-24"
         >
-          <h2 className="text-3xl md:text-4xl font-light text-center mb-12">
+          <h2 className="font-[Recoleta] text-3xl md:text-4xl font-light text-center mb-12">
             <span className="bg-gradient-to-r from-white to-white/80 bg-clip-text text-transparent">
               What's Included in Your MVP
             </span>
@@ -719,7 +762,7 @@ export default function MVPDevelopmentPage() {
                         {category.icon}
                       </div>
                     </div>
-                    <h3 className="text-xl font-semibold text-white">
+                    <h3 className="font-[Recoleta] text-xl font-semibold text-white">
                       {category.category}
                     </h3>
                   </div>
@@ -750,7 +793,7 @@ export default function MVPDevelopmentPage() {
           viewport={{ once: true }}
           className="mb-16 md:mb-24"
         >
-          <h2 className="text-3xl md:text-4xl font-light text-center mb-12">
+          <h2 className="font-[Recoleta] text-3xl md:text-4xl font-light text-center mb-12">
             <span className="bg-gradient-to-r from-white to-white/80 bg-clip-text text-transparent">
               Success Stories
             </span>
@@ -827,7 +870,7 @@ export default function MVPDevelopmentPage() {
           />
 
           <div className="relative p-8 md:p-12 text-center backdrop-blur-sm">
-            <h2 className="text-3xl md:text-4xl font-light mb-6">
+            <h2 className="font-[Recoleta] text-3xl md:text-4xl font-light mb-6">
               <span className="bg-gradient-to-r from-white to-white/80 bg-clip-text text-transparent">
                 Ready to Launch Your MVP?
               </span>
@@ -839,33 +882,25 @@ export default function MVPDevelopmentPage() {
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <button
-                className="group relative px-8 py-4 rounded-xl overflow-hidden transition-all duration-300"
-                style={{
-                  background: `linear-gradient(135deg, ${theme.primary}, ${theme.primaryDark})`,
-                }}
-              >
-                <div
-                  className="absolute inset-0 bg-white/10 translate-y-full group-hover:translate-y-0 transition-transform duration-300"
+              <Link href="/contact">
+                <button
+                  className="group relative px-8 py-4 rounded-xl overflow-hidden transition-all duration-300"
                   style={{
-                    background: `linear-gradient(to bottom, ${theme.primaryLight}20, transparent)`,
+                    background: `linear-gradient(135deg, ${theme.primary}, ${theme.primaryDark})`,
                   }}
-                />
-                <span className="relative flex items-center gap-3 font-medium text-white text-lg">
-                  Book Free Consultation
-                  <FaArrowRight className="w-5 h-5" />
-                </span>
-              </button>
-
-              <button
-                className="px-8 py-4 rounded-xl border transition-all duration-300 hover:bg-white/5"
-                style={{
-                  borderColor: `${theme.primary}40`,
-                  background: `linear-gradient(135deg, ${theme.primary}05, ${theme.primaryDark}02)`,
-                }}
-              >
-                Download MVP Guide
-              </button>
+                >
+                  <div
+                    className="absolute inset-0 bg-white/10 translate-y-full group-hover:translate-y-0 transition-transform duration-300"
+                    style={{
+                      background: `linear-gradient(to bottom, ${theme.primaryLight}20, transparent)`,
+                    }}
+                  />
+                  <span className="relative flex items-center gap-3 font-medium text-white text-lg">
+                    Book Free Slot
+                    <FaArrowRight className="w-5 h-5" />
+                  </span>
+                </button>
+              </Link>
             </div>
 
             <div className="mt-8 text-white/40 text-sm">

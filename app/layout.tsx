@@ -13,6 +13,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <meta charSet="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Qodeax-Engineering Ideas Into Powerful Software.</title>
+
         <Script
           id="cookieyes"
           type="text/javascript"
