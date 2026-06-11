@@ -215,7 +215,7 @@ export default function ModernHero() {
           >
             {/* Premium Badge */}
             <motion.div variants={itemVariants} className="py-10">
-              <div className="inline-flex items-center gap-3 px-5 py-2.5 rounded-full backdrop-blur-xl border border-white/10 bg-white/5 hover:border-[#00a8ff]/30 transition-all duration-300">
+              <div className="inline-flex items-center gap-3 px-5 py-2.5 rounded-full border border-white/10 bg-[#07111f]/90 md:bg-white/5 md:backdrop-blur-xl hover:border-[#00a8ff]/30 transition-all duration-300">
                 <motion.div
                   animate={{ scale: [1, 1.2, 1], rotate: [0, 360, 0] }}
                   transition={{
@@ -291,7 +291,7 @@ export default function ModernHero() {
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className="group px-10 py-5 text-white font-medium text-lg rounded-2xl border border-white/20 hover:border-[#00a8ff]/50 backdrop-blur-xl relative overflow-hidden"
+                className="group px-10 py-5 text-white font-medium text-lg rounded-2xl border border-white/20 hover:border-[#00a8ff]/50 bg-black/80 md:bg-transparent md:backdrop-blur-xl relative overflow-hidden"
               >
                 <span className="relative z-10 flex items-center justify-center gap-3">
                   <Link href="https://calendly.com/barkatzx">
@@ -332,7 +332,7 @@ export default function ModernHero() {
                       />
                     </div>
                   ))}
-                  <div className="w-8 h-8 rounded-full border-2 border-black bg-white/10 backdrop-blur flex items-center justify-center text-xs text-white">
+                  <div className="w-8 h-8 rounded-full border-2 border-black bg-[#07111f]/90 md:bg-white/10 md:backdrop-blur-sm flex items-center justify-center text-xs text-white">
                     +02
                   </div>
                 </div>
@@ -455,7 +455,7 @@ export default function ModernHero() {
                         animate={isLoaded ? { opacity: 1, scale: 1 } : {}}
                         transition={{ delay: 1.4 + i * 0.1 }}
                         whileHover={{ scale: 1.1, y: -2 }}
-                        className="px-4 py-2 text-xs font-medium text-white/90 rounded-full border border-white/10 hover:border-[#00a8ff]/50 hover:text-[#00a8ff] transition-all duration-300 cursor-default backdrop-blur-sm"
+                        className="px-4 py-2 text-xs font-medium text-white/90 rounded-full border border-white/10 hover:border-[#00a8ff]/50 hover:text-[#00a8ff] transition-all duration-300 cursor-default md:backdrop-blur-sm"
                         style={{
                           background:
                             "linear-gradient(135deg, rgba(0, 168, 255, 0.1) 0%, rgba(0, 168, 255, 0.05) 100%)",
@@ -483,7 +483,7 @@ export default function ModernHero() {
                 <motion.div
                   key={i}
                   whileHover={{ scale: 1.05, y: -5 }}
-                  className="p-4 rounded-2xl border border-white/10 hover:border-[#00a8ff]/30 backdrop-blur-lg text-center group transition-all duration-300"
+                  className="p-4 rounded-2xl border border-white/10 hover:border-[#00a8ff]/30 bg-[#07111f]/90 md:bg-transparent md:backdrop-blur-xl text-center group transition-all duration-300"
                   style={{
                     boxShadow: "0 4px 15px -8px rgba(0, 168, 255, 0.3)",
                   }}

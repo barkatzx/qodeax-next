@@ -141,6 +141,7 @@ export default function ProcessSection() {
 
                 <Glass
                   variant="blue"
+                  solidMobile
                   className="relative p-6 pt-8 transition-all duration-300 h-full flex flex-col"
                 >
                   <div className="mb-4">

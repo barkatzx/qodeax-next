@@ -115,6 +115,7 @@ function TestimonialCard({ testimonial }: { testimonial: Testimonial }) {
     >
       <Glass
         variant="blue"
+        solidMobile
         className="relative p-6 transition-all duration-300"
       >
         <div className="absolute top-4 right-4 text-blue-400/30">
@@ -187,7 +188,7 @@ export default function TestimonialSlider() {
         viewport={{ once: true }}
         className="text-center mb-10"
       >
-        <div className="inline-flex items-center gap-3 px-4 py-2 rounded-full border border-white/10 bg-white/5 backdrop-blur-sm mb-8">
+        <div className="inline-flex items-center gap-3 px-4 py-2 rounded-full border border-white/10 bg-[#07111f]/90 md:bg-white/5 md:backdrop-blur-sm mb-8">
           <div className="relative">
             <div className="absolute inset-0 bg-blue-500 rounded-full animate-ping opacity-20" />
             <div className="w-2 h-2 bg-blue-500 rounded-full animate-pulse" />

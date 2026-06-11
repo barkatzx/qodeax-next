@@ -106,7 +106,7 @@ export default function ServicesShowcase() {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: index * 0.1 }}
           >
-            <Glass variant="blue" className="p-6 h-full">
+            <Glass variant="blue" solidMobile className="p-6 h-full">
               <div
                 className={`w-14 h-14 rounded-xl bg-[#2289FF38] flex items-center justify-center mb-6 `}
               >

@@ -91,7 +91,7 @@ const menuVariants: Variants = {
     scale: 1,
     transition: { type: "spring", stiffness: 260, damping: 22 },
   },
-  exit: { opacity: 0, y: -12, scale: 0.97, filter: "blur(6px)" },
+  exit: { opacity: 0, y: -12, scale: 0.97 },
 };
 
 const servicesMenuVariants: Variants = {
@@ -298,7 +298,7 @@ export default function Header() {
         transition={{ duration: 0.5, type: "spring" }}
         className="fixed z-50 top-2 left-2 right-2 md:hidden"
       >
-        <Glass variant="blue">
+        <div className="rounded-2xl border border-sky-400/20 bg-[#07111f]/90 shadow-[0_8px_32px_rgba(0,168,255,0.15)]">
           <div className="px-5 py-4 flex items-center justify-between">
             <Link href="/" className="flex items-center gap-2.5">
               <span className="relative flex h-2.5 w-2.5">
@@ -331,7 +331,7 @@ export default function Header() {
               </Button>
             </motion.div>
           </div>
-        </Glass>
+        </div>
 
         <AnimatePresence>
           {isMenuOpen && (
