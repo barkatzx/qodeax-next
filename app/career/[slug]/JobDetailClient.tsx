@@ -6,7 +6,6 @@ import { type Career } from "@/sanity/client";
 import { PortableText } from "@portabletext/react";
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { AiFillCheckCircle } from "react-icons/ai";
 import {
   FaBriefcase,
@@ -27,8 +26,6 @@ interface JobDetailClientProps {
 }
 
 export default function JobDetailClient({ job }: JobDetailClientProps) {
-  const router = useRouter();
-
   const getDepartmentColor = (department: string) => {
     const colors = {
       engineering: "from-blue-500 to-cyan-500",
@@ -60,6 +57,18 @@ export default function JobDetailClient({ job }: JobDetailClientProps) {
       day: "numeric",
     });
   };
+
+  const isClosingDatePassed = (dateString?: string) => {
+    if (!dateString) return false;
+
+    const closingDate = new Date(dateString);
+    if (Number.isNaN(closingDate.getTime())) return false;
+
+    closingDate.setHours(23, 59, 59, 999);
+    return closingDate < new Date();
+  };
+
+  const isApplicationClosed = isClosingDatePassed(job.closingDate);
 
   return (
     <section className="py-10 overflow-hidden">
@@ -257,15 +266,24 @@ export default function JobDetailClient({ job }: JobDetailClientProps) {
                   Join our team and help us build amazing things. We'd love to
                   hear from you!
                 </p>
-                <Link href={`/career/${job.slug.current}/apply`}>
+                {isApplicationClosed ? (
                   <motion.button
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                    className="font-[Outfit-Regular] w-full py-4 bg-gradient-to-r from-[#00a8ff] to-[#2289ff] rounded-xl text-white font-semibold hover:shadow-lg transition-all mb-3 cursor-pointer"
+                    disabled
+                    className="font-[Outfit-Regular] w-full py-4 bg-white/10 border border-white/10 rounded-xl text-white/40 font-semibold transition-all mb-3 cursor-not-allowed"
                   >
-                    Apply for this position
+                    Applications closed
                   </motion.button>
-                </Link>
+                ) : (
+                  <Link href={`/career/${job.slug.current}/apply`}>
+                    <motion.button
+                      whileHover={{ scale: 1.02 }}
+                      whileTap={{ scale: 0.98 }}
+                      className="font-[Outfit-Regular] w-full py-4 bg-gradient-to-r from-[#00a8ff] to-[#2289ff] rounded-xl text-white font-semibold hover:shadow-lg transition-all mb-3 cursor-pointer"
+                    >
+                      Apply for this position
+                    </motion.button>
+                  </Link>
+                )}
                 <p className="text-white/30 text-xs text-center">
                   Applications close:{" "}
                   {formatDate(job.closingDate) || "Not specified"}

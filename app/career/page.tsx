@@ -180,6 +180,16 @@ export default function CareersPage() {
     return icons[location as keyof typeof icons] || <FaMapMarkerAlt />;
   };
 
+  const isClosingDatePassed = (dateString?: string) => {
+    if (!dateString) return false;
+
+    const closingDate = new Date(dateString);
+    if (Number.isNaN(closingDate.getTime())) return false;
+
+    closingDate.setHours(23, 59, 59, 999);
+    return closingDate < new Date();
+  };
+
   if (error) {
     return (
       <section className="relative min-h-screen bg-gradient-to-b from-gray-900 via-[#0a0a0a] to-black py-20">
@@ -553,15 +563,24 @@ export default function CareersPage() {
                             </motion.button>
                           </Link>
 
-                          <Link href={`/career/${job.slug.current}/apply`}>
+                          {isClosingDatePassed(job.closingDate) ? (
                             <motion.button
-                              whileHover={{ scale: 1.05 }}
-                              whileTap={{ scale: 0.95 }}
-                              className="w-full px-6 py-3 bg-gradient-to-r from-[#00a8ff] to-[#2289ff] rounded-xl text-white font-medium hover:shadow-lg transition-all"
+                              disabled
+                              className="w-full px-6 py-3 bg-white/10 border border-white/10 rounded-xl text-white/40 font-medium transition-all cursor-not-allowed"
                             >
-                              Apply Now
+                              Closed
                             </motion.button>
-                          </Link>
+                          ) : (
+                            <Link href={`/career/${job.slug.current}/apply`}>
+                              <motion.button
+                                whileHover={{ scale: 1.05 }}
+                                whileTap={{ scale: 0.95 }}
+                                className="w-full px-6 py-3 bg-gradient-to-r from-[#00a8ff] to-[#2289ff] rounded-xl text-white font-medium hover:shadow-lg transition-all"
+                              >
+                                Apply Now
+                              </motion.button>
+                            </Link>
+                          )}
                         </div>
                       </div>
                     </div>
