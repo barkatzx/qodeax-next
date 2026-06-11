@@ -14,6 +14,12 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Qodeax-Engineering Ideas Into Powerful Software.</title>
         <Script
+          id="cookieyes"
+          type="text/javascript"
+          src="https://cdn-cookieyes.com/client_data/b73e234b6e5f54e7947d48fd/script.js"
+          strategy="beforeInteractive"
+        />
+        <Script
           async
           src="https://www.googletagmanager.com/gtag/js?id=G-2Z897PR04V"
           strategy="afterInteractive"
