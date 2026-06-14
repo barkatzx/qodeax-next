@@ -3,6 +3,7 @@
 import { theme } from "@/components/lib/theme";
 import { motion } from "framer-motion";
 import { useRef, useState } from "react";
+import NextLink from "next/link";
 import {
   FaArrowRight,
   FaBolt,
@@ -237,42 +238,6 @@ const benefits = [
   },
 ];
 
-const caseStudies = [
-  {
-    client: "FinTech Platform",
-    challenge: "Complex financial dashboard causing user confusion",
-    solution: "Simplified interface with progressive disclosure",
-    results: [
-      "User errors reduced by 65%",
-      "Task completion time -40%",
-      "Customer satisfaction 4.8/5",
-    ],
-    metrics: "300% ROI",
-  },
-  {
-    client: "Healthcare App",
-    challenge: "Low adoption rates among elderly users",
-    solution: "Accessibility-focused redesign with larger touch targets",
-    results: [
-      "Adoption increased by 200%",
-      "User retention +80%",
-      "Accessibility compliance AA",
-    ],
-    metrics: "5-star rating",
-  },
-  {
-    client: "E-commerce Store",
-    challenge: "High cart abandonment on mobile checkout",
-    solution: "Streamlined one-page checkout with saved payment info",
-    results: [
-      "Mobile conversions +120%",
-      "Checkout time -60%",
-      "Cart abandonment -45%",
-    ],
-    metrics: "$1.2M revenue",
-  },
-];
-
 const deliverables = [
   {
     type: "Strategy",
@@ -324,50 +289,8 @@ export default function UIUXDesignPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-900 via-gray-800 to-gray-900 text-white overflow-hidden">
-      {/* Animated Background */}
-      <div className="absolute inset-0 overflow-hidden">
-        {/* Gradient orbs */}
-        <motion.div
-          animate={{
-            x: [0, 100, 0],
-            y: [0, 50, 0],
-          }}
-          transition={{
-            duration: 20,
-            repeat: Infinity,
-            ease: "linear",
-          }}
-          className="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-gradient-to-r from-[#00a8ff]/10 via-[#4dc3ff]/5 to-transparent rounded-full blur-3xl"
-        />
-
-        <motion.div
-          animate={{
-            x: [0, -100, 0],
-            y: [0, -50, 0],
-          }}
-          transition={{
-            duration: 25,
-            repeat: Infinity,
-            ease: "linear",
-          }}
-          className="absolute bottom-1/4 right-1/4 w-[600px] h-[600px] bg-gradient-to-l from-[#0097e6]/10 via-[#00a8ff]/5 to-transparent rounded-full blur-3xl"
-        />
-
-        {/* Grid pattern */}
-        <div className="absolute inset-0 opacity-5">
-          <div
-            className="absolute inset-0"
-            style={{
-              backgroundImage: `linear-gradient(90deg, ${theme.primary}10 1px, transparent 1px), 
-                             linear-gradient(${theme.primary}10 1px, transparent 1px)`,
-              backgroundSize: "50px 50px",
-            }}
-          />
-        </div>
-      </div>
-
-      <div className="relative max-w-7xl mx-auto px-4 py-12 md:py-20">
+    <div className="container mx-auto text-white overflow-hidden">
+      <div className="relative max-w-7xl mx-auto px-4 py-10">
         {/* Hero Section */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -390,13 +313,11 @@ export default function UIUXDesignPage() {
               className="w-2 h-2 rounded-full animate-pulse"
               style={accentStyle}
             />
-            <span className="text-sm font-medium tracking-widest uppercase">
-              UI/UX Design Excellence
-            </span>
+            <span className="text-sm font-medium">UI/UX Design Excellence</span>
           </motion.div>
 
           {/* Main Title */}
-          <h1 className="font-sans text-4xl md:text-6xl lg:text-7xl font-light mb-6 leading-tight">
+          <h1 className="font-[Recoleta] text-4xl md:text-6xl lg:text-7xl font-light mb-6 leading-tight">
             <span className="bg-gradient-to-r from-white via-white/90 to-white/70 bg-clip-text text-transparent">
               Design That
             </span>
@@ -419,22 +340,24 @@ export default function UIUXDesignPage() {
               className="group relative px-8 py-4 rounded-xl overflow-hidden"
               style={accentStyle}
             >
-              <div className="absolute inset-0 bg-white/10 translate-y-full group-hover:translate-y-0 transition-transform duration-300" />
-              <span className="relative flex items-center gap-3 font-medium text-white text-lg">
-                Start Design Project
-                <FaArrowRight className="w-5 h-5" />
-              </span>
+              <NextLink href="/contact">
+                <span className="relative flex items-center gap-3 font-medium text-white text-lg">
+                  Start Design Project
+                  <FaArrowRight className="w-5 h-5" />
+                </span>
+              </NextLink>
             </motion.button>
-
-            <button
-              className="px-8 py-4 rounded-xl border transition-all duration-300 hover:bg-white/5"
-              style={{
-                borderColor: `${theme.primary}40`,
-                background: `linear-gradient(135deg, ${theme.primary}05, ${theme.primaryDark}02)`,
-              }}
-            >
-              View Design Portfolio
-            </button>
+            <NextLink href="/projects">
+              <button
+                className="px-8 py-4 rounded-xl border transition-all duration-300 hover:bg-white/5"
+                style={{
+                  borderColor: `${theme.primary}40`,
+                  background: `linear-gradient(135deg, ${theme.primary}05, ${theme.primaryDark}02)`,
+                }}
+              >
+                View Design Portfolio
+              </button>
+            </NextLink>
           </div>
         </motion.div>
 
@@ -447,7 +370,7 @@ export default function UIUXDesignPage() {
           className="mb-16 md:mb-24"
         >
           <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-light mb-4">
+            <h2 className="font-[Recoleta] text-3xl md:text-4xl font-light mb-4">
               <span className="bg-gradient-to-r from-white to-white/80 bg-clip-text text-transparent">
                 Why Great Design Matters
               </span>
@@ -483,7 +406,7 @@ export default function UIUXDesignPage() {
 
                   {/* Metric */}
                   <div
-                    className="text-3xl font-bold mb-2"
+                    className="font-[Recoleta] text-3xl font-bold mb-2"
                     style={{ color: theme.primaryLight }}
                   >
                     {benefit.metric}
@@ -511,7 +434,7 @@ export default function UIUXDesignPage() {
           className="mb-16 md:mb-24"
         >
           <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-light mb-4">
+            <h2 className="font-[Recoleta] text-3xl md:text-4xl font-light mb-4">
               <span style={gradientText}>Our Design Process</span>
             </h2>
             <p className="text-white/60 max-w-2xl mx-auto">
@@ -589,7 +512,7 @@ export default function UIUXDesignPage() {
                           >
                             {step.phase}
                           </div>
-                          <h3 className="text-xl font-semibold text-white">
+                          <h3 className="font-[Recoleta] text-xl font-semibold text-white">
                             {step.title}
                           </h3>
                         </div>
@@ -630,7 +553,7 @@ export default function UIUXDesignPage() {
           className="mb-16 md:mb-24"
         >
           <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-light mb-4">
+            <h2 className="font-[Recoleta] text-3xl md:text-4xl font-light mb-4">
               <span className="bg-gradient-to-r from-white to-white/80 bg-clip-text text-transparent">
                 Comprehensive Design Services
               </span>
@@ -663,7 +586,7 @@ export default function UIUXDesignPage() {
                       />
                     )}
                   </div>
-                  <h3 className="text-2xl font-semibold text-white">
+                  <h3 className="font-[Recoleta] text-2xl font-semibold text-white">
                     {category.category}
                   </h3>
                 </div>
@@ -706,7 +629,7 @@ export default function UIUXDesignPage() {
                             </div>
                           </div>
                           <div>
-                            <h4 className="text-xl font-semibold text-white mb-2">
+                            <h4 className="font-[Recoleta] text-xl font-semibold text-white mb-2">
                               {service.title}
                             </h4>
                             <p className="text-white/60 text-sm">
@@ -748,7 +671,7 @@ export default function UIUXDesignPage() {
           className="mb-16 md:mb-24"
         >
           <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-light mb-4">
+            <h2 className="font-[Recoleta] text-3xl md:text-4xl font-light mb-4">
               <span style={gradientText}>Industry-Standard Tools</span>
             </h2>
             <p className="text-white/60 max-w-2xl mx-auto">
@@ -805,7 +728,7 @@ export default function UIUXDesignPage() {
           className="mb-16 md:mb-24"
         >
           <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-light mb-4">
+            <h2 className="font-[Recoleta] text-3xl md:text-4xl font-light mb-4">
               <span className="bg-gradient-to-r from-white to-white/80 bg-clip-text text-transparent">
                 Comprehensive Deliverables
               </span>
@@ -842,7 +765,7 @@ export default function UIUXDesignPage() {
                         style={{ color: theme.primaryLight }}
                       />
                     </div>
-                    <h3 className="text-lg font-semibold text-white">
+                    <h3 className="font-[Recoleta] text-lg font-semibold text-white">
                       {type.type}
                     </h3>
                   </div>
@@ -862,165 +785,6 @@ export default function UIUXDesignPage() {
                 </div>
               </motion.div>
             ))}
-          </div>
-        </motion.div>
-
-        {/* Case Studies */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          viewport={{ once: true }}
-          className="mb-16 md:mb-24"
-        >
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-light mb-4">
-              <span style={gradientText}>Design Impact Stories</span>
-            </h2>
-            <p className="text-white/60 max-w-2xl mx-auto">
-              Transforming businesses through exceptional design
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {caseStudies.map((study, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                viewport={{ once: true }}
-                className="group"
-              >
-                <div
-                  className="h-full rounded-2xl p-6 transition-all duration-500 group-hover:scale-[1.02]"
-                  style={cardStyle}
-                >
-                  {/* Client & Metrics */}
-                  <div className="flex items-center justify-between mb-4">
-                    <div>
-                      <h3 className="text-xl font-semibold text-white">
-                        {study.client}
-                      </h3>
-                    </div>
-                    <div
-                      className="px-3 py-1 rounded-full text-sm font-medium"
-                      style={{
-                        background: `linear-gradient(135deg, ${theme.primary}20, ${theme.primaryLight}10)`,
-                        color: theme.primaryLight,
-                      }}
-                    >
-                      {study.metrics}
-                    </div>
-                  </div>
-
-                  {/* Challenge & Solution */}
-                  <div className="space-y-4 mb-6">
-                    <div>
-                      <div className="text-sm font-medium text-white/50 mb-1">
-                        Challenge
-                      </div>
-                      <p className="text-white/70 text-sm">{study.challenge}</p>
-                    </div>
-                    <div>
-                      <div className="text-sm font-medium text-white/50 mb-1">
-                        Solution
-                      </div>
-                      <p className="text-white/70 text-sm">{study.solution}</p>
-                    </div>
-                  </div>
-
-                  {/* Results */}
-                  <div className="space-y-2">
-                    {study.results.map((result, i) => (
-                      <div key={i} className="flex items-center gap-2 text-sm">
-                        <FaCheckCircle
-                          className="w-3 h-3"
-                          style={{ color: theme.primaryLight }}
-                        />
-                        <span className="text-white/70">{result}</span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </motion.div>
-
-        {/* Final CTA */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          viewport={{ once: true }}
-          className="relative overflow-hidden rounded-3xl"
-          style={{
-            border: `1px solid ${theme.primary}30`,
-            background: `linear-gradient(135deg, ${theme.primary}08, ${theme.primaryDark}04)`,
-          }}
-        >
-          {/* Background glow */}
-          <div
-            className="absolute -inset-1 opacity-20 blur-xl"
-            style={{
-              background: `linear-gradient(135deg, ${theme.primary}, ${theme.primaryLight})`,
-            }}
-          />
-
-          <div className="relative p-8 md:p-12 text-center">
-            <h2 className="text-3xl md:text-4xl font-light mb-6">
-              <span className="bg-gradient-to-r from-white to-white/80 bg-clip-text text-transparent">
-                Ready to Transform Your Digital Experience?
-              </span>
-            </h2>
-
-            <p className="text-lg text-white/60 max-w-2xl mx-auto mb-8">
-              Schedule a free design consultation and discover how we can create
-              exceptional user experiences for your business.
-            </p>
-
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="group relative px-8 py-4 rounded-xl overflow-hidden"
-                style={accentStyle}
-              >
-                <div className="absolute inset-0 bg-white/10 translate-y-full group-hover:translate-y-0 transition-transform duration-300" />
-                <span className="relative flex items-center gap-3 font-medium text-white text-lg">
-                  Book Free Consultation
-                  <FaArrowRight className="w-5 h-5" />
-                </span>
-              </motion.button>
-
-              <button
-                className="px-8 py-4 rounded-xl border transition-all duration-300 hover:bg-white/5"
-                style={{
-                  borderColor: `${theme.primary}40`,
-                  background: `linear-gradient(135deg, ${theme.primary}05, ${theme.primaryDark}02)`,
-                }}
-              >
-                View Design Portfolio
-              </button>
-            </div>
-
-            <div className="mt-8 text-white/40 text-sm">
-              <div className="flex flex-wrap items-center justify-center gap-4 md:gap-6">
-                <div className="flex items-center gap-2">
-                  <FaShieldAlt className="w-4 h-4" />
-                  <span>Free Design Audit</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <FaUsers className="w-4 h-4" />
-                  <span>User Research Included</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <FaSync className="w-4 h-4" />
-                  <span>Iterative Process</span>
-                </div>
-              </div>
-            </div>
           </div>
         </motion.div>
       </div>
