@@ -196,7 +196,7 @@ export default function TestimonialSlider() {
           <span className="text-sm text-white/80">Client Success Stories</span>
         </div>
 
-        <h2 className="font-[Recoleta] text-4xl md:text-5xl mb-5 bg-gradient-to-r from-white to-gray-500 bg-clip-text text-transparent">
+        <h2 className="font-[Recoleta] font-bold text-4xl md:text-5xl mb-5 bg-gradient-to-r from-white to-gray-500 bg-clip-text text-transparent">
           Trusted by Industry Leaders
         </h2>
 

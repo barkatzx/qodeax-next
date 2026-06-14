@@ -163,7 +163,7 @@ export default function ProjectGridClient({
             <span className="w-2 h-2 rounded-full bg-blue-500 animate-pulse" />
             <span className="text-sm text-white/80">Digital Portfolio</span>
           </div>
-          <h2 className="font-[Recoleta] text-4xl md:text-5xl mb-5 bg-gradient-to-r from-white to-gray-500 bg-clip-text text-transparent">
+          <h2 className="font-[Recoleta] font-bold text-4xl md:text-5xl mb-5 bg-gradient-to-r from-white to-gray-500 bg-clip-text text-transparent">
             Interactive Showcase
           </h2>
 
@@ -231,7 +231,7 @@ export default function ProjectGridClient({
                                 <Glass
                                   key={i}
                                   variant="white"
-                                  className="px-3 py-1 text-black rounded-lg text-xs"
+                                  className="font-[Outfit-Regular] px-3 py-1 text-white md:text-black rounded-lg text-xs"
                                 >
                                   {cat}
                                 </Glass>
@@ -250,7 +250,7 @@ export default function ProjectGridClient({
                         {/* Content */}
                         <div className="p-5 md:p-6 flex-1 flex flex-col">
                           {/* Title */}
-                          <h3 className="font-[Recoleta] text-2xl text-white mb-3">
+                          <h3 className="font-[Recoleta] font-bold text-2xl text-white mb-3">
                             {project.title}
                           </h3>
 
@@ -271,11 +271,7 @@ export default function ProjectGridClient({
                                 .map((tech, i) => (
                                   <span
                                     key={i}
-                                    className="px-2 py-1 text-xs text-white/80 font-medium rounded border border-white/10 hover:border-white/20 hover:text-white cursor-default transition-colors"
-                                    style={{
-                                      background:
-                                        "linear-gradient(135deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.02) 100%)",
-                                    }}
+                                    className="font-[Agave] px-2 py-1 text-xs text-white/80 font-medium rounded border border-white/10 hover:border-white/20 hover:text-white cursor-default transition-colors"
                                   >
                                     {tech}
                                   </span>

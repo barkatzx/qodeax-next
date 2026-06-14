@@ -169,7 +169,7 @@ export default function Header() {
                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full opacity-60 bg-blue-400" />
                   <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-blue-400" />
                 </span>
-                <span className="font-[Recoleta] text-white text-2xl tracking-tight">
+                <span className="font-[Recoleta] font-bold text-white text-2xl tracking-tight">
                   Qodeax
                 </span>
               </Link>

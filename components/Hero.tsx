@@ -244,7 +244,7 @@ export default function ModernHero() {
 
             {/* Main Headline */}
             <motion.div variants={itemVariants} className="max-w-3xl">
-              <h1 className="font-[Recoleta] text-4xl md:text-5xl bg-gradient-to-r from-white to-gray-500 bg-clip-text text-transparent">
+              <h1 className="font-[Recoleta] font-bold text-4xl md:text-5xl bg-gradient-to-r from-white to-gray-500 bg-clip-text text-transparent">
                 Web platforms built to support for real business growth
               </h1>
             </motion.div>

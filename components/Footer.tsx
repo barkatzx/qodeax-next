@@ -127,7 +127,7 @@ export default function Footer() {
                     style={{ background: "#00a8ff" }}
                   />
                 </span>
-                <span className="font-[Recoleta] text-white text-2xl tracking-tight">
+                <span className="font-[Recoleta] font-bold text-white text-2xl tracking-tight">
                   Qodeax
                 </span>
               </Link>

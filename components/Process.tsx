@@ -108,7 +108,7 @@ export default function ProcessSection() {
             </span>
           </div>
 
-          <h2 className="font-[Recoleta] text-4xl md:text-5xl mb-5 bg-gradient-to-r from-white to-gray-500 bg-clip-text text-transparent">
+          <h2 className="font-[Recoleta] font-bold text-4xl md:text-5xl mb-5 bg-gradient-to-r from-white to-gray-500 bg-clip-text text-transparent">
             From Your Idea to Product Launch
           </h2>
 
@@ -150,7 +150,7 @@ export default function ProcessSection() {
                     </div>
                   </div>
 
-                  <h3 className="font-[Recoleta] text-xl font-bold text-white mb-2">
+                  <h3 className="font-[Recoleta] font-bold text-xl text-white mb-2">
                     {step.title}
                   </h3>
                   <p className="text-white/70 text-sm mb-4">

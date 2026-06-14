@@ -95,7 +95,7 @@ export default async function PostPage(props: { params: tParams }) {
       <div className="py-10">
         <div className="container mx-auto">
           {/* Post Title */}
-          <h1 className="font-[Recoleta] text-3xl md:text-5xl lg:text-6xl mb-4 md:mb-6 text-white/90 text-center">
+          <h1 className="font-[Recoleta] font-bold text-2xl md:text-5xl mb-4 md:mb-6 text-white/90 text-center">
             {post.title}
           </h1>
           {/* Meta Info */}
@@ -155,7 +155,7 @@ export default async function PostPage(props: { params: tParams }) {
             {/* Main Content - Left Side */}
             <div className="lg:w-2/3">
               <Glass
-                variant="blue"
+                variant="white"
                 className="p-6 md:p-10 rounded-xl md:rounded-2xl"
               >
                 {/* Post Content */}
@@ -254,7 +254,7 @@ export default async function PostPage(props: { params: tParams }) {
                 variant="white"
                 className="p-6 rounded-xl md:rounded-2xl sticky top-24"
               >
-                <h2 className="font-[Recoleta] text-2xl font-bold text-white mb-5">
+                <h2 className="font-[Recoleta] text-xl md:text-2xl font-bold text-white mb-5">
                   Recent Articles
                 </h2>
                 <div className="border-t border-white/10 mb-5" />
@@ -293,9 +293,6 @@ export default async function PostPage(props: { params: tParams }) {
                             <h3 className="font-[Outfit-Regular] text-white/90 text-lg line-clamp-2 group-hover:text-[#00a8ff] transition-colors mb-1">
                               {recentPost.title}
                             </h3>
-                            {/* <h3 className="text-xs text-white/50 line-clamp-2 mb-1">
-                              {recentPost.excerpt || "No excerpt available"}
-                            </h3> */}
 
                             <div className="flex items-center gap-2 text-xs text-white/50">
                               {/* Category */}

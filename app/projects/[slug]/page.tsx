@@ -66,7 +66,7 @@ export default async function ProjectPage(props: { params: tParams }) {
                 <Glass
                   variant="white"
                   key={i}
-                  className="inline-flex items-center justify-center text-center px-4 py-1 text-white font-medium rounded-lg"
+                  className="font-[Agave] inline-flex items-center justify-center text-center px-4 py-1 text-white font-medium rounded-lg"
                 >
                   {cat}
                 </Glass>
@@ -74,7 +74,7 @@ export default async function ProjectPage(props: { params: tParams }) {
             </div>
           )}
 
-          <h1 className="font-[Recoleta] text-3xl md:text-5xl lg:text-6xl mb-4 md:mb-6 text-white/90 text-center">
+          <h1 className="font-[Recoleta] font-bold text-2xl md:text-5xl lg:text-6xl mb-4 md:mb-6 text-white/90 text-center">
             {project.title}
           </h1>
         </div>
@@ -115,7 +115,7 @@ export default async function ProjectPage(props: { params: tParams }) {
             <div className="lg:col-span-8">
               {project.body?.length > 0 && (
                 <Glass
-                  variant="blue"
+                  variant="white"
                   className="rounded-2xl p-6 md:p-8 lg:p-10 mb-8"
                 >
                   <div className="flex items-center gap-3 mb-6">
@@ -127,7 +127,7 @@ export default async function ProjectPage(props: { params: tParams }) {
                     >
                       <FaBookOpen className="text-white text-xl" />
                     </div>
-                    <h2 className="font-[Recoleta] text-3xl font-bold text-white">
+                    <h2 className="font-[Recoleta] text-xl md:text-2xl font-bold text-white">
                       Project Overview
                     </h2>
                   </div>
@@ -142,7 +142,7 @@ export default async function ProjectPage(props: { params: tParams }) {
 
               {project.features?.length > 0 && (
                 <Glass
-                  variant="blue"
+                  variant="white"
                   className="rounded-2xl p-6 md:p-8 lg:p-10 mb-8"
                 >
                   <div className="flex items-center gap-3 mb-6">
@@ -154,7 +154,7 @@ export default async function ProjectPage(props: { params: tParams }) {
                     >
                       <FaGlobe className="text-white text-xl" />
                     </div>
-                    <h2 className="font-[Recoleta] text-3xl font-bold text-white">
+                    <h2 className="font-[Recoleta] text-xl md:text-2xl font-bold text-white">
                       Key Features
                     </h2>
                   </div>
@@ -211,7 +211,7 @@ export default async function ProjectPage(props: { params: tParams }) {
 
               {project.technologies?.length > 0 && (
                 <Glass
-                  variant="blue"
+                  variant="white"
                   className="rounded-2xl p-6 md:p-8 lg:p-10"
                 >
                   <div className="flex items-center gap-3 mb-6">
@@ -223,7 +223,7 @@ export default async function ProjectPage(props: { params: tParams }) {
                     >
                       <FaCode className="text-white text-xl" />
                     </div>
-                    <h2 className="font-[Recoleta] text-3xl font-bold text-white">
+                    <h2 className="font-[Recoleta] text-xl md:text-2xl font-bold text-white">
                       Technology Stack
                     </h2>
                   </div>
@@ -231,7 +231,7 @@ export default async function ProjectPage(props: { params: tParams }) {
                     {project.technologies.map((tech: string, index: number) => (
                       <span
                         key={index}
-                        className="px-4 py-2.5 text-white/80 font-medium rounded-xl border border-white/10 hover:border-[#00a8ff]/30 hover:text-white hover:shadow-md transition-all duration-300"
+                        className="font-[Agave] px-4 py-1 text-white/80 font-medium rounded-lg border border-white/10"
                         style={{
                           background:
                             "linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.02) 100%)",
@@ -248,8 +248,8 @@ export default async function ProjectPage(props: { params: tParams }) {
             {/* Sidebar */}
             <div className="lg:col-span-4">
               <div className="sticky top-24 space-y-6">
-                <Glass variant="blue" className="rounded-2xl p-6">
-                  <h3 className="font-[Recoleta] text-2xl font-bold text-white mb-6">
+                <Glass variant="white" className="rounded-2xl p-6">
+                  <h3 className="font-[Recoleta] text-xl md:text-2xl text-white mb-6">
                     Project Links
                   </h3>
                   <div className="space-y-4">
@@ -258,7 +258,7 @@ export default async function ProjectPage(props: { params: tParams }) {
                         href={project.liveLink}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="group flex items-center justify-between p-4 rounded-xl border border-white/10 hover:border-[#00a8ff]/30 hover:shadow-lg transition-all duration-300"
+                        className="font-[Outfit-Regular] group flex items-center justify-between p-4 rounded-xl border border-white/10 hover:border-[#00a8ff]/30 hover:shadow-lg transition-all duration-300"
                         style={{
                           background:
                             "linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.02) 100%)",
@@ -290,7 +290,7 @@ export default async function ProjectPage(props: { params: tParams }) {
                         href={project.clientRepo}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="group flex items-center justify-between p-4 rounded-xl border border-white/10 hover:border-white/20 hover:shadow-lg transition-all duration-300"
+                        className="font-[Outfit-Regular] group flex items-center justify-between p-4 rounded-xl border border-white/10 hover:border-white/20 hover:shadow-lg transition-all duration-300"
                         style={{
                           background:
                             "linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.02) 100%)",
@@ -317,7 +317,7 @@ export default async function ProjectPage(props: { params: tParams }) {
                         href={project.serverRepo}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="group flex items-center justify-between p-4 rounded-xl border border-white/10 hover:border-white/20 hover:shadow-lg transition-all duration-300"
+                        className="font-[Outfit-Regular] group flex items-center justify-between p-4 rounded-xl border border-white/10 hover:border-white/20 hover:shadow-lg transition-all duration-300"
                         style={{
                           background:
                             "linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.02) 100%)",
@@ -343,37 +343,27 @@ export default async function ProjectPage(props: { params: tParams }) {
                 </Glass>
 
                 {categories.length > 0 && (
-                  <Glass variant="blue" className="rounded-2xl p-6">
-                    <h3 className="font-[Recoleta] text-xl font-bold text-white mb-4">
+                  <Glass variant="white" className="rounded-2xl p-6">
+                    <h5 className="font-[Recoleta] text-xl md:text-2xl font-bold text-white mb-4">
                       Project Type
-                    </h3>
+                    </h5>
                     <div className="flex flex-wrap gap-2">
                       {categories.map((cat, i) => (
-                        <div
+                        <Glass
+                          variant="white"
                           key={i}
-                          className="inline-flex items-center gap-2 px-4 py-2 rounded-full"
-                          style={{
-                            background:
-                              "linear-gradient(135deg, rgba(0, 168, 255, 0.1) 0%, rgba(0, 168, 255, 0.05) 100%)",
-                            border: "1px solid rgba(255, 255, 255, 0.1)",
-                          }}
+                          className="inline-flex items-center gap-2 px-4 py-1 rounded-lg"
                         >
-                          <div
-                            className="w-2 h-2 rounded-full"
-                            style={{
-                              background: `linear-gradient(135deg, ${primaryColor} 0%, ${primaryColorLight} 100%)`,
-                            }}
-                          />
-                          <span className="font-semibold text-[#00a8ff]">
+                          <span className="font-[Agave] font-semibold text-white/80 text-sm">
                             {cat}
                           </span>
-                        </div>
+                        </Glass>
                       ))}
                     </div>
                   </Glass>
                 )}
 
-                <Glass variant="blue" className="rounded-2xl p-6">
+                <Glass variant="white" className="rounded-2xl p-6">
                   <div className="text-center mb-6">
                     <div
                       className="w-14 h-14 rounded-xl flex items-center justify-center mx-auto mb-4"
@@ -433,7 +423,7 @@ export default async function ProjectPage(props: { params: tParams }) {
           {/* CTA */}
           <div className="mt-16 text-center">
             <Glass
-              variant="blue"
+              variant="white"
               className="flex flex-col items-center gap-4 p-8 rounded-2xl border border-white/10 shadow-lg mx-auto"
             >
               <div className="text-center">

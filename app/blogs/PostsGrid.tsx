@@ -236,7 +236,7 @@ export default function PostsGrid({ posts }: PostGridProps) {
                   className="group relative"
                 >
                   <Glass
-                    variant="blue"
+                    variant="white"
                     className="relative h-full rounded-2xl overflow-hidden transition-all duration-500 hover:scale-[1.02] hover:shadow-2xl hover:shadow-blue-500/10"
                   >
                     {/* Image */}

@@ -94,7 +94,7 @@ export default function FAQComponent() {
             <span className="text-sm text-white/80">Knowledge Base</span>
           </div>
 
-          <h1 className="font-[Recoleta] text-4xl md:text-5xl mb-5 bg-gradient-to-r from-white to-gray-500 bg-clip-text text-transparent">
+          <h1 className="font-[Recoleta] font-bold text-4xl md:text-5xl mb-5 bg-gradient-to-r from-white to-gray-500 bg-clip-text text-transparent">
             Question and Answer
           </h1>
 
