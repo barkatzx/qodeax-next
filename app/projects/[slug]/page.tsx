@@ -15,7 +15,6 @@ import {
   FaGlobe,
   FaRocket,
   FaServer,
-  FaYoutube,
 } from "react-icons/fa";
 
 export const revalidate = 60;
@@ -57,30 +56,25 @@ export default async function ProjectPage(props: { params: tParams }) {
   const mainImageUrl: string | null = project.mainImage?.asset?.url ?? null;
 
   return (
-    <main className="min-h-screen bg-black rounded-3xl overflow-hidden">
+    <main className="container mx-auto py-10">
       {/* Hero Section */}
-      <div className="relative overflow-hidden px-5 md:px-20 py-8 md:py-12">
-        <div className="max-w-6xl mx-auto">
+      <div className="">
+        <div className="">
           {categories.length > 0 && (
-            <div className="mb-6 flex flex-wrap gap-2">
+            <div className="mb-6 flex flex-wrap justify-center gap-2">
               {categories.map((cat, i) => (
-                <span
+                <Glass
+                  variant="white"
                   key={i}
-                  className="inline-flex items-center px-4 py-2 font-medium rounded-full"
-                  style={{
-                    background:
-                      "linear-gradient(135deg, rgba(0, 168, 255, 0.1) 0%, rgba(0, 168, 255, 0.05) 100%)",
-                    border: "1px solid rgba(255, 255, 255, 0.1)",
-                    color: "#00a8ff",
-                  }}
+                  className="inline-flex items-center justify-center text-center px-4 py-1 text-white font-medium rounded-lg"
                 >
                   {cat}
-                </span>
+                </Glass>
               ))}
             </div>
           )}
 
-          <h1 className="font-[Recoleta] text-4xl md:text-6xl lg:text-7xl font-bold mb-6 bg-gradient-to-r from-white via-white/90 to-white/70 bg-clip-text text-transparent leading-tight">
+          <h1 className="font-[Recoleta] text-3xl md:text-5xl lg:text-6xl mb-4 md:mb-6 text-white/90 text-center">
             {project.title}
           </h1>
         </div>
@@ -89,8 +83,8 @@ export default async function ProjectPage(props: { params: tParams }) {
       {/* ✅ ADDED: mainImage hero — previously the page only checked project.photos
           which doesn't exist in the schema, so no image ever rendered */}
       {mainImageUrl && (
-        <div className="px-5 md:px-20 mb-12">
-          <div className="max-w-6xl mx-auto">
+        <div className="">
+          <div className="">
             <div
               className="relative w-full rounded-2xl overflow-hidden"
               style={{ aspectRatio: "16/9" }}
@@ -115,8 +109,8 @@ export default async function ProjectPage(props: { params: tParams }) {
       )}
 
       {/* Content Section */}
-      <div className="px-5 md:px-20 py-8">
-        <div className="max-w-6xl mx-auto">
+      <div className="py-8">
+        <div className="mx-auto">
           <div className="grid lg:grid-cols-12 gap-8">
             <div className="lg:col-span-8">
               {project.body?.length > 0 && (
