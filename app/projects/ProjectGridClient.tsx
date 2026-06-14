@@ -164,12 +164,14 @@ export default function ProjectGridClient({
             <span className="text-sm text-white/80">Digital Portfolio</span>
           </div>
           <h2 className="font-[Recoleta] font-bold text-4xl md:text-5xl mb-5 bg-gradient-to-r from-white to-gray-500 bg-clip-text text-transparent">
-            Interactive Showcase
+            Products We Brought to Life
           </h2>
 
           <p className="text-white/70 text-xl max-w-5xl mx-auto">
-            Explore my complete portfolio featuring Full Stack applications,
-            WordPress websites, and Flutter mobile applications
+            Explore a selection of products we’ve designed, developed, and
+            launched for clients across various industries. From concept to
+            deployment, each project reflects our commitment to quality,
+            innovation, and measurable results.
           </p>
         </motion.div>
 
