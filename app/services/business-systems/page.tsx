@@ -3,6 +3,7 @@
 import { theme } from "@/components/lib/theme";
 import { motion } from "framer-motion";
 import { useState } from "react";
+import NextLink from "next/link";
 import {
   FaArrowRight,
   FaBell,
@@ -366,12 +367,6 @@ export default function BusinessSystemsPage() {
   const [activeProcess, setActiveProcess] = useState(0);
   const [hoveredFeature, setHoveredFeature] = useState<number | null>(null);
 
-  // const theme = {
-  //   primary: "#00a8ff",
-  //   primaryLight: "#4dc3ff",
-  //   primaryDark: "#0097e6",
-  // };
-
   const gradientText = {
     background: `linear-gradient(135deg, ${theme.primary}, ${theme.primaryLight}, ${theme.primaryDark})`,
     WebkitBackgroundClip: "text",
@@ -388,26 +383,8 @@ export default function BusinessSystemsPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-900 via-gray-800 to-gray-900 text-white overflow-hidden">
-      {/* Animated Background */}
-      <div className="absolute inset-0 overflow-hidden">
-        {/* Main gradient orbs */}
-        <div className="absolute top-20 left-10 w-[500px] h-[500px] bg-[#00a8ff]/10 rounded-full blur-3xl" />
-        <div className="absolute bottom-20 right-10 w-[600px] h-[600px] bg-[#0097e6]/10 rounded-full blur-3xl" />
-
-        {/* Geometric patterns */}
-        <div className="absolute inset-0 opacity-5">
-          <div
-            className="absolute inset-0"
-            style={{
-              backgroundImage: `linear-gradient(45deg, transparent 48%, ${theme.primary}20 50%, transparent 52%)`,
-              backgroundSize: "50px 50px",
-            }}
-          />
-        </div>
-      </div>
-
-      <div className="relative max-w-7xl mx-auto px-4 py-12 md:py-20">
+    <div className="container mx-auto text-white overflow-hidden">
+      <div className="relative max-w-7xl mx-auto px-4 py-10">
         {/* Hero Section */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -430,13 +407,13 @@ export default function BusinessSystemsPage() {
               className="w-2 h-2 rounded-full animate-pulse"
               style={accentStyle}
             />
-            <span className="text-sm font-medium tracking-widest uppercase">
+            <span className="text-sm font-medium">
               Business Systems Solutions
             </span>
           </motion.div>
 
           {/* Main Title */}
-          <h1 className="font-sans text-4xl md:text-6xl lg:text-7xl font-light mb-6 leading-tight">
+          <h1 className="font-[Recoleta] text-4xl md:text-6xl lg:text-7xl font-light mb-6 leading-tight">
             <span className="bg-gradient-to-r from-white via-white/90 to-white/70 bg-clip-text text-transparent">
               Transform Your Business
             </span>
@@ -460,21 +437,25 @@ export default function BusinessSystemsPage() {
               style={accentStyle}
             >
               <div className="absolute inset-0 bg-white/10 translate-y-full group-hover:translate-y-0 transition-transform duration-300" />
-              <span className="relative flex items-center gap-3 font-medium text-white text-lg">
-                Get System Assessment
-                <FaArrowRight className="w-5 h-5" />
-              </span>
+              <NextLink href="/contact">
+                <span className="relative flex items-center gap-3 font-medium text-white text-lg">
+                  Get System Assessment
+                  <FaArrowRight className="w-5 h-5" />
+                </span>
+              </NextLink>
             </motion.button>
 
-            <button
-              className="px-8 py-4 rounded-xl border transition-all duration-300 hover:bg-white/5"
-              style={{
-                borderColor: `${theme.primary}40`,
-                background: `linear-gradient(135deg, ${theme.primary}05, ${theme.primaryDark}02)`,
-              }}
-            >
-              View Case Studies
-            </button>
+            <NextLink href="/blogs">
+              <button
+                className="px-8 py-4 rounded-xl border transition-all duration-300 hover:bg-white/5"
+                style={{
+                  borderColor: `${theme.primary}40`,
+                  background: `linear-gradient(135deg, ${theme.primary}05, ${theme.primaryDark}02)`,
+                }}
+              >
+                View Case Studies
+              </button>
+            </NextLink>
           </div>
         </motion.div>
 
@@ -487,7 +468,7 @@ export default function BusinessSystemsPage() {
           className="mb-16 md:mb-24"
         >
           <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-light mb-4">
+            <h2 className="font-[Recoleta] text-3xl md:text-4xl font-light mb-4">
               <span className="bg-gradient-to-r from-white to-white/80 bg-clip-text text-transparent">
                 Transform Your Business Operations
               </span>
@@ -523,7 +504,7 @@ export default function BusinessSystemsPage() {
 
                   {/* Metrics */}
                   <div
-                    className="text-3xl font-bold mb-2"
+                    className="font-[Recoleta] text-3xl font-bold mb-2"
                     style={{ color: theme.primaryLight }}
                   >
                     {benefit.metrics[0]}
@@ -554,7 +535,7 @@ export default function BusinessSystemsPage() {
           className="mb-16 md:mb-24"
         >
           <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-light mb-4">
+            <h2 className="font-[Recoleta] text-3xl md:text-4xl font-light mb-4">
               <span style={gradientText}>Comprehensive Business Systems</span>
             </h2>
             <p className="text-white/60 max-w-2xl mx-auto">
@@ -578,7 +559,7 @@ export default function BusinessSystemsPage() {
                       style={{ color: theme.primaryLight }}
                     />
                   </div>
-                  <h3 className="text-2xl font-semibold text-white">
+                  <h3 className="font-[Recoleta] text-2xl font-semibold text-white">
                     {category.category}
                   </h3>
                 </div>
@@ -611,7 +592,7 @@ export default function BusinessSystemsPage() {
                             </div>
                           </div>
                           <div>
-                            <h4 className="text-xl font-semibold text-white mb-2">
+                            <h4 className="font-[Recoleta] text-xl font-semibold text-white mb-2">
                               {system.title}
                             </h4>
                             <p className="text-white/60 text-sm">
@@ -659,7 +640,7 @@ export default function BusinessSystemsPage() {
           className="mb-16 md:mb-24"
         >
           <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-light mb-4">
+            <h2 className="font-[Recoleta] text-3xl md:text-4xl font-light mb-4">
               <span className="bg-gradient-to-r from-white to-white/80 bg-clip-text text-transparent">
                 Seamless Integration Ecosystem
               </span>
@@ -720,7 +701,7 @@ export default function BusinessSystemsPage() {
           className="mb-16 md:mb-24"
         >
           <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-light mb-4">
+            <h2 className="font-[Recoleta] text-3xl md:text-4xl font-light mb-4">
               <span className="bg-gradient-to-r from-white to-white/80 bg-clip-text text-transparent">
                 Proven Implementation Process
               </span>
@@ -798,7 +779,7 @@ export default function BusinessSystemsPage() {
                           >
                             {step.phase} • {step.duration}
                           </div>
-                          <h3 className="text-xl font-semibold text-white">
+                          <h3 className="font-[Recoleta] text-xl font-semibold text-white">
                             {step.title}
                           </h3>
                         </div>
@@ -839,7 +820,7 @@ export default function BusinessSystemsPage() {
           className="mb-16 md:mb-24"
         >
           <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-light mb-4">
+            <h2 className="font-[Recoleta] text-3xl md:text-4xl font-light mb-4">
               <span style={gradientText}>Enterprise-Grade Features</span>
             </h2>
             <p className="text-white/60 max-w-2xl mx-auto">
@@ -871,7 +852,7 @@ export default function BusinessSystemsPage() {
                         style={{ color: theme.primaryLight }}
                       />
                     </div>
-                    <h3 className="text-lg font-semibold text-white">
+                    <h3 className="font-[Recoleta] text-lg font-semibold text-white">
                       {category.category}
                     </h3>
                   </div>
@@ -928,7 +909,7 @@ export default function BusinessSystemsPage() {
           className="mb-16 md:mb-24"
         >
           <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-light mb-4">
+            <h2 className="font-[Recoleta] text-3xl md:text-4xl font-light mb-4">
               <span className="bg-gradient-to-r from-white to-white/80 bg-clip-text text-transparent">
                 Industry Success Stories
               </span>
@@ -1013,82 +994,6 @@ export default function BusinessSystemsPage() {
                 </div>
               </motion.div>
             ))}
-          </div>
-        </motion.div>
-
-        {/* Final CTA */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          viewport={{ once: true }}
-          className="relative overflow-hidden rounded-3xl"
-          style={{
-            border: `1px solid ${theme.primary}30`,
-            background: `linear-gradient(135deg, ${theme.primary}08, ${theme.primaryDark}04)`,
-          }}
-        >
-          {/* Background glow */}
-          <div
-            className="absolute -inset-1 opacity-20 blur-xl"
-            style={{
-              background: `linear-gradient(135deg, ${theme.primary}, ${theme.primaryLight})`,
-            }}
-          />
-
-          <div className="relative p-8 md:p-12 text-center">
-            <h2 className="text-3xl md:text-4xl font-light mb-6">
-              <span className="bg-gradient-to-r from-white to-white/80 bg-clip-text text-transparent">
-                Ready to Transform Your Business Systems?
-              </span>
-            </h2>
-
-            <p className="text-lg text-white/60 max-w-2xl mx-auto mb-8">
-              Schedule a free business systems assessment and discover how we
-              can optimize your operations.
-            </p>
-
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="group relative px-8 py-4 rounded-xl overflow-hidden"
-                style={accentStyle}
-              >
-                <div className="absolute inset-0 bg-white/10 translate-y-full group-hover:translate-y-0 transition-transform duration-300" />
-                <span className="relative flex items-center gap-3 font-medium text-white text-lg">
-                  Book Free Assessment
-                  <FaArrowRight className="w-5 h-5" />
-                </span>
-              </motion.button>
-
-              <button
-                className="px-8 py-4 rounded-xl border transition-all duration-300 hover:bg-white/5"
-                style={{
-                  borderColor: `${theme.primary}40`,
-                  background: `linear-gradient(135deg, ${theme.primary}05, ${theme.primaryDark}02)`,
-                }}
-              >
-                Download Whitepaper
-              </button>
-            </div>
-
-            <div className="mt-8 text-white/40 text-sm">
-              <div className="flex flex-wrap items-center justify-center gap-4 md:gap-6">
-                <div className="flex items-center gap-2">
-                  <FaShieldAlt className="w-4 h-4" />
-                  <span>Free Assessment</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <FaUsers className="w-4 h-4" />
-                  <span>No Sales Pressure</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <FaChartLine className="w-4 h-4" />
-                  <span>ROI Analysis</span>
-                </div>
-              </div>
-            </div>
           </div>
         </motion.div>
       </div>
