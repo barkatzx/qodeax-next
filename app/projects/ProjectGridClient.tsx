@@ -149,7 +149,7 @@ export default function ProjectGridClient({
   };
 
   return (
-    <section className="container mx-auto px-4 md:px-8 py-12 md:py-20 relative overflow-hidden min-h-screen">
+    <section className="container mx-auto py-10">
       <div className="max-w-7xl mx-auto relative">
         {/* Header */}
         <motion.div
@@ -190,7 +190,7 @@ export default function ProjectGridClient({
         ) : (
           <>
             {/* Project Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
               {paginatedProjects.map((project, index) => {
                 const descriptionText = blockContentToPlainText(project.body);
 
@@ -208,11 +208,10 @@ export default function ProjectGridClient({
                     viewport={{ once: true }}
                     className="relative"
                   >
-                    <Glass variant="blue">
+                    <Glass variant="white">
                       <div className="relative rounded-2xl overflow-hidden hover:shadow-2xl transition-all duration-500 group h-full flex flex-col">
                         {/* Image */}
                         <div className="relative overflow-hidden h-48 md:h-56 bg-white/5">
-                          {/* ✅ FIXED: Use resolved imageUrl directly, with fallback */}
                           {imageUrl ? (
                             <img
                               src={imageUrl}
@@ -224,34 +223,32 @@ export default function ProjectGridClient({
                               🖼️
                             </div>
                           )}
-                        </div>
-
-                        {/* Content */}
-                        <div className="p-5 md:p-6 flex-1 flex flex-col">
-                          {/* Badges */}
-                          {/* Badges - show ALL categories */}
-                          <div className="flex gap-2 mb-3 flex-wrap">
+                          {/* Badges - bottom left of image */}
+                          <div className="absolute bottom-3 left-3 flex gap-2 flex-wrap">
                             {project.categories &&
                             project.categories.length > 0 ? (
                               project.categories.map((cat, i) => (
                                 <Glass
                                   key={i}
-                                  variant="blue"
-                                  className="px-3 py-1 text-white rounded-full text-xs"
+                                  variant="white"
+                                  className="px-3 py-1 text-black rounded-lg text-xs"
                                 >
                                   {cat}
                                 </Glass>
                               ))
                             ) : (
                               <Glass
-                                variant="blue"
-                                className="px-3 py-1 text-white rounded-full text-xs"
+                                variant="white"
+                                className="px-3 py-1 text-black rounded-lg text-xs"
                               >
                                 Uncategorized
                               </Glass>
                             )}
                           </div>
+                        </div>
 
+                        {/* Content */}
+                        <div className="p-5 md:p-6 flex-1 flex flex-col">
                           {/* Title */}
                           <h3 className="font-[Recoleta] text-2xl text-white mb-3">
                             {project.title}
