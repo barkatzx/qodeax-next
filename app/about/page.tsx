@@ -303,15 +303,6 @@ export default function AboutPage() {
   const primaryColor = "#00a8ff";
   const primaryColorLight = "#4dc3ff";
 
-  const liquidGlassStyle = {
-    background:
-      "linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%)",
-    backdropFilter: "blur(20px) saturate(180%)",
-    border: "1px solid rgba(255, 255, 255, 0.1)",
-    boxShadow:
-      "0 8px 32px rgba(0, 0, 0, 0.2), 0 1px 0 rgba(255, 255, 255, 0.05) inset",
-  };
-
   const buttonStyle = {
     background: `linear-gradient(135deg, ${primaryColor} 0%, ${primaryColorLight} 100%)`,
     border: "1px solid rgba(255, 255, 255, 0.2)",
@@ -327,7 +318,7 @@ export default function AboutPage() {
     <main>
       {/* Hero Section */}
       <section className="py-10 container mx-auto">
-        <div className="">
+        <div className="flex flex-col items-center text-center">
           {/* Agency Badge */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -335,10 +326,9 @@ export default function AboutPage() {
             transition={{ duration: 0.5 }}
             className="inline-flex items-center gap-2 px-4 py-2 rounded-full mb-5 bg-white/10 border border-white/20"
           >
-            <span className="w-2 h-2 bg-[#00a8ff] rounded-full animate-ping" />
-            <span className="w-2 h-2 bg-[#00a8ff] rounded-full" />
+            <span className="w-2 h-2 rounded-full bg-blue-500 animate-pulse" />
             <span className="text-sm font-semibold text-[#00a8ff]">
-              DIGITAL INNOVATION AGENCY
+              Digital Innovation Agency
             </span>
           </motion.div>
 
@@ -366,7 +356,7 @@ export default function AboutPage() {
             transition={{ duration: 0.6, delay: 0.2 }}
             className="mb-12"
           >
-            <p className="text-xl md:text-2xl text-white/70 leading-relaxed max-w-4xl">
+            <p className="text-xl md:text-2xl text-white/70 leading-relaxed max-w-3xl">
               We're a collective of passionate developers, designers, and
               strategists dedicated to crafting exceptional digital solutions.
               From startups to enterprises, we transform complex challenges into
@@ -379,10 +369,10 @@ export default function AboutPage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.3 }}
-            className="flex flex-col sm:flex-row gap-4"
+            className="flex flex-col sm:flex-row gap-4 justify-center"
           >
             <motion.a
-              href="/portfolio"
+              href="/projects"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               className="group relative px-8 py-4 text-white font-semibold rounded-xl hover:shadow-2xl transition-all duration-300 overflow-hidden"

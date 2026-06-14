@@ -188,7 +188,7 @@ export default function TestimonialSlider() {
         viewport={{ once: true }}
         className="text-center mb-10"
       >
-        <div className="inline-flex items-center gap-3 px-4 py-2 rounded-full border border-white/10 bg-[#07111f]/90 md:bg-white/5 md:backdrop-blur-sm mb-8">
+        <div className="inline-flex items-center gap-3 px-4 py-2 rounded-full border border-white/10 bg-[#07111f]/90 md:bg-white/5 mb-8">
           <div className="relative">
             <div className="absolute inset-0 bg-blue-500 rounded-full animate-ping opacity-20" />
             <div className="w-2 h-2 bg-blue-500 rounded-full animate-pulse" />
