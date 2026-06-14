@@ -17,7 +17,6 @@ export default function Glass({
   const base = clsx(
     "border rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.25)]",
     "md:backdrop-blur-xl",
-    !solidMobile && "backdrop-blur-sm",
   );
 
   const variants = {
