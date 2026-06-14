@@ -3,6 +3,7 @@
 import { theme } from "@/components/lib/theme";
 import { motion } from "framer-motion";
 import { useState } from "react";
+import NextLink from "next/link";
 import {
   FaArrowRight,
   FaBell,
@@ -335,45 +336,6 @@ const features = [
   },
 ];
 
-const successStories = [
-  {
-    company: "SaaS Platform",
-    industry: "B2B Software",
-    challenge: "High churn rate and unclear user behavior patterns",
-    solution: "Comprehensive user analytics with predictive churn modeling",
-    results: [
-      "Churn reduced by 40%",
-      "Feature adoption increased 3x",
-      "LTV increased by 65%",
-    ],
-    timeline: "3 months",
-  },
-  {
-    company: "E-commerce Brand",
-    industry: "Retail",
-    challenge: "Low conversion rates and inefficient marketing spend",
-    solution: "Conversion optimization with attribution modeling",
-    results: [
-      "Conversion rate doubled",
-      "CAC reduced by 35%",
-      "ROAS increased by 120%",
-    ],
-    timeline: "2 months",
-  },
-  {
-    company: "Mobile App",
-    industry: "Health & Fitness",
-    challenge: "Low user retention and engagement",
-    solution: "Behavioral analytics with personalized recommendations",
-    results: [
-      "30-day retention +75%",
-      "Daily active users 2.5x",
-      "In-app purchases +90%",
-    ],
-    timeline: "4 months",
-  },
-];
-
 export default function GrowthAnalyticsPage() {
   const [activeService, setActiveService] = useState<number | null>(null);
   const [hoveredFeature, setHoveredFeature] = useState<number | null>(null);
@@ -394,58 +356,8 @@ export default function GrowthAnalyticsPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-900 via-gray-800 to-gray-900 text-white overflow-hidden">
-      {/* Animated Background */}
-      <div className="absolute inset-0 overflow-hidden">
-        {/* Data Visualization Pattern */}
-        <div className="absolute inset-0 opacity-10">
-          <div
-            className="absolute inset-0"
-            style={{
-              backgroundImage: `radial-gradient(circle at 25% 25%, ${theme.primary}20 2%, transparent 2%),
-                             radial-gradient(circle at 75% 75%, ${theme.primaryLight}20 2%, transparent 2%)`,
-              backgroundSize: "100px 100px",
-            }}
-          />
-        </div>
-
-        {/* Animated Graphs */}
-        <motion.div
-          animate={{
-            y: [0, -20, 0],
-            opacity: [0.1, 0.2, 0.1],
-          }}
-          transition={{
-            duration: 15,
-            repeat: Infinity,
-            ease: "linear",
-          }}
-          className="absolute top-1/4 left-1/4 w-[400px] h-[200px] border-t-2 border-r-2 border-[#00a8ff]/30 rounded-tr-2xl"
-          style={{
-            clipPath:
-              "polygon(0% 100%, 10% 80%, 20% 60%, 30% 40%, 40% 30%, 50% 50%, 60% 70%, 70% 40%, 80% 20%, 90% 60%, 100% 100%)",
-          }}
-        />
-
-        <motion.div
-          animate={{
-            y: [0, 20, 0],
-            opacity: [0.1, 0.2, 0.1],
-          }}
-          transition={{
-            duration: 12,
-            repeat: Infinity,
-            ease: "linear",
-          }}
-          className="absolute bottom-1/4 right-1/4 w-[300px] h-[150px] border-t-2 border-l-2 border-[#4dc3ff]/30 rounded-tl-2xl"
-          style={{
-            clipPath:
-              "polygon(0% 100%, 15% 40%, 30% 60%, 45% 20%, 60% 50%, 75% 30%, 90% 80%, 100% 100%)",
-          }}
-        />
-      </div>
-
-      <div className="relative max-w-7xl mx-auto px-4 py-12 md:py-20">
+    <div className="container mx-auto text-white overflow-hidden">
+      <div className="relative max-w-7xl mx-auto px-4 py-10">
         {/* Hero Section */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -468,13 +380,13 @@ export default function GrowthAnalyticsPage() {
               className="w-2 h-2 rounded-full animate-pulse"
               style={accentStyle}
             />
-            <span className="text-sm font-medium tracking-widest uppercase">
+            <span className="text-sm font-medium">
               Data-Driven Growth Solutions
             </span>
           </motion.div>
 
           {/* Main Title */}
-          <h1 className="font-sans text-4xl md:text-6xl lg:text-7xl font-light mb-6 leading-tight">
+          <h1 className="font-[Recoleta] text-4xl md:text-6xl lg:text-7xl font-light mb-6 leading-tight">
             <span className="bg-gradient-to-r from-white via-white/90 to-white/70 bg-clip-text text-transparent">
               Transform Data Into
             </span>
@@ -498,21 +410,24 @@ export default function GrowthAnalyticsPage() {
               style={accentStyle}
             >
               <div className="absolute inset-0 bg-white/10 translate-y-full group-hover:translate-y-0 transition-transform duration-300" />
-              <span className="relative flex items-center gap-3 font-medium text-white text-lg">
-                Get Free Analytics Audit
-                <FaArrowRight className="w-5 h-5" />
-              </span>
+              <NextLink href="/contact">
+                <span className="relative flex items-center gap-3 font-medium text-white text-lg">
+                  Get Free Analytics Audit
+                  <FaArrowRight className="w-5 h-5" />
+                </span>
+              </NextLink>
             </motion.button>
-
-            <button
-              className="px-8 py-4 rounded-xl border transition-all duration-300 hover:bg-white/5"
-              style={{
-                borderColor: `${theme.primary}40`,
-                background: `linear-gradient(135deg, ${theme.primary}05, ${theme.primaryDark}02)`,
-              }}
-            >
-              View Case Studies
-            </button>
+            <NextLink href="/blogs">
+              <button
+                className="px-8 py-4 rounded-xl border transition-all duration-300 hover:bg-white/5"
+                style={{
+                  borderColor: `${theme.primary}40`,
+                  background: `linear-gradient(135deg, ${theme.primary}05, ${theme.primaryDark}02)`,
+                }}
+              >
+                View Case Studies
+              </button>
+            </NextLink>
           </div>
         </motion.div>
 
@@ -525,7 +440,7 @@ export default function GrowthAnalyticsPage() {
           className="mb-16 md:mb-24"
         >
           <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-light mb-4">
+            <h2 className="font-[Recoleta] text-3xl md:text-4xl font-light mb-4">
               <span className="bg-gradient-to-r from-white to-white/80 bg-clip-text text-transparent">
                 Measurable Growth Impact
               </span>
@@ -565,7 +480,7 @@ export default function GrowthAnalyticsPage() {
                   {/* Metric Comparison */}
                   <div className="flex items-baseline justify-between mb-2">
                     <div
-                      className="text-2xl font-bold"
+                      className="font-[Recoleta] text-2xl font-bold"
                       style={{ color: theme.primaryLight }}
                     >
                       {metric.after}
@@ -609,7 +524,7 @@ export default function GrowthAnalyticsPage() {
           className="mb-16 md:mb-24"
         >
           <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-light mb-4">
+            <h2 className="font-[Recoleta] text-3xl md:text-4xl font-light mb-4">
               <span style={gradientText}>Comprehensive Analytics Services</span>
             </h2>
             <p className="text-white/60 max-w-2xl mx-auto">
@@ -640,7 +555,7 @@ export default function GrowthAnalyticsPage() {
                       />
                     )}
                   </div>
-                  <h3 className="text-2xl font-semibold text-white">
+                  <h3 className="font-[Recoleta] text-2xl font-semibold text-white">
                     {category.category}
                   </h3>
                 </div>
@@ -683,7 +598,7 @@ export default function GrowthAnalyticsPage() {
                             </div>
                           </div>
                           <div>
-                            <h4 className="text-xl font-semibold text-white mb-2">
+                            <h4 className="font-[Recoleta] text-xl font-semibold text-white mb-2">
                               {service.title}
                             </h4>
                             <p className="text-white/60 text-sm">
@@ -755,7 +670,7 @@ export default function GrowthAnalyticsPage() {
           className="mb-16 md:mb-24"
         >
           <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-light mb-4">
+            <h2 className="font-[Recoleta] text-3xl md:text-4xl font-light mb-4">
               <span className="bg-gradient-to-r from-white to-white/80 bg-clip-text text-transparent">
                 Enterprise Analytics Platforms
               </span>
@@ -829,7 +744,7 @@ export default function GrowthAnalyticsPage() {
           className="mb-16 md:mb-24"
         >
           <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-light mb-4">
+            <h2 className="font-[Recoleta] text-3xl md:text-4xl font-light mb-4">
               <span style={gradientText}>Advanced Analytics Features</span>
             </h2>
             <p className="text-white/60 max-w-2xl mx-auto">
@@ -861,7 +776,7 @@ export default function GrowthAnalyticsPage() {
                         style={{ color: theme.primaryLight }}
                       />
                     </div>
-                    <h3 className="text-lg font-semibold text-white">
+                    <h3 className="font-[Recoleta] text-lg font-semibold text-white">
                       {category.category}
                     </h3>
                   </div>
@@ -918,7 +833,7 @@ export default function GrowthAnalyticsPage() {
           className="mb-16 md:mb-24"
         >
           <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-light mb-4">
+            <h2 className="font-[Recoleta] text-3xl md:text-4xl font-light mb-4">
               <span className="bg-gradient-to-r from-white to-white/80 bg-clip-text text-transparent">
                 Our Analytics Implementation Process
               </span>
@@ -965,7 +880,7 @@ export default function GrowthAnalyticsPage() {
 
                   {/* Title & Description */}
                   <div className="mb-4">
-                    <h4 className="text-lg font-semibold text-white mb-2">
+                    <h4 className="font-[Recoleta] text-lg font-semibold text-white mb-2">
                       {phase.title}
                     </h4>
                     <p className="text-white/60 text-sm">{phase.description}</p>
@@ -994,168 +909,6 @@ export default function GrowthAnalyticsPage() {
                 </div>
               </motion.div>
             ))}
-          </div>
-        </motion.div>
-
-        {/* Success Stories */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          viewport={{ once: true }}
-          className="mb-16 md:mb-24"
-        >
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-light mb-4">
-              <span style={gradientText}>Data-Driven Success Stories</span>
-            </h2>
-            <p className="text-white/60 max-w-2xl mx-auto">
-              Real businesses achieving extraordinary growth through analytics
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {successStories.map((story, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                viewport={{ once: true }}
-                className="group"
-              >
-                <div
-                  className="h-full rounded-2xl p-6 transition-all duration-500 group-hover:scale-[1.02]"
-                  style={cardStyle}
-                >
-                  {/* Company & Industry */}
-                  <div className="flex items-center justify-between mb-4">
-                    <div>
-                      <h3 className="text-xl font-semibold text-white">
-                        {story.company}
-                      </h3>
-                      <div className="text-sm text-white/50">
-                        {story.industry}
-                      </div>
-                    </div>
-                    <div
-                      className="px-3 py-1 rounded-full text-sm font-medium"
-                      style={{
-                        background: `linear-gradient(135deg, ${theme.primary}20, ${theme.primaryLight}10)`,
-                        color: theme.primaryLight,
-                      }}
-                    >
-                      {story.timeline}
-                    </div>
-                  </div>
-
-                  {/* Challenge & Solution */}
-                  <div className="space-y-4 mb-6">
-                    <div>
-                      <div className="text-sm font-medium text-white/50 mb-1">
-                        Challenge
-                      </div>
-                      <p className="text-white/70 text-sm">{story.challenge}</p>
-                    </div>
-                    <div>
-                      <div className="text-sm font-medium text-white/50 mb-1">
-                        Solution
-                      </div>
-                      <p className="text-white/70 text-sm">{story.solution}</p>
-                    </div>
-                  </div>
-
-                  {/* Results */}
-                  <div className="space-y-2">
-                    {story.results.map((result, i) => (
-                      <div key={i} className="flex items-center gap-2 text-sm">
-                        <FaCheckCircle
-                          className="w-3 h-3"
-                          style={{ color: theme.primaryLight }}
-                        />
-                        <span className="text-white/70">{result}</span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </motion.div>
-
-        {/* Final CTA */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          viewport={{ once: true }}
-          className="relative overflow-hidden rounded-3xl"
-          style={{
-            border: `1px solid ${theme.primary}30`,
-            background: `linear-gradient(135deg, ${theme.primary}08, ${theme.primaryDark}04)`,
-          }}
-        >
-          {/* Background glow */}
-          <div
-            className="absolute -inset-1 opacity-20 blur-xl"
-            style={{
-              background: `linear-gradient(135deg, ${theme.primary}, ${theme.primaryLight})`,
-            }}
-          />
-
-          <div className="relative p-8 md:p-12 text-center">
-            <h2 className="text-3xl md:text-4xl font-light mb-6">
-              <span className="bg-gradient-to-r from-white to-white/80 bg-clip-text text-transparent">
-                Ready to Unlock Your Growth Potential?
-              </span>
-            </h2>
-
-            <p className="text-lg text-white/60 max-w-2xl mx-auto mb-8">
-              Get a free analytics assessment and discover how data-driven
-              insights can accelerate your business growth.
-            </p>
-
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="group relative px-8 py-4 rounded-xl overflow-hidden"
-                style={accentStyle}
-              >
-                <div className="absolute inset-0 bg-white/10 translate-y-full group-hover:translate-y-0 transition-transform duration-300" />
-                <span className="relative flex items-center gap-3 font-medium text-white text-lg">
-                  Book Free Assessment
-                  <FaArrowRight className="w-5 h-5" />
-                </span>
-              </motion.button>
-
-              <button
-                className="px-8 py-4 rounded-xl border transition-all duration-300 hover:bg-white/5"
-                style={{
-                  borderColor: `${theme.primary}40`,
-                  background: `linear-gradient(135deg, ${theme.primary}05, ${theme.primaryDark}02)`,
-                }}
-              >
-                Download Analytics Guide
-              </button>
-            </div>
-
-            <div className="mt-8 text-white/40 text-sm">
-              <div className="flex flex-wrap items-center justify-center gap-4 md:gap-6">
-                <div className="flex items-center gap-2">
-                  <FaChartLine className="w-4 h-4" />
-                  <span>Free Analytics Audit</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <FaBrain className="w-4 h-4" />
-                  <span>Growth Strategy Session</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <FaCheckCircle className="w-4 h-4" />
-                  <span>No Commitment Required</span>
-                </div>
-              </div>
-            </div>
           </div>
         </motion.div>
       </div>
