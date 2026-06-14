@@ -193,8 +193,6 @@ export default function ProjectGridClient({
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
               {paginatedProjects.map((project, index) => {
                 const descriptionText = blockContentToPlainText(project.body);
-                const primaryCategory =
-                  project.categories?.[0] ?? "Uncategorized";
 
                 // ✅ FIXED: Safe optional chaining — asset may be undefined
                 const imageUrl = project.mainImage?.asset?.url
@@ -231,22 +229,27 @@ export default function ProjectGridClient({
                         {/* Content */}
                         <div className="p-5 md:p-6 flex-1 flex flex-col">
                           {/* Badges */}
-                          <div className="flex gap-3 mb-3 flex-wrap">
-                            <Glass
-                              variant="blue"
-                              className="px-3 py-1 text-white rounded-full text-xs"
-                            >
-                              {primaryCategory}
-                            </Glass>
-                            {/* <Glass
-                              variant="blue"
-                              className="px-3 py-1 text-white rounded-full text-xs flex items-center space-x-1.5"
-                            >
-                              <FaLayerGroup className="w-3 h-3" />
-                              <span>
-                                {project.technologies?.length ?? 0}+ tech
-                              </span>
-                            </Glass> */}
+                          {/* Badges - show ALL categories */}
+                          <div className="flex gap-2 mb-3 flex-wrap">
+                            {project.categories &&
+                            project.categories.length > 0 ? (
+                              project.categories.map((cat, i) => (
+                                <Glass
+                                  key={i}
+                                  variant="blue"
+                                  className="px-3 py-1 text-white rounded-full text-xs"
+                                >
+                                  {cat}
+                                </Glass>
+                              ))
+                            ) : (
+                              <Glass
+                                variant="blue"
+                                className="px-3 py-1 text-white rounded-full text-xs"
+                              >
+                                Uncategorized
+                              </Glass>
+                            )}
                           </div>
 
                           {/* Title */}

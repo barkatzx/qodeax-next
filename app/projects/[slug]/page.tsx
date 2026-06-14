@@ -1,4 +1,5 @@
 import ImageGallery from "@/components/Gallery";
+import Glass from "@/components/ui/Glass";
 import { client } from "@/sanity/client";
 import { components } from "@/sanity/portabletext";
 import { projectDetailQuery } from "@/sanity/projectsQuery";
@@ -12,6 +13,7 @@ import {
   FaExternalLinkAlt,
   FaGithub,
   FaGlobe,
+  FaRocket,
   FaServer,
   FaYoutube,
 } from "react-icons/fa";
@@ -43,22 +45,13 @@ export default async function ProjectPage(props: { params: tParams }) {
   const primaryColor = "#00a8ff";
   const primaryColorLight = "#4dc3ff";
 
-  const liquidGlassStyle = {
-    background:
-      "linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%)",
-    backdropFilter: "blur(20px) saturate(180%)",
-    border: "1px solid rgba(255, 255, 255, 0.1)",
-    boxShadow:
-      "0 8px 32px rgba(0, 0, 0, 0.2), 0 1px 0 rgba(255, 255, 255, 0.05) inset",
-  };
-
   const buttonStyle = {
     background: `linear-gradient(135deg, ${primaryColor} 0%, ${primaryColorLight} 100%)`,
     border: "1px solid rgba(255, 255, 255, 0.2)",
     boxShadow: `0 8px 32px ${primaryColor}20, 0 2px 8px rgba(255, 255, 255, 0.1) inset`,
   };
 
-  const primaryCategory = project.categories?.[0] ?? null;
+  const categories: string[] = project.categories ?? [];
 
   // ✅ THE FIX: resolve mainImage from GROQ-dereferenced asset url
   const mainImageUrl: string | null = project.mainImage?.asset?.url ?? null;
@@ -68,34 +61,28 @@ export default async function ProjectPage(props: { params: tParams }) {
       {/* Hero Section */}
       <div className="relative overflow-hidden px-5 md:px-20 py-8 md:py-12">
         <div className="max-w-6xl mx-auto">
-          {primaryCategory && (
-            <div className="mb-6">
-              <span
-                className="inline-flex items-center px-4 py-2 font-medium rounded-full backdrop-blur-sm"
-                style={{
-                  background:
-                    "linear-gradient(135deg, rgba(0, 168, 255, 0.1) 0%, rgba(0, 168, 255, 0.05) 100%)",
-                  border: "1px solid rgba(255, 255, 255, 0.1)",
-                  color: "#00a8ff",
-                }}
-              >
-                {primaryCategory}
-              </span>
+          {categories.length > 0 && (
+            <div className="mb-6 flex flex-wrap gap-2">
+              {categories.map((cat, i) => (
+                <span
+                  key={i}
+                  className="inline-flex items-center px-4 py-2 font-medium rounded-full"
+                  style={{
+                    background:
+                      "linear-gradient(135deg, rgba(0, 168, 255, 0.1) 0%, rgba(0, 168, 255, 0.05) 100%)",
+                    border: "1px solid rgba(255, 255, 255, 0.1)",
+                    color: "#00a8ff",
+                  }}
+                >
+                  {cat}
+                </span>
+              ))}
             </div>
           )}
 
           <h1 className="font-[Recoleta] text-4xl md:text-6xl lg:text-7xl font-bold mb-6 bg-gradient-to-r from-white via-white/90 to-white/70 bg-clip-text text-transparent leading-tight">
             {project.title}
           </h1>
-
-          {/* <div className="flex flex-wrap gap-6 mb-8">
-            <div className="flex items-center gap-2 text-white/70">
-              <FaCode className="text-[#4dc3ff]" />
-              <span className="font-medium">
-                {project.technologies?.length ?? 0} Technologies
-              </span>
-            </div>
-          </div> */}
         </div>
       </div>
 
@@ -133,9 +120,9 @@ export default async function ProjectPage(props: { params: tParams }) {
           <div className="grid lg:grid-cols-12 gap-8">
             <div className="lg:col-span-8">
               {project.body?.length > 0 && (
-                <div
+                <Glass
+                  variant="blue"
                   className="rounded-2xl p-6 md:p-8 lg:p-10 mb-8"
-                  style={liquidGlassStyle}
                 >
                   <div className="flex items-center gap-3 mb-6">
                     <div
@@ -156,13 +143,13 @@ export default async function ProjectPage(props: { params: tParams }) {
                       components={components}
                     />
                   </div>
-                </div>
+                </Glass>
               )}
 
               {project.features?.length > 0 && (
-                <div
+                <Glass
+                  variant="blue"
                   className="rounded-2xl p-6 md:p-8 lg:p-10 mb-8"
-                  style={liquidGlassStyle}
                 >
                   <div className="flex items-center gap-3 mb-6">
                     <div
@@ -225,13 +212,13 @@ export default async function ProjectPage(props: { params: tParams }) {
                       ))}
                     </ul>
                   </div>
-                </div>
+                </Glass>
               )}
 
               {project.technologies?.length > 0 && (
-                <div
+                <Glass
+                  variant="blue"
                   className="rounded-2xl p-6 md:p-8 lg:p-10"
-                  style={liquidGlassStyle}
                 >
                   <div className="flex items-center gap-3 mb-6">
                     <div
@@ -250,7 +237,7 @@ export default async function ProjectPage(props: { params: tParams }) {
                     {project.technologies.map((tech: string, index: number) => (
                       <span
                         key={index}
-                        className="px-4 py-2.5 text-white/80 font-medium rounded-xl border border-white/10 hover:border-[#00a8ff]/30 hover:text-white hover:shadow-md transition-all duration-300 backdrop-blur-sm"
+                        className="px-4 py-2.5 text-white/80 font-medium rounded-xl border border-white/10 hover:border-[#00a8ff]/30 hover:text-white hover:shadow-md transition-all duration-300"
                         style={{
                           background:
                             "linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.02) 100%)",
@@ -260,14 +247,14 @@ export default async function ProjectPage(props: { params: tParams }) {
                       </span>
                     ))}
                   </div>
-                </div>
+                </Glass>
               )}
             </div>
 
             {/* Sidebar */}
             <div className="lg:col-span-4">
               <div className="sticky top-24 space-y-6">
-                <div className="rounded-2xl p-6" style={liquidGlassStyle}>
+                <Glass variant="blue" className="rounded-2xl p-6">
                   <h3 className="font-[Recoleta] text-2xl font-bold text-white mb-6">
                     Project Links
                   </h3>
@@ -359,78 +346,108 @@ export default async function ProjectPage(props: { params: tParams }) {
                       </a>
                     )}
                   </div>
-                </div>
+                </Glass>
 
-                {primaryCategory && (
-                  <div className="rounded-2xl p-6" style={liquidGlassStyle}>
+                {categories.length > 0 && (
+                  <Glass variant="blue" className="rounded-2xl p-6">
                     <h3 className="font-[Recoleta] text-xl font-bold text-white mb-4">
                       Project Type
                     </h3>
-                    <div
-                      className="inline-flex items-center gap-2 px-4 py-2 rounded-full backdrop-blur-sm"
-                      style={{
-                        background:
-                          "linear-gradient(135deg, rgba(0, 168, 255, 0.1) 0%, rgba(0, 168, 255, 0.05) 100%)",
-                        border: "1px solid rgba(255, 255, 255, 0.1)",
-                      }}
-                    >
-                      <div
-                        className="w-2 h-2 rounded-full"
-                        style={{
-                          background: `linear-gradient(135deg, ${primaryColor} 0%, ${primaryColorLight} 100%)`,
-                        }}
-                      ></div>
-                      <span className="font-semibold text-[#00a8ff]">
-                        {primaryCategory}
-                      </span>
+                    <div className="flex flex-wrap gap-2">
+                      {categories.map((cat, i) => (
+                        <div
+                          key={i}
+                          className="inline-flex items-center gap-2 px-4 py-2 rounded-full"
+                          style={{
+                            background:
+                              "linear-gradient(135deg, rgba(0, 168, 255, 0.1) 0%, rgba(0, 168, 255, 0.05) 100%)",
+                            border: "1px solid rgba(255, 255, 255, 0.1)",
+                          }}
+                        >
+                          <div
+                            className="w-2 h-2 rounded-full"
+                            style={{
+                              background: `linear-gradient(135deg, ${primaryColor} 0%, ${primaryColorLight} 100%)`,
+                            }}
+                          />
+                          <span className="font-semibold text-[#00a8ff]">
+                            {cat}
+                          </span>
+                        </div>
+                      ))}
                     </div>
-                  </div>
+                  </Glass>
                 )}
 
-                <div className="rounded-2xl p-6" style={liquidGlassStyle}>
+                <Glass variant="blue" className="rounded-2xl p-6">
                   <div className="text-center mb-6">
-                    <h3 className="font-[Recoleta] text-2xl font-bold text-white mb-3">
-                      About the Developer
-                    </h3>
-                    <p className="text-white/70">
-                      Full Stack Developer specializing in modern web
-                      technologies
-                    </p>
-                  </div>
-                  <div className="space-y-6">
-                    <p className="text-white/70 text-center">
-                      Join me on YouTube for insights on web development,
-                      productivity, and creative projects.
-                    </p>
-                    <a
-                      target="_blank"
-                      href="https://www.youtube.com/@BarkatUllahzx"
-                      rel="noopener noreferrer"
-                      className="block w-full py-3.5 text-white font-semibold rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl flex items-center justify-center gap-3 group"
-                      style={buttonStyle}
+                    <div
+                      className="w-14 h-14 rounded-xl flex items-center justify-center mx-auto mb-4"
+                      style={{
+                        background: `linear-gradient(135deg, ${primaryColor} 0%, ${primaryColorLight} 100%)`,
+                      }}
                     >
-                      <FaYoutube className="text-xl" />
-                      Subscribe On YouTube
-                      <FaArrowLeft className="transform rotate-180 group-hover:translate-x-1 transition-transform" />
-                    </a>
+                      <FaRocket className="text-white text-xl" />
+                    </div>
+                    <h3 className="font-[Recoleta] text-2xl font-bold text-white mb-2">
+                      Let's Build Together
+                    </h3>
+                    <p className="text-white/70 text-sm">
+                      We craft digital experiences that drive real business
+                      results
+                    </p>
                   </div>
-                </div>
+
+                  <div className="space-y-3 mb-6">
+                    {[
+                      "Custom web & mobile solutions",
+                      "Scalable cloud architecture",
+                      "Ongoing support & maintenance",
+                    ].map((item, i) => (
+                      <div key={i} className="flex items-center gap-3">
+                        <div
+                          className="w-5 h-5 rounded-full flex items-center justify-center flex-shrink-0"
+                          style={{
+                            background: `linear-gradient(135deg, ${primaryColor}20, ${primaryColorLight}10)`,
+                          }}
+                        >
+                          <div
+                            className="w-2 h-2 rounded-full"
+                            style={{
+                              background: `linear-gradient(135deg, ${primaryColor}, ${primaryColorLight})`,
+                            }}
+                          />
+                        </div>
+                        <span className="text-white/70 text-sm">{item}</span>
+                      </div>
+                    ))}
+                  </div>
+
+                  <Link
+                    href="/contact"
+                    className="flex w-full py-3.5 text-white font-semibold rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl items-center justify-center gap-3 group"
+                    style={buttonStyle}
+                  >
+                    Start a Project
+                    <FaArrowLeft className="transform rotate-180 group-hover:translate-x-1 transition-transform" />
+                  </Link>
+                </Glass>
               </div>
             </div>
           </div>
 
           {/* CTA */}
           <div className="mt-16 text-center">
-            <div
-              className="inline-flex flex-col items-center gap-4 p-8 rounded-2xl border border-white/10 shadow-lg max-w-2xl mx-auto"
-              style={liquidGlassStyle}
+            <Glass
+              variant="blue"
+              className="flex flex-col items-center gap-4 p-8 rounded-2xl border border-white/10 shadow-lg mx-auto"
             >
               <div className="text-center">
                 <h3 className="font-[Recoleta] text-2xl font-bold text-white mb-2">
                   Like What You See?
                 </h3>
                 <p className="text-white/70">
-                  Check out more of my projects or let&apos;s discuss your next
+                  Check out more of Our projects or let&apos;s discuss your next
                   big idea.
                 </p>
               </div>
@@ -449,7 +466,7 @@ export default async function ProjectPage(props: { params: tParams }) {
                   Start a Project
                 </Link>
               </div>
-            </div>
+            </Glass>
           </div>
         </div>
       </div>

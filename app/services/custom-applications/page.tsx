@@ -7,6 +7,7 @@ import {
   FaArrowRight,
   FaChartLine,
   FaCheckCircle,
+  FaClock,
   FaCloud,
   FaCode,
   FaCogs,
@@ -21,6 +22,7 @@ import {
   FaTools,
   FaUsers,
 } from "react-icons/fa";
+import NextLink from "next/link";
 import {
   SiMongodb,
   SiNextdotjs,
@@ -350,27 +352,34 @@ export default function CustomApplicationsPage() {
 
           {/* CTA Buttons */}
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="group relative px-8 py-4 rounded-xl overflow-hidden"
-              style={accentStyle}
-            >
-              <div className="absolute inset-0 bg-white/10 translate-y-full group-hover:translate-y-0 transition-transform duration-300" />
-              <span className="relative flex items-center gap-3 font-medium text-white text-lg">
-                Start Your Project
-                <FaArrowRight className="w-5 h-5" />
-              </span>
-            </motion.button>
-            <button
-              className="px-8 py-4 rounded-xl border transition-all duration-300 hover:bg-white/5"
-              style={{
-                borderColor: `${theme.primary}40`,
-                background: `linear-gradient(135deg, ${theme.primary}05, ${theme.primaryDark}02)`,
-              }}
-            >
-              View Portfolio
-            </button>
+            <NextLink href="/contact">
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="group relative px-8 py-4 rounded-xl overflow-hidden cursor-pointer"
+                style={accentStyle}
+              >
+                <span className="absolute inset-0 bg-white/10 translate-y-full group-hover:translate-y-0 transition-transform duration-300 block" />
+                <span className="relative flex items-center gap-3 font-medium text-white text-lg">
+                  Start Your Project
+                  <span className="w-5 h-5 flex items-center justify-center">
+                    <FaArrowRight />
+                  </span>
+                </span>
+              </motion.button>
+            </NextLink>
+
+            <NextLink href="/projects">
+              <button
+                className="px-8 py-4 rounded-xl border transition-all duration-300 hover:bg-white/5 cursor-pointer"
+                style={{
+                  borderColor: `${theme.primary}40`,
+                  background: `linear-gradient(135deg, ${theme.primary}05, ${theme.primaryDark}02)`,
+                }}
+              >
+                View Portfolio
+              </button>
+            </NextLink>
           </div>
         </motion.div>
 
@@ -816,7 +825,7 @@ export default function CustomApplicationsPage() {
             }}
           />
 
-          <div className="relative p-8 md:p-12 text-center">
+          <div className="relative p-8 md:p-12 text-center backdrop-blur-sm">
             <h2 className="font-[Recoleta] text-3xl md:text-4xl font-light mb-6">
               <span className="bg-gradient-to-r from-white to-white/80 bg-clip-text text-transparent">
                 Ready to Build Your Solution?
@@ -824,48 +833,45 @@ export default function CustomApplicationsPage() {
             </h2>
 
             <p className="text-lg text-white/60 max-w-2xl mx-auto mb-8">
-              Let's discuss your custom application requirements and create a
-              tailored solution.
+              Schedule a free strategy session to discuss your idea and get a
+              detailed project roadmap.
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="group relative px-8 py-4 rounded-xl overflow-hidden"
-                style={accentStyle}
-              >
-                <div className="absolute inset-0 bg-white/10 translate-y-full group-hover:translate-y-0 transition-transform duration-300" />
-                <span className="relative flex items-center gap-3 font-medium text-white text-lg">
-                  Schedule Consultation
-                  <FaArrowRight className="w-5 h-5" />
-                </span>
-              </motion.button>
-
-              <button
-                className="px-8 py-4 rounded-xl border transition-all duration-300 hover:bg-white/5"
-                style={{
-                  borderColor: `${theme.primary}40`,
-                  background: `linear-gradient(135deg, ${theme.primary}05, ${theme.primaryDark}02)`,
-                }}
-              >
-                Request Proposal
-              </button>
+              <NextLink href="/contact">
+                <button
+                  className="group relative px-8 py-4 rounded-xl overflow-hidden transition-all duration-300"
+                  style={{
+                    background: `linear-gradient(135deg, ${theme.primary}, ${theme.primaryDark})`,
+                  }}
+                >
+                  <div
+                    className="absolute inset-0 bg-white/10 translate-y-full group-hover:translate-y-0 transition-transform duration-300"
+                    style={{
+                      background: `linear-gradient(to bottom, ${theme.primaryLight}20, transparent)`,
+                    }}
+                  />
+                  <span className="relative flex items-center gap-3 font-medium text-white text-lg">
+                    Book Free Slot
+                    <FaArrowRight className="w-5 h-5" />
+                  </span>
+                </button>
+              </NextLink>
             </div>
 
             <div className="mt-8 text-white/40 text-sm">
               <div className="flex flex-wrap items-center justify-center gap-4 md:gap-6">
                 <div className="flex items-center gap-2">
                   <FaShieldAlt className="w-4 h-4" />
-                  <span>Source Code Ownership</span>
+                  <span>NDA Protected</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <FaUsers className="w-4 h-4" />
-                  <span>Dedicated Team</span>
+                  <FaClock className="w-4 h-4" />
+                  <span>45-min Session</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <FaChartLine className="w-4 h-4" />
-                  <span>Performance Guarantee</span>
+                  <FaCheckCircle className="w-4 h-4" />
+                  <span>No Commitment</span>
                 </div>
               </div>
             </div>

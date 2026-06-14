@@ -297,7 +297,7 @@ export default function MVPDevelopmentPage() {
 
   return (
     <div className="container mx-auto text-white overflow-hidden">
-      <div className="relative max-w-7xl mx-auto px-4 py-12 md:py-20">
+      <div className="relative max-w-7xl mx-auto px-4 py-10">
         {/* Hero Section */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
