@@ -1,12 +1,16 @@
 "use client";
 
 import Glass from "@/components/ui/Glass";
+import { getTeamMembers, type TeamMember } from "@/sanity/client";
 import { motion } from "framer-motion";
+import { link } from "fs/promises";
 import Image from "next/image";
+import type { ReactElement } from "react";
 import { useEffect, useState } from "react";
 import {
   FaArrowRight,
   FaAward,
+  FaBehance,
   FaBullseye,
   FaChartBar,
   FaChartLine,
@@ -15,10 +19,14 @@ import {
   FaCode,
   FaCogs,
   FaDatabase,
+  FaDribbble,
+  FaEnvelope,
   FaEye,
+  FaFacebook,
   FaGithub,
   FaGlobe,
   FaHeart,
+  FaInstagram,
   FaLightbulb,
   FaLinkedin,
   FaMobile,
@@ -28,42 +36,8 @@ import {
   FaShieldAlt,
   FaTwitter,
   FaUsers,
+  FaYoutube,
 } from "react-icons/fa";
-
-// Team members
-const teamMembers = [
-  {
-    name: "Barkat Ullah",
-    role: "Founder & Lead Developer",
-    image: "/team/barkat.jpg",
-    bio: "Full-stack developer with 3+ years of experience in building scalable web applications.",
-    social: {
-      github: "https://github.com/barkatzx",
-      linkedin: "https://linkedin.com/in/barkatzx",
-      twitter: "https://twitter.com/barkatzx",
-    },
-  },
-  {
-    name: "Ambar Zara",
-    role: "Team Lead & Backend Developer",
-    image: "/team/sarah.jpg",
-    bio: "Passionate about creating intuitive and beautiful user experiences that drive engagement.",
-    social: {
-      github: "https://dribbble.com/",
-      linkedin: "https://linkedin.com/in/",
-    },
-  },
-  {
-    name: "Robiul Parvez",
-    role: "Senior Frontend Developer",
-    image: "/team/sarah.jpg",
-    bio: "Passionate about creating intuitive and beautiful user experiences that drive engagement.",
-    social: {
-      github: "https://dribbble.com/",
-      linkedin: "https://linkedin.com/in/",
-    },
-  },
-];
 
 // Technologies by category
 const technologies = [
@@ -291,6 +265,8 @@ const stats = [
 export default function AboutPage() {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [activeCategory, setActiveCategory] = useState("All");
+  const [teamMembers, setTeamMembers] = useState<TeamMember[]>([]);
+  const [isTeamLoading, setIsTeamLoading] = useState(true);
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
@@ -298,6 +274,29 @@ export default function AboutPage() {
     };
     window.addEventListener("mousemove", handleMouseMove);
     return () => window.removeEventListener("mousemove", handleMouseMove);
+  }, []);
+
+  useEffect(() => {
+    let isMounted = true;
+
+    getTeamMembers()
+      .then((members) => {
+        if (isMounted) {
+          setTeamMembers(members);
+        }
+      })
+      .catch((error) => {
+        console.error("Error loading team members:", error);
+      })
+      .finally(() => {
+        if (isMounted) {
+          setIsTeamLoading(false);
+        }
+      });
+
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
   const primaryColor = "#00a8ff";
@@ -313,6 +312,79 @@ export default function AboutPage() {
     activeCategory === "All"
       ? technologies
       : technologies.filter((tech) => tech.category === activeCategory);
+
+  const getMemberLinks = (member: TeamMember) =>
+    [
+      member.email && {
+        key: "email",
+        href: `mailto:${member.email}`,
+        label: `Email ${member.name}`,
+        icon: <FaEnvelope />,
+      },
+      member.socialMedia?.facebook && {
+        key: "facebook",
+        href: member.socialMedia.facebook,
+        label: `${member.name} on Facebook`,
+        icon: <FaFacebook />,
+      },
+      member.socialMedia?.linkedin && {
+        key: "linkedin",
+        href: member.socialMedia.linkedin,
+        label: `${member.name} on LinkedIn`,
+        icon: <FaLinkedin />,
+      },
+      member.socialMedia?.github && {
+        key: "github",
+        href: member.socialMedia.github,
+        label: `${member.name} on GitHub`,
+        icon: <FaGithub />,
+      },
+      member.socialMedia?.dribbble && {
+        key: "dribbble",
+        href: member.socialMedia.dribbble,
+        label: `${member.name} on Dribbble`,
+        icon: <FaDribbble />,
+      },
+      member.socialMedia?.twitter && {
+        key: "twitter",
+        href: member.socialMedia.twitter,
+        label: `${member.name} on X`,
+        icon: <FaTwitter />,
+      },
+      member.socialMedia?.instagram && {
+        key: "instagram",
+        href: member.socialMedia.instagram,
+        label: `${member.name} on Instagram`,
+        icon: <FaInstagram />,
+      },
+      member.socialMedia?.youtube && {
+        key: "youtube",
+        href: member.socialMedia.youtube,
+        label: `${member.name} on YouTube`,
+        icon: <FaYoutube />,
+      },
+      member.socialMedia?.behance && {
+        key: "behance",
+        href: member.socialMedia.behance,
+        label: `${member.name} on Behance`,
+        icon: <FaBehance />,
+      },
+      member.socialMedia?.website && {
+        key: "website",
+        href: member.socialMedia.website,
+        label: `${member.name}'s website`,
+        icon: <FaGlobe />,
+      },
+    ].filter(
+      (
+        link,
+      ): link is {
+        key: string;
+        href: string;
+        label: string;
+        icon: ReactElement;
+      } => Boolean(link),
+    );
 
   return (
     <main>
@@ -781,95 +853,133 @@ export default function AboutPage() {
               variant="white"
               className="inline-flex items-center gap-2 px-4 py-2 rounded-full mb-4"
             >
-              <span className="w-2 h-2 bg-[#00a8ff] rounded-full"></span>
-              <span className="text-sm font-semibold text-[#00a8ff]">
-                MEET THE EXPERTS
+              <span className="w-2 h-2 bg-[#00a8ff] rounded-full animate-pulse"></span>
+              <span className="text-xs font-semibold tracking-widest text-[#00a8ff] uppercase">
+                Meet the Experts
               </span>
             </Glass>
-            <h2 className="font-[Recoleta] text-3xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-white via-white/90 to-white/70 bg-clip-text text-transparent">
-              The Minds Behind The Magic
+            <h2 className="font-[Recoleta] text-4xl md:text-5xl font-bold mb-4 text-white">
+              The Minds Behind <span className="text-white/40">The Magic</span>
             </h2>
-            <p className="text-white/70 text-lg max-w-3xl mx-auto">
+            <p className="text-white/50 text-base max-w-xl mx-auto leading-relaxed">
               A diverse team of experts passionate about creating exceptional
               digital experiences
             </p>
           </motion.div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {teamMembers.map((member, index) => (
-              <motion.div
-                key={member.name}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                viewport={{ once: true }}
-                className="group"
-              >
-                <Glass variant="white" className="">
-                  <div className="relative h-64 overflow-hidden">
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent z-10" />
-                    {/* Placeholder for team member image */}
-                    <div className="w-full h-full bg-gradient-to-br from-[#00a8ff]/20 to-[#4dc3ff]/10 flex items-center justify-center">
-                      <span className="text-6xl text-white/30">
-                        {member.name.charAt(0)}
-                      </span>
-                    </div>
-                  </div>
-                  <div className="p-6">
-                    <h3 className="font-[Recoleta] text-xl font-bold text-white mb-1">
-                      {member.name}
-                    </h3>
-                    <p className="text-[#00a8ff] text-sm mb-3 font-[Outfit-Regular]">
-                      {member.role}
-                    </p>
-                    <p className="text-white/60 text-sm mb-4">{member.bio}</p>
-                    <div className="flex gap-3">
-                      {member.social.github && (
-                        <a
-                          href={member.social.github}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-white/40 hover:text-[#00a8ff] transition-colors"
-                        >
-                          <FaGithub />
-                        </a>
-                      )}
-                      {member.social.linkedin && (
-                        <a
-                          href={member.social.linkedin}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-white/40 hover:text-[#00a8ff] transition-colors"
-                        >
-                          <FaLinkedin />
-                        </a>
-                      )}
-                      {member.social.twitter && (
-                        <a
-                          href={member.social.twitter}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-white/40 hover:text-[#00a8ff] transition-colors"
-                        >
-                          <FaTwitter />
-                        </a>
-                      )}
-                      {/* {member.social.dribbble && (
-                        <a
-                          href={member.social.dribbble}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-white/40 hover:text-[#00a8ff] transition-colors"
-                        >
-                          <FaDribbble />
-                        </a>
-                      )} */}
+          {isTeamLoading ? (
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {[0, 1, 2].map((item) => (
+                <Glass
+                  key={item}
+                  variant="white"
+                  className="overflow-hidden rounded-2xl"
+                >
+                  <div className="p-5 space-y-3">
+                    <div className="flex gap-2 pt-2">
+                      {[0, 1, 2, 3].map((i) => (
+                        <div key={i} />
+                      ))}
                     </div>
                   </div>
                 </Glass>
-              </motion.div>
-            ))}
-          </div>
+              ))}
+            </div>
+          ) : teamMembers.length > 0 ? (
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {teamMembers.map((member, index) => (
+                <motion.div
+                  key={member._id}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: index * 0.1 }}
+                  viewport={{ once: true }}
+                  className="group"
+                >
+                  <Glass
+                    variant="white"
+                    className="rounded-2xl overflow-hidden border border-white/10 transition-all duration-300"
+                  >
+                    {/* Image */}
+                    <div className="relative h-56 overflow-hidden">
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent z-10" />
+
+                      {member.imageUrl ? (
+                        <Image
+                          src={member.imageUrl}
+                          alt={member.name}
+                          fill
+                          sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
+                          className="object-cover transition-transform duration-500 group-hover:scale-105"
+                        />
+                      ) : (
+                        <div className="w-full h-full bg-gradient-to-br from-[#00a8ff]/10 to-[#4dc3ff]/5 flex items-center justify-center">
+                          <span className="text-6xl font-bold text-white/10">
+                            {member.name.charAt(0)}
+                          </span>
+                        </div>
+                      )}
+                      {/* Role pill on image */}
+                      {member.role && (
+                        <div className="absolute bottom-3 left-3 z-20 bg-[#00a8ff]/15 border border-[#00a8ff]/30 rounded-full px-3 py-1 text-[11px] font-semibold text-[#4dc3ff] tracking-wide">
+                          {member.role}
+                        </div>
+                      )}
+                    </div>
+
+                    {/* Body */}
+                    <div className="p-5">
+                      <h3 className="font-[Recoleta] text-lg font-bold text-white mb-2">
+                        {member.name}
+                      </h3>
+
+                      {member.description && (
+                        <p className="text-white/50 text-sm leading-relaxed mb-4 line-clamp-4">
+                          {member.description
+                            .split(" ")
+                            .slice(0, 100)
+                            .join(" ")}
+                          {member.description.split(" ").length > 100
+                            ? "..."
+                            : ""}
+                        </p>
+                      )}
+
+                      {/* Divider */}
+                      <div className="h-px bg-white/8 mb-4" />
+
+                      {/* Social links */}
+                      <div className="flex flex-wrap gap-2">
+                        {getMemberLinks(member).map((link) => (
+                          <a
+                            key={link.key}
+                            href={link.href}
+                            target={link.key === "email" ? undefined : "_blank"}
+                            rel={
+                              link.key === "email"
+                                ? undefined
+                                : "noopener noreferrer"
+                            }
+                            aria-label={link.label}
+                            title={link.label}
+                            className="w-8 h-8 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center text-white/35 hover:bg-[#00a8ff]/15 hover:border-[#00a8ff]/40 hover:text-[#4dc3ff] transition-all duration-150"
+                          >
+                            {link.icon}
+                          </a>
+                        ))}
+                      </div>
+                    </div>
+                  </Glass>
+                </motion.div>
+              ))}
+            </div>
+          ) : (
+            <Glass variant="white" className="p-10 text-center rounded-2xl">
+              <p className="text-white/40 text-sm">
+                Team members will be available soon.
+              </p>
+            </Glass>
+          )}
         </div>
       </section>
     </main>

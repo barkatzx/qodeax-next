@@ -17,7 +17,7 @@ export const client = createClient({
 });
 
 // Image builder helper
-interface SanityImageSource {
+export interface SanityImageSource {
   asset: {
     _ref: string;
     _type: string;
@@ -29,6 +29,27 @@ export const urlFor = (source: SanityImageSource) =>
   imageUrlBuilder(client).image(source);
 
 // Types based on your schemas
+export interface TeamMember {
+  _id: string;
+  name: string;
+  role?: string;
+  image?: SanityImageSource;
+  imageUrl?: string;
+  email?: string;
+  description?: string;
+  socialMedia?: {
+    facebook?: string;
+    linkedin?: string;
+    github?: string;
+    dribbble?: string;
+    twitter?: string;
+    instagram?: string;
+    youtube?: string;
+    behance?: string;
+    website?: string;
+  };
+}
+
 export interface Career {
   _id: string;
   _type: "careers";
@@ -120,6 +141,27 @@ export interface JobApplication {
 }
 
 // Helper functions
+export async function getTeamMembers(): Promise<TeamMember[]> {
+  try {
+    const query = `*[_type == "team"] | order(_createdAt asc) {
+      _id,
+      name,
+      role,
+      image,
+      "imageUrl": image.asset->url,
+      email,
+      description,
+      socialMedia
+    }`;
+
+    const data = await client.fetch<TeamMember[]>(query);
+    return data || [];
+  } catch (error) {
+    console.error("Error fetching team members:", error);
+    return [];
+  }
+}
+
 export async function getJobListings(filters?: {
   department?: string;
   location?: string;
