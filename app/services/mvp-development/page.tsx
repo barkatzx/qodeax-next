@@ -307,7 +307,7 @@ export default function MVPDevelopmentPage() {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.3 }}
-            className="font-[Recoleta] text-4xl md:text-6xl lg:text-7xl font-light mb-6 leading-tight"
+            className="font-[Recoleta] text-4xl md:text-6xl lg:text-7xl font-bold leading-tight"
           >
             <span className="bg-gradient-to-r from-white via-white/90 to-white/70 bg-clip-text text-transparent">
               Launch Your Vision
@@ -329,7 +329,7 @@ export default function MVPDevelopmentPage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}
-            className="text-xl text-white/60 max-w-3xl mx-auto mb-10"
+            className="font-[Outfit-Regular] text-xl text-white/60 max-w-3xl mx-auto mb-10"
           >
             Transform your startup idea into a market-ready product with our
             accelerated MVP development program. Validate faster, iterate
@@ -431,7 +431,7 @@ export default function MVPDevelopmentPage() {
                 </div>
 
                 <div
-                  className="text-3xl font-bold mb-2"
+                  className="font-[Outfit-Regular] text-3xl font-bold mb-2"
                   style={{ color: theme.primaryLight }}
                 >
                   {stat.value}
@@ -451,7 +451,7 @@ export default function MVPDevelopmentPage() {
           viewport={{ once: true }}
           className="mb-16 md:mb-24"
         >
-          <h2 className="font-[Recoleta] text-3xl md:text-4xl font-light text-center mb-12">
+          <h2 className="font-[Recoleta] text-3xl md:text-4xl font-bold text-center mb-12">
             <span className="bg-gradient-to-r from-white to-white/80 bg-clip-text text-transparent">
               Why Build an MVP?
             </span>
@@ -502,7 +502,7 @@ export default function MVPDevelopmentPage() {
                     </div>
 
                     {/* Title */}
-                    <h3 className="text-xl font-semibold text-white mb-3">
+                    <h3 className="font-[Outfit-Regular] text-xl font-semibold text-white mb-3">
                       {benefit.title}
                     </h3>
 
@@ -532,7 +532,7 @@ export default function MVPDevelopmentPage() {
           className="mb-16 md:mb-24"
           ref={timelineRef}
         >
-          <h2 className="font-[Recoleta] text-3xl md:text-4xl font-light text-center mb-12">
+          <h2 className="font-[Recoleta] text-3xl md:text-4xl font-bold text-center mb-12">
             <span className="bg-gradient-to-r from-white to-white/80 bg-clip-text text-transparent">
               8-Week MVP Development Journey
             </span>
@@ -649,7 +649,7 @@ export default function MVPDevelopmentPage() {
           viewport={{ once: true }}
           className="mb-16 md:mb-24"
         >
-          <h2 className="font-[Recoleta] text-3xl md:text-4xl font-light text-center mb-12">
+          <h2 className="font-[Recoleta] text-3xl md:text-4xl font-bold text-center mb-12">
             <span className="bg-gradient-to-r from-white to-white/80 bg-clip-text text-transparent">
               Modern Tech Stack
             </span>
@@ -682,7 +682,7 @@ export default function MVPDevelopmentPage() {
                     <div className="text-3xl">{tech.icon}</div>
                   </div>
 
-                  <h3 className="text-lg font-semibold text-white mb-2">
+                  <h3 className="font-[Outfit-Regular] text-lg font-semibold text-white mb-2">
                     {tech.name}
                   </h3>
                   <p className="text-white/60 text-sm">{tech.description}</p>
@@ -700,7 +700,7 @@ export default function MVPDevelopmentPage() {
           viewport={{ once: true }}
           className="mb-16 md:mb-24"
         >
-          <h2 className="font-[Recoleta] text-3xl md:text-4xl font-light text-center mb-12">
+          <h2 className="font-[Recoleta] text-3xl md:text-4xl font-bold text-center mb-12">
             <span className="bg-gradient-to-r from-white to-white/80 bg-clip-text text-transparent">
               What's Included in Your MVP
             </span>

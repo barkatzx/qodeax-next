@@ -12,6 +12,7 @@ import {
   FaCheck,
   FaClock,
   FaCode,
+  FaCogs,
   FaGlobe,
   FaLaptopCode,
   FaLightbulb,
@@ -83,35 +84,36 @@ const Contact: React.FC = () => {
       label: "Corporate Website",
       description: "Brand presence, lead generation, business showcase",
       icon: <FaGlobe />,
-      startingPrice: "$2,500+",
     },
     {
       id: "web-app" as ProjectType,
       label: "Web Application",
       description: "SaaS platforms, dashboards, custom business tools",
       icon: <FaLaptopCode />,
-      startingPrice: "$10,000+",
     },
     {
       id: "ecommerce" as ProjectType,
       label: "E-Commerce Solution",
       description: "Online stores, marketplace platforms, payment integration",
       icon: <FaShoppingCart />,
-      startingPrice: "$5,000+",
     },
     {
       id: "redesign" as ProjectType,
       label: "UX/UI Redesign",
       description: "Modernize interface, improve conversion, rebranding",
       icon: <FaPaintBrush />,
-      startingPrice: "$3,000+",
     },
     {
       id: "mobile-app" as ProjectType,
       label: "Mobile Experience",
       description: "iOS/Android apps, cross-platform solutions",
       icon: <FaMobileAlt />,
-      startingPrice: "$15,000+",
+    },
+    {
+      id: "Custom" as ProjectType,
+      label: "Custom Solution",
+      description: "Tailored development for unique business needs",
+      icon: <FaCogs />,
     },
   ];
 
@@ -137,7 +139,7 @@ const Contact: React.FC = () => {
     },
     {
       id: "10k+" as BudgetRange,
-      label: "$10,000+",
+      label: "Negotiable",
       description: "Strategic Partnership",
       suitableFor: [
         "Enterprise solutions",
@@ -333,7 +335,7 @@ const Contact: React.FC = () => {
             </span>
           </h1>
 
-          <p className="text-white/60 text-lg max-w-2xl mx-auto">
+          <p className="font-[Outfit-Regular] text-lg text-white/70 max-w-2xl mx-auto">
             Share your vision with us. Our team of experts will transform your
             ideas into powerful digital solutions.
           </p>
@@ -383,7 +385,7 @@ const Contact: React.FC = () => {
                     exit={{ opacity: 0, x: -20 }}
                     className="space-y-6"
                   >
-                    <h3 className="text-xl md:text-2xl font-bold text-white mb-6">
+                    <h3 className="font-[Outfit-Regular] text-xl md:text-2xl text-white mb-6">
                       Contact Information
                     </h3>
 
@@ -448,7 +450,7 @@ const Contact: React.FC = () => {
                     exit={{ opacity: 0, x: -20 }}
                     className="space-y-6"
                   >
-                    <h3 className="text-xl md:text-2xl font-bold text-white mb-6">
+                    <h3 className="font-[Outfit-Regular] text-xl md:text-2xl text-white mb-6">
                       Project Details
                     </h3>
 
@@ -477,16 +479,13 @@ const Contact: React.FC = () => {
                               <div className="text-[#00a8ff] text-xl">
                                 {type.icon}
                               </div>
-                              <span className="text-white font-medium">
+                              <span className="font-[Outfit-Regular] text-white">
                                 {type.label}
                               </span>
                             </div>
                             <p className="text-sm text-white/60 mb-2">
                               {type.description}
                             </p>
-                            <span className="text-xs text-[#00a8ff]">
-                              {type.startingPrice}
-                            </span>
                           </motion.button>
                         ))}
                       </div>
@@ -514,7 +513,7 @@ const Contact: React.FC = () => {
                             disabled={hasSubmitted}
                           >
                             <div className="flex items-center justify-between mb-2">
-                              <span className="text-white font-medium">
+                              <span className="font-[Outfit-Regular] text-white">
                                 {range.label}
                               </span>
                               {formData.budget === range.id && (
@@ -540,7 +539,7 @@ const Contact: React.FC = () => {
                     exit={{ opacity: 0, x: -20 }}
                     className="space-y-6"
                   >
-                    <h3 className="text-xl md:text-2xl font-bold text-white mb-6">
+                    <h3 className="font-[Outfit-Regular] text-xl md:text-2xl text-white mb-6">
                       Additional Information
                     </h3>
 

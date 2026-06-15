@@ -89,7 +89,7 @@ export default function ServicesShowcase() {
           Growth-Ready Digital Products
         </h2>
 
-        <p className="text-white/70 text-xl max-w-5xl mx-auto">
+        <p className="font-[Outfit-Regular] text-white/70 text-xl max-w-5xl mx-auto">
           We design and build scalable digital platforms that solve real
           business problems. By combining thoughtful design with robust
           engineering, we turn complex requirements into clean, reliable systems

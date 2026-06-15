@@ -200,7 +200,7 @@ export default function TestimonialSlider() {
           Trusted by Industry Leaders
         </h2>
 
-        <p className="text-white/60 text-xl max-w-2xl mx-auto">
+        <p className="font-[Outfit-Regular] text-white/70 text-xl max-w-2xl mx-auto">
           Join hundreds of satisfied clients who&apos;ve transformed their
           digital presence
         </p>

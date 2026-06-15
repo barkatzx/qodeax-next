@@ -273,13 +273,6 @@ export default function CustomApplicationsPage() {
 
   return (
     <div className="text-white overflow-hidden">
-      {/* Animated Background */}
-      <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute top-0 left-0 w-96 h-96 bg-[#00a8ff]/10 rounded-full blur-3xl" />
-        <div className="absolute bottom-0 right-0 w-96 h-96 bg-[#0097e6]/10 rounded-full blur-3xl" />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-gradient-to-r from-[#00a8ff]/5 via-transparent to-[#4dc3ff]/5 rounded-full blur-3xl" />
-      </div>
-
       <div className="relative max-w-7xl mx-auto px-4 py-12 md:py-10">
         {/* Hero Section */}
         <motion.div
@@ -302,12 +295,12 @@ export default function CustomApplicationsPage() {
           </motion.div>
 
           {/* Main Title */}
-          <h2 className="font-[Recoleta] text-4xl md:text-5xl mb-5 bg-gradient-to-r from-white to-gray-500 bg-clip-text text-transparent">
+          <h2 className="font-[Recoleta] font-bold text-4xl md:text-5xl mb-5 bg-gradient-to-r from-white to-gray-500 bg-clip-text text-transparent">
             Bespoke Software Solutions
           </h2>
 
           {/* Subtitle */}
-          <p className="text-lg md:text-xl text-white/60 max-w-3xl mx-auto mb-10 font-light leading-relaxed">
+          <p className="font-[Outfit-Regular] text-lg md:text-xl text-white/60 max-w-3xl mx-auto mb-10 font-light leading-relaxed">
             Transform complex business challenges into elegant, scalable digital
             solutions. We build custom applications that drive efficiency,
             innovation, and growth.
@@ -355,12 +348,12 @@ export default function CustomApplicationsPage() {
           className="mb-16 md:mb-24"
         >
           <div className="text-center mb-12">
-            <h2 className="font-[Recoleta] text-3xl md:text-4xl font-light mb-4">
+            <h2 className="font-[Recoleta] text-3xl md:text-4xl font-bold mb-4">
               <span className="bg-gradient-to-r from-white to-white/80 bg-clip-text text-transparent">
                 Types of Applications We Build
               </span>
             </h2>
-            <p className="text-white/60 max-w-2xl mx-auto">
+            <p className="font-[Outfit-Regular] text-white/60 max-w-2xl mx-auto">
               From simple web apps to complex enterprise systems
             </p>
           </div>
@@ -426,10 +419,10 @@ export default function CustomApplicationsPage() {
           className="mb-16 md:mb-24"
         >
           <div className="text-center mb-12">
-            <h2 className="font-[Recoleta] text-3xl md:text-4xl font-light mb-4">
+            <h2 className="font-[Recoleta] text-3xl md:text-4xl font-bold mb-4">
               <span style={gradientText}>Modern Technology Stack</span>
             </h2>
-            <p className="text-white/60 max-w-2xl mx-auto">
+            <p className="font-[Outfit-Regular] text-white/60 max-w-2xl mx-auto">
               Built with cutting-edge technologies for performance and
               scalability
             </p>
@@ -459,7 +452,7 @@ export default function CustomApplicationsPage() {
                         style={{ color: theme.primaryLight }}
                       />
                     </div>
-                    <h3 className="text-lg font-semibold text-white">
+                    <h3 className="font-[Outfit-Regular] text-lg text-white">
                       {category.category}
                     </h3>
                   </div>
@@ -507,12 +500,12 @@ export default function CustomApplicationsPage() {
           className="mb-16 md:mb-24"
         >
           <div className="text-center mb-12">
-            <h2 className="font-[Recoleta] text-3xl md:text-4xl font-light mb-4">
+            <h2 className="font-[Recoleta] text-3xl md:text-4xl font-bold mb-4">
               <span className="bg-gradient-to-r from-white to-white/80 bg-clip-text text-transparent">
                 Our Development Process
               </span>
             </h2>
-            <p className="text-white/60 max-w-2xl mx-auto">
+            <p className="font-[Outfit-Regular] text-white/60 max-w-2xl mx-auto">
               Transparent, collaborative, and results-driven approach
             </p>
           </div>
@@ -626,7 +619,7 @@ export default function CustomApplicationsPage() {
           className="mb-16 md:mb-24"
         >
           <div className="text-center mb-12">
-            <h2 className="font-[Recoleta] text-3xl md:text-4xl font-light mb-4">
+            <h2 className="font-[Recoleta] text-3xl md:text-4xl font-bold mb-4">
               <span className="bg-gradient-to-r from-white to-white/80 bg-clip-text text-transparent">
                 Why Choose Custom Development
               </span>

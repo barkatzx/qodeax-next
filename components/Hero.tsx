@@ -252,7 +252,7 @@ export default function ModernHero() {
             {/* Description */}
             <motion.p
               variants={itemVariants}
-              className="text-xl text-white/70 max-w-2xl mt-5"
+              className="font-[Outfit-Regular] text-xl text-white/70 max-w-2xl mt-5"
             >
               We partner with startups and growing companies to design and build
               fast, secure, and scalable web platforms. From high-performance

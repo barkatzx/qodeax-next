@@ -391,7 +391,7 @@ export default function BusinessSystemsPage() {
           </h1>
 
           {/* Subtitle */}
-          <p className="text-lg md:text-xl text-white/60 max-w-3xl mx-auto mb-10 font-light leading-relaxed">
+          <p className="font-[Outfit-Regular] text-lg md:text-xl text-white/70 max-w-3xl mx-auto mb-10 font-light leading-relaxed">
             We design, build, and integrate custom business systems that
             streamline operations, empower teams, and drive growth. From CRM to
             ERP, we create solutions that work for you.
@@ -437,12 +437,12 @@ export default function BusinessSystemsPage() {
           className="mb-16 md:mb-24"
         >
           <div className="text-center mb-12">
-            <h2 className="font-[Recoleta] text-3xl md:text-4xl font-light mb-4">
+            <h2 className="font-[Recoleta] text-3xl md:text-4xl font-bold mb-4">
               <span className="bg-gradient-to-r from-white to-white/80 bg-clip-text text-transparent">
                 Transform Your Business Operations
               </span>
             </h2>
-            <p className="text-white/60 max-w-2xl mx-auto">
+            <p className="font-[Outfit-Regular] text-lg text-white/70 max-w-2xl mx-auto">
               Experience tangible improvements across your entire organization
             </p>
           </div>
@@ -483,7 +483,7 @@ export default function BusinessSystemsPage() {
                   </div>
 
                   {/* Title */}
-                  <h3 className="text-lg font-semibold text-white mb-3">
+                  <h3 className="font-[Outfit-Regular] text-lg text-white mb-3">
                     {benefit.title}
                   </h3>
 
@@ -504,10 +504,10 @@ export default function BusinessSystemsPage() {
           className="mb-16 md:mb-24"
         >
           <div className="text-center mb-12">
-            <h2 className="font-[Recoleta] text-3xl md:text-4xl font-light mb-4">
+            <h2 className="font-[Recoleta] text-3xl md:text-4xl font-bold mb-4">
               <span style={gradientText}>Comprehensive Business Systems</span>
             </h2>
-            <p className="text-white/60 max-w-2xl mx-auto">
+            <p className="font-[Outfit-Regular] text-lg text-white/70 max-w-2xl mx-auto">
               Tailored solutions for every aspect of your business operations
             </p>
           </div>
@@ -528,7 +528,7 @@ export default function BusinessSystemsPage() {
                       style={{ color: theme.primaryLight }}
                     />
                   </div>
-                  <h3 className="font-[Recoleta] text-2xl font-semibold text-white">
+                  <h3 className="font-[Recoleta] text-2xl font-bold text-white">
                     {category.category}
                   </h3>
                 </div>
@@ -561,10 +561,10 @@ export default function BusinessSystemsPage() {
                             </div>
                           </div>
                           <div>
-                            <h4 className="font-[Recoleta] text-xl font-semibold text-white mb-2">
+                            <h4 className="font-[Recoleta] text-xl font-bold text-white mb-2">
                               {system.title}
                             </h4>
-                            <p className="text-white/60 text-sm">
+                            <p className="text-white/70 text-sm">
                               {system.description}
                             </p>
                           </div>
@@ -609,12 +609,12 @@ export default function BusinessSystemsPage() {
           className="mb-16 md:mb-24"
         >
           <div className="text-center mb-12">
-            <h2 className="font-[Recoleta] text-3xl md:text-4xl font-light mb-4">
+            <h2 className="font-[Recoleta] text-3xl md:text-4xl font-bold mb-4">
               <span className="bg-gradient-to-r from-white to-white/80 bg-clip-text text-transparent">
                 Seamless Integration Ecosystem
               </span>
             </h2>
-            <p className="text-white/60 max-w-2xl mx-auto">
+            <p className="font-[Outfit-Regular] text-lg text-white/70 max-w-2xl mx-auto">
               Connect with the tools your business already uses
             </p>
           </div>
@@ -670,12 +670,12 @@ export default function BusinessSystemsPage() {
           className="mb-16 md:mb-24"
         >
           <div className="text-center mb-12">
-            <h2 className="font-[Recoleta] text-3xl md:text-4xl font-light mb-4">
+            <h2 className="font-[Recoleta] text-3xl md:text-4xl font-bold mb-4">
               <span className="bg-gradient-to-r from-white to-white/80 bg-clip-text text-transparent">
                 Proven Implementation Process
               </span>
             </h2>
-            <p className="text-white/60 max-w-2xl mx-auto">
+            <p className="font-[Outfit-Regular] text-lg text-white/70 max-w-2xl mx-auto">
               Structured approach ensuring success from day one
             </p>
           </div>
@@ -789,10 +789,10 @@ export default function BusinessSystemsPage() {
           className="mb-16 md:mb-24"
         >
           <div className="text-center mb-12">
-            <h2 className="font-[Recoleta] text-3xl md:text-4xl font-light mb-4">
+            <h2 className="font-[Recoleta] text-3xl md:text-4xl font-bold mb-4">
               <span style={gradientText}>Enterprise-Grade Features</span>
             </h2>
-            <p className="text-white/60 max-w-2xl mx-auto">
+            <p className="font-[Outfit-Regular] text-lg text-white/70 max-w-2xl mx-auto">
               Built with the needs of modern businesses in mind
             </p>
           </div>
@@ -853,7 +853,7 @@ export default function BusinessSystemsPage() {
                           </div>
                         </div>
                         <div>
-                          <div className="font-semibold text-white mb-1">
+                          <div className="font-[Outfit-Regular] text-white mb-1">
                             {feature.title}
                           </div>
                           <div className="text-sm text-white/60">

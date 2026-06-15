@@ -112,7 +112,7 @@ export default function ProcessSection() {
             From Your Idea to Product Launch
           </h2>
 
-          <p className="text-white/70 text-xl max-w-5xl mx-auto">
+          <p className="font-[Outfit-Regular] text-white/70 text-xl max-w-5xl mx-auto">
             We combine strategy, design, and development to turn your concept
             into a powerful digital solution ready for real-world growth.
           </p>

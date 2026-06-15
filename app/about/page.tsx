@@ -4,6 +4,16 @@ import Glass from "@/components/ui/Glass";
 import { getTeamMembers, type TeamMember } from "@/sanity/client";
 import { motion } from "framer-motion";
 import { link } from "fs/promises";
+import {
+  Shield,
+  Zap,
+  Activity,
+  Code2,
+  Lightbulb,
+  Rocket,
+  Users,
+  TrendingUp,
+} from "lucide-react";
 import Image from "next/image";
 import type { ReactElement } from "react";
 import { useEffect, useState } from "react";
@@ -216,50 +226,41 @@ const categoryIcons = {
 
 const values = [
   {
-    icon: <FaCode />,
+    icon: <Code2 size={22} strokeWidth={1.75} />,
     title: "Clean Architecture",
     description:
       "We write maintainable, scalable code that follows industry best practices and stands the test of time.",
   },
   {
-    icon: <FaLightbulb />,
+    icon: <Lightbulb size={22} strokeWidth={1.75} />,
     title: "Innovation First",
     description:
       "Constantly exploring emerging technologies to deliver cutting-edge solutions for our clients.",
   },
   {
-    icon: <FaRocket />,
+    icon: <Rocket size={22} strokeWidth={1.75} />,
     title: "Performance Driven",
     description:
       "Optimizing every aspect of your application for lightning-fast speed and exceptional user experience.",
   },
   {
-    icon: <FaUsers />,
+    icon: <Users size={22} strokeWidth={1.75} />,
     title: "Client Collaboration",
     description:
       "Working hand-in-hand with clients to transform their vision into reality through transparent communication.",
   },
   {
-    icon: <FaShieldAlt />,
+    icon: <Shield size={22} strokeWidth={1.75} />,
     title: "Security First",
     description:
       "Implementing robust security measures to protect your data and ensure compliance with industry standards.",
   },
   {
-    icon: <FaChartLine />,
+    icon: <TrendingUp size={22} strokeWidth={1.75} />,
     title: "Scalability Focused",
     description:
       "Building solutions that grow with your business, handling increased loads without compromising performance.",
   },
-];
-
-const stats = [
-  { number: "100+", label: "Projects Delivered", icon: <FaCode /> },
-  { number: "50+", label: "Happy Clients", icon: <FaUsers /> },
-  { number: "8+", label: "Years Experience", icon: <FaClock /> },
-  { number: "15+", label: "Industry Awards", icon: <FaAward /> },
-  { number: "24/7", label: "Support Available", icon: <FaHeart /> },
-  { number: "99.9%", label: "Client Satisfaction", icon: <FaGlobe /> },
 ];
 
 export default function AboutPage() {
@@ -428,7 +429,7 @@ export default function AboutPage() {
             transition={{ duration: 0.6, delay: 0.2 }}
             className="mb-12"
           >
-            <p className="text-xl md:text-2xl text-white/70 leading-relaxed max-w-3xl">
+            <p className="font-[Outfit-Regular] text-xl md:text-2xl text-white/70 leading-relaxed max-w-3xl">
               We're a collective of passionate developers, designers, and
               strategists dedicated to crafting exceptional digital solutions.
               From startups to enterprises, we transform complex challenges into
@@ -582,7 +583,6 @@ export default function AboutPage() {
               </Glass>
             </motion.div>
           </div>
-
           {/* Why Choose Us */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -591,39 +591,62 @@ export default function AboutPage() {
             viewport={{ once: true }}
             className="mt-8"
           >
-            <Glass variant="blue" className="rounded-3xl p-8 md:p-10">
-              <h3 className="font-[Recoleta] text-2xl md:text-3xl font-bold text-white mb-8 text-center">
-                Why Clients Trust Us
+            <Glass
+              variant="white"
+              className="rounded-3xl p-8 md:p-10 relative overflow-hidden"
+            >
+              {/* top glow */}
+              <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_60%_40%_at_50%_0%,rgba(0,168,255,0.10),transparent)]" />
+
+              {/* eyebrow pill */}
+              <div className="flex justify-center mb-3">
+                <span className="inline-flex items-center gap-2 rounded-full border border-[#00a8ff]/25 bg-[#00a8ff]/10 px-3 py-1 text-[10px] font-medium uppercase tracking-widest text-[#00a8ff]/90">
+                  <span className="h-1.5 w-1.5 rounded-full bg-[#00a8ff]" />
+                  Why clients trust us
+                </span>
+              </div>
+
+              <h3 className="font-[Recoleta] text-2xl md:text-3xl font-bold text-white mb-8 text-center tracking-tight">
+                Built for enterprise, trusted at scale
               </h3>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div className="text-center">
-                  <div className="text-[#00a8ff] text-4xl mb-4">🔒</div>
-                  <h4 className="text-white font-semibold mb-2">
-                    Enterprise Security
-                  </h4>
-                  <p className="text-white/60 text-sm">
-                    Bank-level security protocols and compliance with global
-                    standards
-                  </p>
-                </div>
-                <div className="text-center">
-                  <div className="text-[#00a8ff] text-4xl mb-4">⚡</div>
-                  <h4 className="text-white font-semibold mb-2">
-                    Agile Development
-                  </h4>
-                  <p className="text-white/60 text-sm">
-                    Rapid delivery with continuous integration and deployment
-                  </p>
-                </div>
-                <div className="text-center">
-                  <div className="text-[#00a8ff] text-4xl mb-4">📊</div>
-                  <h4 className="text-white font-semibold mb-2">
-                    Data-Driven Approach
-                  </h4>
-                  <p className="text-white/60 text-sm">
-                    Every decision backed by analytics and user research
-                  </p>
-                </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                {[
+                  {
+                    icon: (
+                      <Shield size={24} color="#00a8ff" strokeWidth={1.75} />
+                    ),
+                    title: "Enterprise Security",
+                    desc: "Bank-level protocols and compliance with global standards like SOC 2 and ISO 27001",
+                  },
+                  {
+                    icon: <Zap size={24} color="#00a8ff" strokeWidth={1.75} />,
+                    title: "Agile Development",
+                    desc: "Rapid delivery with CI/CD pipelines and iterative sprints that keep you in the loop",
+                  },
+                  {
+                    icon: (
+                      <Activity size={24} color="#00a8ff" strokeWidth={1.75} />
+                    ),
+                    title: "Data-Driven Approach",
+                    desc: "Every decision backed by analytics, A/B testing, and continuous user research",
+                  },
+                ].map(({ icon, title, desc }) => (
+                  <div
+                    key={title}
+                    className="font-[Outfit-Regular] group rounded-2xl border border-white/10 bg-white/[0.06] p-6 text-center transition-all duration-200 hover:-translate-y-0.5 hover:border-[#00a8ff]/35 hover:bg-white/10"
+                  >
+                    <div className="mx-auto mb-4 flex h-13 w-13 items-center justify-center rounded-[14px] border border-[#00a8ff]/25 bg-[#00a8ff]/15">
+                      {icon}
+                    </div>
+                    <h4 className="mb-2 text-sm font-semibold tracking-tight text-white">
+                      {title}
+                    </h4>
+                    <p className="text-xs leading-relaxed text-white/55">
+                      {desc}
+                    </p>
+                  </div>
+                ))}
               </div>
             </Glass>
           </motion.div>
@@ -633,6 +656,8 @@ export default function AboutPage() {
       {/* Values Section */}
       <section className="">
         <div className="max-w-6xl mx-auto">
+          {/* Header */}
+
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -642,48 +667,60 @@ export default function AboutPage() {
           >
             <Glass
               variant="white"
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-full mb-4"
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-full mb-6"
             >
-              <span className="w-2 h-2 rounded-full bg-blue-500 animate-pulse" />
+              <span className="w-2 h-2 rounded-full bg-[#00a8ff] animate-pulse" />
+
               <span className="text-sm font-semibold text-[#00a8ff]">
                 Our Principles
               </span>
             </Glass>
+
             <h2 className="font-[Recoleta] text-3xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-white via-white/90 to-white/70 bg-clip-text text-transparent">
               What Drives Us Forward
             </h2>
-            <p className="text-white/70 text-lg max-w-3xl mx-auto">
+
+            <p className="font-[Outfit-Regular] text-white/60 text-lg max-w-2xl mx-auto leading-relaxed">
               These core values shape every decision we make and every line of
               code we write
             </p>
           </motion.div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {/* Grid */}
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
             {values.map((value, index) => (
               <motion.div
                 key={value.title}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
+                transition={{ duration: 0.5, delay: index * 0.08 }}
                 viewport={{ once: true }}
                 className="group"
               >
                 <Glass
-                  variant="blue"
-                  className="rounded-2xl hover:shadow-xl transition-all duration-500 p-6 h-full"
+                  variant="white"
+                  className="relative rounded-2xl p-6 h-full overflow-hidden transition-all duration-300 hover:-translate-y-1"
                 >
-                  <div
-                    className="w-16 h-16 rounded-xl flex items-center justify-center mb-6 shadow-lg group-hover:shadow-xl transition-all duration-500 group-hover:scale-110"
-                    style={{
-                      background: `linear-gradient(135deg, ${primaryColor} 0%, ${primaryColorLight} 100%)`,
-                    }}
-                  >
-                    <div className="text-white text-2xl">{value.icon}</div>
+                  {/* subtle inner glow on hover */}
+
+                  <div className="pointer-events-none absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-[radial-gradient(ellipse_80%_50%_at_50%_0%,rgba(0,168,255,0.08),transparent)]" />
+
+                  {/* Icon */}
+
+                  <div className="relative mb-5">
+                    <div className="w-12 h-12 rounded-xl flex items-center justify-center bg-[#00a8ff]/15 border border-[#00a8ff]/25 text-[#00a8ff] transition-all duration-300 group-hover:bg-[#00a8ff]/25 group-hover:border-[#00a8ff]/40 group-hover:scale-105">
+                      {value.icon}
+                    </div>
                   </div>
-                  <h3 className="font-[Recoleta] text-2xl font-bold text-white mb-3">
+
+                  {/* Text */}
+
+                  <h3 className="font-[Recoleta] text-xl font-bold text-white mb-2 tracking-tight">
                     {value.title}
                   </h3>
-                  <p className="text-white/70 leading-relaxed">
+
+                  <p className="text-white/55 text-sm leading-relaxed">
                     {value.description}
                   </p>
                 </Glass>
@@ -708,14 +745,14 @@ export default function AboutPage() {
               className="inline-flex items-center gap-2 px-4 py-2 rounded-full mb-4"
             >
               <span className="w-2 h-2 bg-[#00a8ff] rounded-full"></span>
-              <span className="text-sm font-semibold text-[#00a8ff]">
-                OUR TECHNOLOGY ECOSYSTEM
+              <span className="text-sm font-semibold text-[#00a8ff] animated-pulse">
+                Our Technology Ecosystem
               </span>
             </Glass>
             <h2 className="font-[Recoleta] text-3xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-white via-white/90 to-white/70 bg-clip-text text-transparent">
               Cutting-Edge Tech Stack
             </h2>
-            <p className="text-white/70 text-lg max-w-3xl mx-auto">
+            <p className="font-[Outfit-Regular] text-white/70 text-lg max-w-3xl mx-auto">
               We leverage the most advanced technologies to build robust,
               scalable, and future-proof solutions
             </p>
@@ -854,14 +891,14 @@ export default function AboutPage() {
               className="inline-flex items-center gap-2 px-4 py-2 rounded-full mb-4"
             >
               <span className="w-2 h-2 bg-[#00a8ff] rounded-full animate-pulse"></span>
-              <span className="text-xs font-semibold tracking-widest text-[#00a8ff] uppercase">
+              <span className="text-xs font-semibold text-[#00a8ff]">
                 Meet the Experts
               </span>
             </Glass>
             <h2 className="font-[Recoleta] text-4xl md:text-5xl font-bold mb-4 text-white">
               The Minds Behind <span className="text-white/40">The Magic</span>
             </h2>
-            <p className="text-white/50 text-base max-w-xl mx-auto leading-relaxed">
+            <p className="font-[Outfit-Regular] text-white/50 text-base max-w-xl mx-auto leading-relaxed">
               A diverse team of experts passionate about creating exceptional
               digital experiences
             </p>

@@ -98,7 +98,7 @@ export default function FAQComponent() {
             Question and Answer
           </h1>
 
-          <p className="text-white/70 text-xl max-w-5xl mx-auto">
+          <p className="font-[Outfit-Regular] text-white/70 text-xl max-w-5xl mx-auto">
             Detailed insights about our services, process, and how we
             collaborate to deliver exceptional results
           </p>

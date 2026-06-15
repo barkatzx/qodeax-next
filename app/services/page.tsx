@@ -139,20 +139,6 @@ const services = [
   },
 ];
 
-// Predefined particle positions (deterministic - same on server and client)
-const particlePositions = [
-  { x: "10%", y: "20%" },
-  { x: "30%", y: "40%" },
-  { x: "50%", y: "10%" },
-  { x: "70%", y: "30%" },
-  { x: "90%", y: "60%" },
-  { x: "20%", y: "80%" },
-  { x: "40%", y: "90%" },
-  { x: "60%", y: "70%" },
-  { x: "80%", y: "50%" },
-  { x: "15%", y: "35%" },
-];
-
 export default function ServicesShowcase() {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [activeService, setActiveService] = useState<number | null>(null);
@@ -211,7 +197,7 @@ export default function ServicesShowcase() {
           </div>
 
           {/* Main Title with Gradient */}
-          <h1 className="font-[Recoleta] text-4xl md:text-5xl lg:text-6xl font-light mb-8">
+          <h1 className="font-[Recoleta] text-4xl md:text-5xl lg:text-6xl font-bold mb-8">
             <span className="bg-gradient-to-r from-white via-white/90 to-white/70 bg-clip-text text-transparent">
               Engineering Digital Products for
               <br />
@@ -220,7 +206,7 @@ export default function ServicesShowcase() {
           </h1>
 
           {/* Subtitle */}
-          <p className="text-xl text-white/60 max-w-3xl mx-auto">
+          <p className="font-[Outfit-Regular] text-xl text-white/60 max-w-3xl mx-auto">
             We design and build scalable digital platforms that solve real
             business problems. By combining thoughtful design with robust
             engineering, we turn complex requirements into clean, reliable
@@ -258,7 +244,7 @@ export default function ServicesShowcase() {
                 </h3>
 
                 {/* Description */}
-                <p className="text-white/60 text-sm mb-6">{service.subtitle}</p>
+                <p className="text-sm text-white/70 mb-6">{service.subtitle}</p>
 
                 {/* Tags */}
                 <div className="flex flex-wrap gap-2 mb-8">

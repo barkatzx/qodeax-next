@@ -311,7 +311,7 @@ export default function CommerceSolutionsPage() {
           </motion.div>
 
           {/* Main Title */}
-          <h1 className="font-[Recoleta] text-4xl md:text-6xl lg:text-7xl font-light mb-6 leading-tight">
+          <h1 className="font-[Recoleta] text-4xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight">
             <span className="bg-gradient-to-r from-white via-white/90 to-white/70 bg-clip-text text-transparent">
               Drive Revenue with
             </span>
@@ -320,7 +320,7 @@ export default function CommerceSolutionsPage() {
           </h1>
 
           {/* Subtitle */}
-          <p className="text-lg md:text-xl text-white/60 max-w-3xl mx-auto mb-10 font-light leading-relaxed">
+          <p className="font-[Outfit-Regular] text-lg md:text-xl text-white/70 max-w-3xl mx-auto mb-10 font-light leading-relaxed">
             We build high-converting e-commerce experiences that blend beautiful
             design with powerful technology. From startup stores to enterprise
             marketplaces.
@@ -366,12 +366,12 @@ export default function CommerceSolutionsPage() {
           className="mb-16 md:mb-24"
         >
           <div className="text-center mb-12">
-            <h2 className="font-[Recoleta] text-3xl md:text-4xl font-light mb-4">
+            <h2 className="font-[Recoleta] text-3xl md:text-4xl font-bold mb-4">
               <span className="bg-gradient-to-r from-white to-white/80 bg-clip-text text-transparent">
                 Proven Performance Metrics
               </span>
             </h2>
-            <p className="text-white/60 max-w-2xl mx-auto">
+            <p className="font-[Outfit-Regular] text-lg text-white/70 max-w-2xl mx-auto">
               Our commerce solutions consistently outperform industry averages
             </p>
           </div>
@@ -416,7 +416,7 @@ export default function CommerceSolutionsPage() {
                   </div>
 
                   {/* Metric Name */}
-                  <h3 className="text-lg font-semibold text-white mb-2">
+                  <h3 className="font-[Outfit-Regular] text-lg text-white mb-2">
                     {metric.metric}
                   </h3>
 
@@ -446,10 +446,10 @@ export default function CommerceSolutionsPage() {
           className="mb-16 md:mb-24"
         >
           <div className="text-center mb-12">
-            <h2 className="font-[Recoleta] text-3xl md:text-4xl font-light mb-4">
+            <h2 className="font-[Recoleta] text-3xl md:text-4xl font-bold mb-4">
               <span style={gradientText}>Platform Solutions</span>
             </h2>
-            <p className="text-white/60 max-w-2xl mx-auto">
+            <p className="font-[Outfit-Regular] text-lg text-white/70 max-w-2xl mx-auto">
               Choose the right foundation for your commerce business
             </p>
           </div>
@@ -554,12 +554,12 @@ export default function CommerceSolutionsPage() {
           className="mb-16 md:mb-24"
         >
           <div className="text-center mb-12">
-            <h2 className="font-[Recoleta] text-3xl md:text-4xl font-light mb-4">
+            <h2 className="font-[Recoleta] text-3xl md:text-4xl font-bold mb-4">
               <span className="bg-gradient-to-r from-white to-white/80 bg-clip-text text-transparent">
                 Comprehensive Commerce Features
               </span>
             </h2>
-            <p className="text-white/60 max-w-2xl mx-auto">
+            <p className="font-[Outfit-Regular] text-lg text-white/70 max-w-2xl mx-auto">
               Everything you need to run a successful online store
             </p>
           </div>
@@ -645,12 +645,12 @@ export default function CommerceSolutionsPage() {
           className="mb-16 md:mb-24"
         >
           <div className="text-center mb-12">
-            <h2 className="font-[Recoleta] text-3xl md:text-4xl font-light mb-4">
+            <h2 className="font-[Recoleta] text-3xl md:text-4xl font-bold mb-4">
               <span className="bg-gradient-to-r from-white to-white/80 bg-clip-text text-transparent">
                 Payment Gateway Integration
               </span>
             </h2>
-            <p className="text-white/60 max-w-2xl mx-auto">
+            <p className="font-[Outfit-Regular] text-lg text-white/70 max-w-2xl mx-auto">
               Secure, flexible payment processing with industry leaders
             </p>
           </div>
@@ -731,12 +731,12 @@ export default function CommerceSolutionsPage() {
           className="mb-16 md:mb-24"
         >
           <div className="text-center mb-12">
-            <h2 className="font-[Recoleta] text-3xl md:text-4xl font-light mb-4">
+            <h2 className="font-[Recoleta] text-3xl md:text-4xl font-bold mb-4">
               <span className="bg-gradient-to-r from-white to-white/80 bg-clip-text text-transparent">
                 From Vision to Launch
               </span>
             </h2>
-            <p className="text-white/60 max-w-2xl mx-auto">
+            <p className="font-[Outfit-Regular] text-lg text-white/70 max-w-2xl mx-auto">
               Our structured approach ensures your store launches successfully
             </p>
           </div>

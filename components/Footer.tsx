@@ -132,7 +132,7 @@ export default function Footer() {
                 </span>
               </Link>
 
-              <p className="text-white/60 leading-relaxed">
+              <p className="font-[Outfit-Regular] text-white/70 leading-relaxed">
                 We partner with forward-thinking brands to create digital
                 experiences that drive growth, engage users, and deliver
                 measurable results. Based in NYC, serving clients worldwide.
