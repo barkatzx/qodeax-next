@@ -3,7 +3,6 @@
 import Glass from "@/components/ui/Glass";
 import { getTeamMembers, type TeamMember } from "@/sanity/client";
 import { motion } from "framer-motion";
-import { link } from "fs/promises";
 import {
   Shield,
   Zap,
