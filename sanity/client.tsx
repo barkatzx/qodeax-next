@@ -13,7 +13,8 @@ export const client = createClient({
   projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID,
   dataset: process.env.NEXT_PUBLIC_SANITY_DATASET,
   apiVersion: "2026-01-01",
-  useCdn: true,
+  token: process.env.SANITY_API_TOKEN,
+  useCdn: false, // Set to false to ensure fresh data during development
 });
 
 // Image builder helper
