@@ -2,24 +2,26 @@
 import { createClient } from "next-sanity";
 import { NextRequest, NextResponse } from "next/server";
 
+const getSanityWriteToken = () => {
+  const token =
+    process.env.SANITY_API_TOKEN?.trim() ||
+    process.env.NEXT_PUBLIC_SANITY_API_TOKEN?.trim();
+
+  if (!token) {
+    throw new Error("Missing SANITY_API_TOKEN");
+  }
+
+  if (!process.env.SANITY_API_TOKEN && process.env.NEXT_PUBLIC_SANITY_API_TOKEN) {
+    console.warn(
+      "SANITY_API_TOKEN is not set. Using NEXT_PUBLIC_SANITY_API_TOKEN as a temporary fallback. Rename it to SANITY_API_TOKEN to keep the token server-only.",
+    );
+  }
+
+  return token;
+};
+
 export async function POST(request: NextRequest) {
-  console.log("🚀 Upload API called");
-
   try {
-    // Log environment variables (but hide the full token)
-    console.log("📊 Project ID:", process.env.NEXT_PUBLIC_SANITY_PROJECT_ID);
-    console.log("📊 Dataset:", process.env.NEXT_PUBLIC_SANITY_DATASET);
-    console.log("🔑 Token exists:", !!process.env.SANITY_API_TOKEN);
-    console.log("🔑 Token length:", process.env.SANITY_API_TOKEN?.length);
-
-    // Check if token starts correctly (first few chars)
-    if (process.env.SANITY_API_TOKEN) {
-      console.log(
-        "🔑 Token prefix:",
-        process.env.SANITY_API_TOKEN.substring(0, 10) + "...",
-      );
-    }
-
     const formData = await request.formData();
     const file = formData.get("file") as File;
 
@@ -27,43 +29,24 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "No file provided" }, { status: 400 });
     }
 
-    console.log("📄 File received:", file.name, file.size, file.type);
+    const token = getSanityWriteToken();
 
-    // Create Sanity client
     const serverClient = createClient({
       projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID!,
       dataset: process.env.NEXT_PUBLIC_SANITY_DATASET!,
       apiVersion: "2024-01-01",
-      token: process.env.SANITY_API_TOKEN?.trim(), // Add trim()
+      token,
       useCdn: false,
     });
 
-    // Test token by trying a simple query first
-    try {
-      console.log("🧪 Testing token with a simple query...");
-      const testQuery = await serverClient.fetch(
-        'count(*[_type == "careers"])',
-      );
-      console.log("✅ Token works for queries! Found", testQuery, "careers");
-    } catch (queryError: any) {
-      console.error("❌ Token FAILED for query:", {
-        message: queryError.message,
-        statusCode: queryError.statusCode,
-      });
-    }
-
-    // Convert file to buffer
     const bytes = await file.arrayBuffer();
     const buffer = Buffer.from(bytes);
 
-    // Upload to Sanity
-    console.log("⬆️ Attempting to upload to Sanity...");
     const asset = await serverClient.assets.upload("file", buffer, {
       filename: file.name,
       contentType: file.type,
     });
 
-    console.log("✅ Upload successful:", asset._id);
     return NextResponse.json({
       success: true,
       assetId: asset._id,
@@ -80,8 +63,7 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json(
       {
-        error: error.message || "Upload failed",
-        details: error.details || "No additional details",
+        error: "Resume upload failed. Please try again later.",
       },
       { status: 500 },
     );

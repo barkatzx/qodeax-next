@@ -54,27 +54,6 @@ export default function CareersPage() {
     fetchJobs();
   }, []);
 
-  // Add this temporarily in your page or a debug component
-  useEffect(() => {
-    console.log("📊 Environment Check:");
-    console.log(
-      "NEXT_PUBLIC_SANITY_PROJECT_ID:",
-      process.env.NEXT_PUBLIC_SANITY_PROJECT_ID,
-    );
-    console.log(
-      "NEXT_PUBLIC_SANITY_DATASET:",
-      process.env.NEXT_PUBLIC_SANITY_DATASET,
-    );
-    console.log(
-      "NEXT_PUBLIC_SANITY_API_TOKEN exists:",
-      !!process.env.NEXT_PUBLIC_SANITY_API_TOKEN,
-    );
-    console.log(
-      "NEXT_PUBLIC_SANITY_API_TOKEN length:",
-      process.env.NEXT_PUBLIC_SANITY_API_TOKEN?.length,
-    );
-  }, []);
-
   useEffect(() => {
     filterJobs();
   }, [jobs, filters, searchTerm]);

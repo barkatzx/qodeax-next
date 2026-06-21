@@ -2,11 +2,25 @@
 import { createClient } from "next-sanity";
 import { NextRequest, NextResponse } from "next/server";
 
-export async function POST(request: NextRequest) {
-  // This runs on the server - token is available here!
-  console.log("🚀 API: Starting application submission");
-  console.log("🔑 Server token present:", !!process.env.SANITY_API_TOKEN);
+const getSanityWriteToken = () => {
+  const token =
+    process.env.SANITY_API_TOKEN?.trim() ||
+    process.env.NEXT_PUBLIC_SANITY_API_TOKEN?.trim();
 
+  if (!token) {
+    throw new Error("Missing SANITY_API_TOKEN");
+  }
+
+  if (!process.env.SANITY_API_TOKEN && process.env.NEXT_PUBLIC_SANITY_API_TOKEN) {
+    console.warn(
+      "SANITY_API_TOKEN is not set. Using NEXT_PUBLIC_SANITY_API_TOKEN as a temporary fallback. Rename it to SANITY_API_TOKEN to keep the token server-only.",
+    );
+  }
+
+  return token;
+};
+
+export async function POST(request: NextRequest) {
   try {
     const formData = await request.formData();
     const applicationJson = formData.get("application") as string;
@@ -21,19 +35,19 @@ export async function POST(request: NextRequest) {
     const applicationData = JSON.parse(applicationJson);
     const resumeFile = formData.get("resume") as File | null;
 
-    // Create server-side Sanity client (token works here!)
+    const token = getSanityWriteToken();
+
     const serverClient = createClient({
       projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID!,
       dataset: process.env.NEXT_PUBLIC_SANITY_DATASET!,
       apiVersion: "2024-01-01",
-      token: process.env.SANITY_API_TOKEN,
+      token,
       useCdn: false,
     });
 
     // Upload resume if provided
     let resumeAsset = null;
     if (resumeFile) {
-      console.log("📤 Uploading resume:", resumeFile.name);
       const bytes = await resumeFile.arrayBuffer();
       const buffer = Buffer.from(bytes);
 
@@ -41,7 +55,6 @@ export async function POST(request: NextRequest) {
         filename: resumeFile.name,
         contentType: resumeFile.type,
       });
-      console.log("✅ Resume uploaded, ID:", resumeAsset._id);
     }
 
     // Create the job application
@@ -78,7 +91,6 @@ export async function POST(request: NextRequest) {
     };
 
     const result = await serverClient.create(application);
-    console.log("✅ Application created, ID:", result._id);
 
     return NextResponse.json({
       success: true,
@@ -94,7 +106,8 @@ export async function POST(request: NextRequest) {
     return NextResponse.json(
       {
         success: false,
-        error: error.message || "Failed to submit application",
+        error:
+          "We could not submit your application right now. Please try again later.",
       },
       { status: 500 },
     );
