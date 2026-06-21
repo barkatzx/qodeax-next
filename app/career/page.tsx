@@ -65,10 +65,13 @@ export default function CareersPage() {
       "NEXT_PUBLIC_SANITY_DATASET:",
       process.env.NEXT_PUBLIC_SANITY_DATASET,
     );
-    console.log("SANITY_API_TOKEN exists:", !!process.env.SANITY_API_TOKEN);
     console.log(
-      "SANITY_API_TOKEN length:",
-      process.env.SANITY_API_TOKEN?.length,
+      "NEXT_PUBLIC_SANITY_API_TOKEN exists:",
+      !!process.env.NEXT_PUBLIC_SANITY_API_TOKEN,
+    );
+    console.log(
+      "NEXT_PUBLIC_SANITY_API_TOKEN length:",
+      process.env.NEXT_PUBLIC_SANITY_API_TOKEN?.length,
     );
   }, []);
 
