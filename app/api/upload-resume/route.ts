@@ -3,18 +3,10 @@ import { createClient } from "next-sanity";
 import { NextRequest, NextResponse } from "next/server";
 
 const getSanityWriteToken = () => {
-  const token =
-    process.env.SANITY_API_TOKEN?.trim() ||
-    process.env.NEXT_PUBLIC_SANITY_API_TOKEN?.trim();
+  const token = process.env.SANITY_API_TOKEN?.trim();
 
   if (!token) {
     throw new Error("Missing SANITY_API_TOKEN");
-  }
-
-  if (!process.env.SANITY_API_TOKEN && process.env.NEXT_PUBLIC_SANITY_API_TOKEN) {
-    console.warn(
-      "SANITY_API_TOKEN is not set. Using NEXT_PUBLIC_SANITY_API_TOKEN as a temporary fallback. Rename it to SANITY_API_TOKEN to keep the token server-only.",
-    );
   }
 
   return token;
