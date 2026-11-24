@@ -14,13 +14,20 @@ export function LogoMark({ className }: { className?: string }) {
       className={cn("size-8", className)}
     >
       <rect width="32" height="32" rx="9" className="fill-brand" />
-      <path
-        d="M8 16h3.4l1.7-4.5 3 9 1.9-4.5H24"
+      <circle
+        cx="16"
+        cy="15.5"
+        r="6.4"
         fill="none"
         className="stroke-ink"
-        strokeWidth="2.1"
+        strokeWidth="2.6"
+      />
+      <path
+        d="M20.2 19.8 24 24"
+        fill="none"
+        className="stroke-ink"
+        strokeWidth="2.6"
         strokeLinecap="round"
-        strokeLinejoin="round"
       />
     </svg>
   );
