@@ -1,459 +1,325 @@
-import ImageGallery from "@/components/Gallery";
-import Glass from "@/components/ui/Glass";
-import { client } from "@/sanity/client";
-import { components } from "@/sanity/portabletext";
-import { projectDetailQuery } from "@/sanity/projectsQuery";
-import { PortableText, SanityDocument } from "next-sanity";
+import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { PortableText } from "next-sanity";
+import type { PortableTextBlock } from "@portabletext/react";
 import {
-  FaArrowLeft,
-  FaBookOpen,
-  FaCode,
-  FaExternalLinkAlt,
-  FaGithub,
-  FaGlobe,
-  FaRocket,
-  FaServer,
-} from "react-icons/fa";
+  ArrowLeft,
+  ArrowUpRight,
+  BookOpen,
+  Code2,
+  ExternalLink,
+  Github,
+  Globe,
+  Layers,
+  Server,
+} from "lucide-react";
+import { Container } from "@/components/layout/Container";
+import { Section } from "@/components/layout/Section";
+import { CTASection } from "@/components/sections/CTASection";
+import { Badge } from "@/components/ui/Badge";
+import { ButtonLink } from "@/components/ui/Button";
+import { Card } from "@/components/ui/Card";
+import { PageHeader } from "@/components/ui/PageHeader";
+import { Reveal } from "@/components/ui/Reveal";
+import { siteConfig } from "@/data/site";
+import { getProjectBySlug, getProjectSlugs } from "@/lib/content";
+import { sanityImageUrl } from "@/lib/utils";
+import { components } from "@/sanity/portabletext";
 
 export const revalidate = 60;
 
+interface ProjectPageProps {
+  params: Promise<{ slug: string }>;
+}
+
 export async function generateStaticParams() {
-  const projects = await client.fetch<{ slug: { current: string } }[]>(
-    `*[_type == "project"]{ slug { current } }`,
-  );
+  const projects = await getProjectSlugs();
   return projects.map((project) => ({ slug: project.slug.current }));
 }
 
-type tParams = Promise<{ slug: string }>;
+export async function generateMetadata({
+  params,
+}: ProjectPageProps): Promise<Metadata> {
+  const { slug } = await params;
+  const project = await getProjectBySlug(decodeURIComponent(slug));
 
-export default async function ProjectPage(props: { params: tParams }) {
-  const { slug } = await props.params;
-  const decodedSlug = decodeURIComponent(slug);
-  const project = await client.fetch<SanityDocument>(projectDetailQuery, {
-    slug: decodedSlug,
-  });
+  if (!project) return { title: "Project not found" };
 
-  if (!project) return notFound();
+  const description = `${project.title} — a software project by Qodeax.`;
 
-  const middleIndex = Math.ceil((project.features?.length ?? 0) / 2);
-  const firstHalf = project.features?.slice(0, middleIndex) ?? [];
-  const secondHalf = project.features?.slice(middleIndex) ?? [];
-
-  const primaryColor = "#00a8ff";
-  const primaryColorLight = "#4dc3ff";
-
-  const buttonStyle = {
-    background: `linear-gradient(135deg, ${primaryColor} 0%, ${primaryColorLight} 100%)`,
-    border: "1px solid rgba(255, 255, 255, 0.2)",
-    boxShadow: `0 8px 32px ${primaryColor}20, 0 2px 8px rgba(255, 255, 255, 0.1) inset`,
+  return {
+    title: project.title,
+    description,
+    alternates: { canonical: `/projects/${project.slug.current}` },
+    openGraph: {
+      title: `${project.title} | Qodeax`,
+      description,
+      url: `/projects/${project.slug.current}`,
+    },
   };
+}
 
-  const categories: string[] = project.categories ?? [];
+export default async function ProjectPage({ params }: ProjectPageProps) {
+  const { slug } = await params;
+  const project = await getProjectBySlug(decodeURIComponent(slug));
 
-  // ✅ THE FIX: resolve mainImage from GROQ-dereferenced asset url
-  const mainImageUrl: string | null = project.mainImage?.asset?.url ?? null;
+  if (!project) notFound();
+
+  const imageUrl = sanityImageUrl(project.mainImage?.asset?.url, 1600, 900);
+  const categories = project.categories ?? [];
+  const hasLinks =
+    Boolean(project.liveLink) ||
+    Boolean(project.clientRepo) ||
+    Boolean(project.serverRepo);
 
   return (
-    <main className="container mx-auto py-10">
-      {/* Hero Section */}
-      <div className="">
-        <div className="">
-          {categories.length > 0 && (
-            <div className="mb-6 flex flex-wrap justify-center gap-2">
-              {categories.map((cat, i) => (
-                <Glass
-                  variant="white"
-                  key={i}
-                  className="font-[Agave] inline-flex items-center justify-center text-center px-4 py-1 text-white font-medium rounded-lg"
-                >
-                  {cat}
-                </Glass>
-              ))}
-            </div>
-          )}
-
-          <h1 className="font-[Recoleta] font-bold text-2xl md:text-5xl lg:text-6xl mb-4 md:mb-6 text-white/90 text-center">
-            {project.title}
-          </h1>
-        </div>
+    <>
+      <div className="pt-8">
+        <Container>
+          <Link
+            href="/projects"
+            className="inline-flex items-center gap-1.5 text-[12.5px] font-medium text-ink-soft transition-colors hover:text-ink"
+          >
+            <ArrowLeft className="size-3.5" aria-hidden="true" />
+            All projects
+          </Link>
+        </Container>
       </div>
 
-      {/* ✅ ADDED: mainImage hero — previously the page only checked project.photos
-          which doesn't exist in the schema, so no image ever rendered */}
-      {mainImageUrl && (
-        <div className="">
-          <div className="">
-            <div
-              className="relative w-full rounded-2xl overflow-hidden"
-              style={{ aspectRatio: "16/9" }}
-            >
-              <img
-                src={mainImageUrl}
-                alt={project.title}
-                className="w-full h-full object-cover"
-              />
+      <PageHeader
+        eyebrow={categories.length ? categories.join(" · ") : "Project"}
+        title={project.title}
+        description={
+          categories.length
+            ? `A ${categories.slice(0, 2).join(" / ").toLowerCase()} engagement delivered by Qodeax.`
+            : "A software engagement delivered by Qodeax."
+        }
+      >
+        {project.liveLink ? (
+          <ButtonLink href={project.liveLink} size="lg" className="w-full sm:w-auto">
+            View live project
+            <ArrowUpRight className="size-4" aria-hidden="true" />
+          </ButtonLink>
+        ) : null}
+        <ButtonLink
+          href="/#contact"
+          variant="secondary"
+          size="lg"
+          className="w-full sm:w-auto"
+        >
+          Start a similar project
+        </ButtonLink>
+      </PageHeader>
+
+      <section className="pb-14 sm:pb-18">
+        <Container>
+          <Reveal>
+            <div className="relative aspect-[16/9] overflow-hidden rounded-2xl border border-line bg-mist">
+              {imageUrl ? (
+                <Image
+                  src={imageUrl}
+                  alt={project.title}
+                  fill
+                  priority
+                  sizes="(max-width: 1200px) 100vw, 1100px"
+                  className="object-cover"
+                />
+              ) : (
+                <div className="flex size-full items-center justify-center bg-[radial-gradient(60%_60%_at_50%_40%,rgba(58,222,150,0.18),transparent_72%)]">
+                  <span className="font-heading text-5xl font-semibold text-ink/15">Q</span>
+                </div>
+              )}
             </div>
-          </div>
-        </div>
-      )}
+          </Reveal>
+        </Container>
+      </section>
 
-      {/* Extra photo gallery — kept in case you add a photos field later */}
-      {project.photos?.length > 0 && (
-        <div className="px-5 md:px-20 mb-12">
-          <div className="max-w-6xl mx-auto">
-            <ImageGallery photos={project.photos} />
-          </div>
-        </div>
-      )}
-
-      {/* Content Section */}
-      <div className="py-8">
-        <div className="mx-auto">
-          <div className="grid lg:grid-cols-12 gap-8">
-            <div className="lg:col-span-8">
-              {project.body?.length > 0 && (
-                <Glass
-                  variant="white"
-                  className="rounded-2xl p-6 md:p-8 lg:p-10 mb-8"
-                >
-                  <div className="flex items-center gap-3 mb-6">
-                    <div
-                      className="w-12 h-12 rounded-xl flex items-center justify-center"
-                      style={{
-                        background: `linear-gradient(135deg, ${primaryColor} 0%, ${primaryColorLight} 100%)`,
-                      }}
-                    >
-                      <FaBookOpen className="text-white text-xl" />
-                    </div>
-                    <h2 className="font-[Recoleta] text-xl md:text-2xl font-bold text-white">
-                      Project Overview
-                    </h2>
-                  </div>
-                  <div className="text-white/70 text-lg leading-relaxed prose prose-invert max-w-none">
-                    <PortableText
-                      value={project.body}
-                      components={components}
-                    />
-                  </div>
-                </Glass>
-              )}
-
-              {project.features?.length > 0 && (
-                <Glass
-                  variant="white"
-                  className="rounded-2xl p-6 md:p-8 lg:p-10 mb-8"
-                >
-                  <div className="flex items-center gap-3 mb-6">
-                    <div
-                      className="w-12 h-12 rounded-xl flex items-center justify-center"
-                      style={{
-                        background: `linear-gradient(135deg, ${primaryColor} 0%, ${primaryColorLight} 100%)`,
-                      }}
-                    >
-                      <FaGlobe className="text-white text-xl" />
-                    </div>
-                    <h2 className="font-[Recoleta] text-xl md:text-2xl font-bold text-white">
-                      Key Features
-                    </h2>
-                  </div>
-                  <div className="grid md:grid-cols-2 gap-6">
-                    <ul className="space-y-4">
-                      {firstHalf.map((feature: string, index: number) => (
-                        <li key={index} className="flex items-start gap-3">
-                          <div
-                            className="w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 mt-1"
-                            style={{
-                              background:
-                                "linear-gradient(135deg, rgba(0, 168, 255, 0.1) 0%, rgba(0, 168, 255, 0.05) 100%)",
-                            }}
-                          >
-                            <div
-                              className="w-2 h-2 rounded-full"
-                              style={{
-                                background: `linear-gradient(135deg, ${primaryColor} 0%, ${primaryColorLight} 100%)`,
-                              }}
-                            ></div>
-                          </div>
-                          <span className="text-white/70 text-lg">
-                            {feature}
-                          </span>
-                        </li>
-                      ))}
-                    </ul>
-                    <ul className="space-y-4">
-                      {secondHalf.map((feature: string, index: number) => (
-                        <li key={index} className="flex items-start gap-3">
-                          <div
-                            className="w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 mt-1"
-                            style={{
-                              background:
-                                "linear-gradient(135deg, rgba(0, 168, 255, 0.1) 0%, rgba(0, 168, 255, 0.05) 100%)",
-                            }}
-                          >
-                            <div
-                              className="w-2 h-2 rounded-full"
-                              style={{
-                                background: `linear-gradient(135deg, ${primaryColor} 0%, ${primaryColorLight} 100%)`,
-                              }}
-                            ></div>
-                          </div>
-                          <span className="text-white/70 text-lg">
-                            {feature}
-                          </span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                </Glass>
-              )}
-
-              {project.technologies?.length > 0 && (
-                <Glass
-                  variant="white"
-                  className="rounded-2xl p-6 md:p-8 lg:p-10"
-                >
-                  <div className="flex items-center gap-3 mb-6">
-                    <div
-                      className="w-12 h-12 rounded-xl flex items-center justify-center"
-                      style={{
-                        background: `linear-gradient(135deg, ${primaryColor} 0%, ${primaryColorLight} 100%)`,
-                      }}
-                    >
-                      <FaCode className="text-white text-xl" />
-                    </div>
-                    <h2 className="font-[Recoleta] text-xl md:text-2xl font-bold text-white">
-                      Technology Stack
-                    </h2>
-                  </div>
-                  <div className="flex flex-wrap gap-3">
-                    {project.technologies.map((tech: string, index: number) => (
-                      <span
-                        key={index}
-                        className="font-[Agave] px-4 py-1 text-white/80 font-medium rounded-lg border border-white/10"
-                        style={{
-                          background:
-                            "linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.02) 100%)",
-                        }}
-                      >
-                        {tech}
+      <Section contained={false} className="pt-0 pb-20 sm:pb-24 lg:pb-28">
+        <Container>
+          <div className="grid gap-6 lg:grid-cols-12">
+            <div className="space-y-6 lg:col-span-8">
+              {project.body?.length ? (
+                <Reveal>
+                  <Card className="p-6 sm:p-8">
+                    <div className="flex items-center gap-3">
+                      <span className="flex size-10 items-center justify-center rounded-xl bg-brand-soft text-brand-deep">
+                        <BookOpen className="size-[18px]" aria-hidden="true" />
                       </span>
-                    ))}
-                  </div>
-                </Glass>
-              )}
-            </div>
+                      <h2 className="font-heading text-xl font-semibold tracking-[-0.025em] text-ink">
+                        Project overview
+                      </h2>
+                    </div>
+                    <div className="article-body mt-5">
+                      <PortableText
+                        value={project.body as PortableTextBlock[]}
+                        components={components}
+                      />
+                    </div>
+                  </Card>
+                </Reveal>
+              ) : null}
 
-            {/* Sidebar */}
-            <div className="lg:col-span-4">
-              <div className="sticky top-24 space-y-6">
-                <Glass variant="white" className="rounded-2xl p-6">
-                  <h3 className="font-[Recoleta] text-xl md:text-2xl text-white mb-6">
-                    Project Links
-                  </h3>
-                  <div className="space-y-4">
-                    {project.liveLink && (
-                      <a
-                        href={project.liveLink}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="font-[Outfit-Regular] group flex items-center justify-between p-4 rounded-xl border border-white/10 hover:border-[#00a8ff]/30 hover:shadow-lg transition-all duration-300"
-                        style={{
-                          background:
-                            "linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.02) 100%)",
-                        }}
-                      >
-                        <div className="flex items-center gap-3">
-                          <div
-                            className="w-10 h-10 rounded-lg flex items-center justify-center"
-                            style={{
-                              background: `linear-gradient(135deg, ${primaryColor} 0%, ${primaryColorLight} 100%)`,
-                            }}
-                          >
-                            <FaExternalLinkAlt className="text-white" />
-                          </div>
-                          <div>
-                            <p className="font-semibold text-white">
-                              Live Demo
-                            </p>
-                            <p className="text-sm text-white/50">
-                              Visit the live website
-                            </p>
-                          </div>
-                        </div>
-                        <FaArrowLeft className="transform rotate-180 text-white/40 group-hover:text-[#00a8ff] group-hover:translate-x-1 transition-all" />
-                      </a>
-                    )}
-                    {project.clientRepo && (
-                      <a
-                        href={project.clientRepo}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="font-[Outfit-Regular] group flex items-center justify-between p-4 rounded-xl border border-white/10 hover:border-white/20 hover:shadow-lg transition-all duration-300"
-                        style={{
-                          background:
-                            "linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.02) 100%)",
-                        }}
-                      >
-                        <div className="flex items-center gap-3">
-                          <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-white/10 to-white/5 flex items-center justify-center border border-white/10">
-                            <FaGithub className="text-white/70" />
-                          </div>
-                          <div>
-                            <p className="font-semibold text-white">
-                              Client Code
-                            </p>
-                            <p className="text-sm text-white/50">
-                              Frontend repository
-                            </p>
-                          </div>
-                        </div>
-                        <FaArrowLeft className="transform rotate-180 text-white/40 group-hover:text-white/70 group-hover:translate-x-1 transition-all" />
-                      </a>
-                    )}
-                    {project.serverRepo && (
-                      <a
-                        href={project.serverRepo}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="font-[Outfit-Regular] group flex items-center justify-between p-4 rounded-xl border border-white/10 hover:border-white/20 hover:shadow-lg transition-all duration-300"
-                        style={{
-                          background:
-                            "linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.02) 100%)",
-                        }}
-                      >
-                        <div className="flex items-center gap-3">
-                          <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-white/10 to-white/5 flex items-center justify-center border border-white/10">
-                            <FaServer className="text-white/70" />
-                          </div>
-                          <div>
-                            <p className="font-semibold text-white">
-                              Server Code
-                            </p>
-                            <p className="text-sm text-white/50">
-                              Backend repository
-                            </p>
-                          </div>
-                        </div>
-                        <FaArrowLeft className="transform rotate-180 text-white/40 group-hover:text-white/70 group-hover:translate-x-1 transition-all" />
-                      </a>
-                    )}
-                  </div>
-                </Glass>
-
-                {categories.length > 0 && (
-                  <Glass variant="white" className="rounded-2xl p-6">
-                    <h5 className="font-[Recoleta] text-xl md:text-2xl font-bold text-white mb-4">
-                      Project Type
-                    </h5>
-                    <div className="flex flex-wrap gap-2">
-                      {categories.map((cat, i) => (
-                        <Glass
-                          variant="white"
-                          key={i}
-                          className="inline-flex items-center gap-2 px-4 py-1 rounded-lg"
+              {project.features?.length ? (
+                <Reveal delay={60}>
+                  <Card className="p-6 sm:p-8">
+                    <div className="flex items-center gap-3">
+                      <span className="flex size-10 items-center justify-center rounded-xl bg-brand-soft text-brand-deep">
+                        <Layers className="size-[18px]" aria-hidden="true" />
+                      </span>
+                      <h2 className="font-heading text-xl font-semibold tracking-[-0.025em] text-ink">
+                        Key features
+                      </h2>
+                    </div>
+                    <ul className="mt-5 grid gap-2.5 sm:grid-cols-2">
+                      {project.features.map((feature) => (
+                        <li
+                          key={feature}
+                          className="flex items-start gap-2 rounded-xl border border-line bg-surface-soft px-3.5 py-2.5 text-[13px] leading-relaxed text-ink-soft"
                         >
-                          <span className="font-[Agave] font-semibold text-white/80 text-sm">
-                            {cat}
-                          </span>
-                        </Glass>
+                          <span className="mt-1.5 size-1.5 shrink-0 rounded-full bg-brand" aria-hidden="true" />
+                          {feature}
+                        </li>
                       ))}
-                    </div>
-                  </Glass>
-                )}
+                    </ul>
+                  </Card>
+                </Reveal>
+              ) : null}
 
-                <Glass variant="white" className="rounded-2xl p-6">
-                  <div className="text-center mb-6">
-                    <div
-                      className="w-14 h-14 rounded-xl flex items-center justify-center mx-auto mb-4"
-                      style={{
-                        background: `linear-gradient(135deg, ${primaryColor} 0%, ${primaryColorLight} 100%)`,
-                      }}
-                    >
-                      <FaRocket className="text-white text-xl" />
+              {project.technologies?.length ? (
+                <Reveal delay={100}>
+                  <Card className="p-6 sm:p-8">
+                    <div className="flex items-center gap-3">
+                      <span className="flex size-10 items-center justify-center rounded-xl bg-brand-soft text-brand-deep">
+                        <Code2 className="size-[18px]" aria-hidden="true" />
+                      </span>
+                      <h2 className="font-heading text-xl font-semibold tracking-[-0.025em] text-ink">
+                        Technology stack
+                      </h2>
                     </div>
-                    <h3 className="font-[Recoleta] text-2xl font-bold text-white mb-2">
-                      Let's Build Together
-                    </h3>
-                    <p className="text-white/70 text-sm">
-                      We craft digital experiences that drive real business
-                      results
-                    </p>
-                  </div>
-
-                  <div className="space-y-3 mb-6">
-                    {[
-                      "Custom web & mobile solutions",
-                      "Scalable cloud architecture",
-                      "Ongoing support & maintenance",
-                    ].map((item, i) => (
-                      <div key={i} className="flex items-center gap-3">
-                        <div
-                          className="w-5 h-5 rounded-full flex items-center justify-center flex-shrink-0"
-                          style={{
-                            background: `linear-gradient(135deg, ${primaryColor}20, ${primaryColorLight}10)`,
-                          }}
+                    <ul className="mt-5 flex flex-wrap gap-1.5">
+                      {project.technologies.map((technology) => (
+                        <li
+                          key={technology}
+                          className="rounded-full border border-line bg-canvas px-3 py-1.5 text-[11.5px] font-medium text-ink-soft"
                         >
-                          <div
-                            className="w-2 h-2 rounded-full"
-                            style={{
-                              background: `linear-gradient(135deg, ${primaryColor}, ${primaryColorLight})`,
-                            }}
-                          />
-                        </div>
-                        <span className="text-white/70 text-sm">{item}</span>
-                      </div>
-                    ))}
-                  </div>
-
-                  <Link
-                    href="/contact"
-                    className="flex w-full py-3.5 text-white font-semibold rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl items-center justify-center gap-3 group"
-                    style={buttonStyle}
-                  >
-                    Start a Project
-                    <FaArrowLeft className="transform rotate-180 group-hover:translate-x-1 transition-transform" />
-                  </Link>
-                </Glass>
-              </div>
+                          {technology.trim()}
+                        </li>
+                      ))}
+                    </ul>
+                  </Card>
+                </Reveal>
+              ) : null}
             </div>
-          </div>
 
-          {/* CTA */}
-          <div className="mt-16 text-center">
-            <Glass
-              variant="white"
-              className="flex flex-col items-center gap-4 p-8 rounded-2xl border border-white/10 shadow-lg mx-auto"
-            >
-              <div className="text-center">
-                <h3 className="font-[Recoleta] text-2xl font-bold text-white mb-2">
-                  Like What You See?
-                </h3>
-                <p className="text-white/70">
-                  Check out more of Our projects or let&apos;s discuss your next
-                  big idea.
+            <aside className="space-y-4 lg:col-span-4">
+              {hasLinks ? (
+                <Card className="p-5">
+                  <h2 className="font-heading text-[15px] font-semibold text-ink">Project links</h2>
+                  <div className="mt-4 space-y-2">
+                    {project.liveLink ? (
+                      <ProjectLink
+                        href={project.liveLink}
+                        icon={Globe}
+                        title="Live project"
+                        description="Visit the deployed product"
+                      />
+                    ) : null}
+                    {project.clientRepo ? (
+                      <ProjectLink
+                        href={project.clientRepo}
+                        icon={Github}
+                        title="Client code"
+                        description="Frontend repository"
+                      />
+                    ) : null}
+                    {project.serverRepo ? (
+                      <ProjectLink
+                        href={project.serverRepo}
+                        icon={Server}
+                        title="Server code"
+                        description="Backend repository"
+                      />
+                    ) : null}
+                  </div>
+                </Card>
+              ) : null}
+
+              {categories.length ? (
+                <Card className="p-5">
+                  <h2 className="font-heading text-[15px] font-semibold text-ink">Project type</h2>
+                  <ul className="mt-3 flex flex-wrap gap-1.5">
+                    {categories.map((category) => (
+                      <li key={category}>
+                        <Badge variant="brand">{category}</Badge>
+                      </li>
+                    ))}
+                  </ul>
+                </Card>
+              ) : null}
+
+              <Card className="p-5">
+                <span className="flex size-10 items-center justify-center rounded-xl bg-dark text-brand">
+                  <ExternalLink className="size-[18px]" aria-hidden="true" />
+                </span>
+                <h2 className="mt-4 font-heading text-lg font-semibold tracking-[-0.02em] text-ink">
+                  Building something similar?
+                </h2>
+                <p className="mt-1.5 text-[12.5px] leading-relaxed text-ink-caption">
+                  Tell us about the product, the users, and the constraints. We will help you find the
+                  right first release.
                 </p>
-              </div>
-              <div className="flex flex-col sm:flex-row gap-4">
-                <Link
-                  href="/projects"
-                  className="px-8 py-4 text-white font-semibold rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl"
-                  style={buttonStyle}
-                >
-                  View All Projects
-                </Link>
-                <Link
-                  href="/contact"
-                  className="px-8 py-4 bg-gradient-to-r from-white/10 to-white/5 text-white font-semibold rounded-xl hover:from-white/20 hover:to-white/10 transition-all duration-300 shadow-lg hover:shadow-xl border border-white/10"
-                >
-                  Start a Project
-                </Link>
-              </div>
-            </Glass>
+                <ButtonLink href="/#contact" size="md" className="mt-4 w-full">
+                  Start a project
+                  <ArrowUpRight className="size-3.5" aria-hidden="true" />
+                </ButtonLink>
+              </Card>
+            </aside>
           </div>
-        </div>
-      </div>
-    </main>
+        </Container>
+      </Section>
+
+      <CTASection
+        eyebrow="Next step"
+        title="Have a product that needs the same care?"
+        description="We can help you shape the scope, build the foundation, and ship the first version with confidence."
+        primary={{ label: "Start a project", href: "/#contact" }}
+        secondary={{ label: "Browse more work", href: "/projects" }}
+        footnote={`Or email ${siteConfig.email} directly.`}
+      />
+    </>
+  );
+}
+
+function ProjectLink({
+  href,
+  icon: Icon,
+  title,
+  description,
+}: {
+  href: string;
+  icon: typeof Globe;
+  title: string;
+  description: string;
+}) {
+  return (
+    <a
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="group flex items-center justify-between gap-3 rounded-xl border border-line bg-surface-soft p-3.5 transition-colors hover:border-line-strong hover:bg-surface"
+    >
+      <span className="flex items-center gap-3">
+        <span className="flex size-8 items-center justify-center rounded-lg bg-surface text-ink-muted ring-1 ring-line">
+          <Icon className="size-3.5" aria-hidden="true" />
+        </span>
+        <span>
+          <span className="block text-[12.5px] font-semibold text-ink">{title}</span>
+          <span className="block text-[10.5px] text-ink-caption">{description}</span>
+        </span>
+      </span>
+      <ArrowUpRight className="size-3.5 text-ink-muted transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" aria-hidden="true" />
+    </a>
   );
 }

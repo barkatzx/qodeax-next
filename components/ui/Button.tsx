@@ -1,50 +1,99 @@
+import Link from "next/link";
+import type { ComponentPropsWithoutRef, ReactNode } from "react";
 import { cva, type VariantProps } from "class-variance-authority";
-import clsx from "clsx";
-import * as React from "react";
-import { twMerge } from "tailwind-merge";
+import { cn, isExternalHref } from "@/lib/utils";
 
-/* helper function */
-function cn(...inputs: any[]) {
-  return twMerge(clsx(inputs));
-}
-
-/* button variants */
-const buttonVariants = cva(
-  "inline-flex items-center justify-center rounded-md text-sm font-medium transition-all focus:outline-none",
+export const buttonVariants = cva(
+  "inline-flex items-center justify-center gap-2 rounded-full font-medium whitespace-nowrap transition-all duration-200 focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 focus-visible:ring-offset-canvas focus-visible:outline-none disabled:pointer-events-none disabled:opacity-50",
   {
     variants: {
       variant: {
-        default: "bg-black text-white",
-
-        gradient:
-          "text-white bg-[linear-gradient(135deg,#3b82f6_0%,#60a5fa_100%)] hover:opacity-90",
+        primary:
+          "bg-brand text-brand-foreground shadow-[0_1px_2px_rgba(21,27,25,0.12)] hover:-translate-y-px hover:bg-brand-strong",
+        secondary:
+          "border border-line bg-surface text-ink hover:-translate-y-px hover:border-line-strong hover:bg-white",
+        dark: "bg-dark text-white hover:-translate-y-px hover:bg-dark-hover",
+        outlineLight:
+          "border border-white/20 bg-transparent text-white hover:border-white/35 hover:bg-white/5",
+        ghost: "text-ink-soft hover:bg-ink/5 hover:text-ink",
       },
-
       size: {
-        default: "h-10 px-4 py-2",
-        lg: "h-12 px-6",
+        sm: "h-9 px-4 text-[13px]",
+        md: "h-11 px-5 text-sm",
+        lg: "h-12 px-6 text-[15px]",
       },
     },
-
     defaultVariants: {
-      variant: "default",
-      size: "default",
+      variant: "primary",
+      size: "md",
     },
   },
 );
 
-/* button props */
-export interface ButtonProps
-  extends
-    React.ButtonHTMLAttributes<HTMLButtonElement>,
-    VariantProps<typeof buttonVariants> {}
+type ButtonVariantProps = VariantProps<typeof buttonVariants>;
 
-/* button component */
-export function Button({ className, variant, size, ...props }: ButtonProps) {
+interface ButtonLinkProps
+  extends ButtonVariantProps,
+    Omit<ComponentPropsWithoutRef<"a">, "className" | "href"> {
+  href: string;
+  className?: string;
+  children: ReactNode;
+}
+
+export function ButtonLink({
+  href,
+  variant,
+  size,
+  className,
+  children,
+  ...props
+}: ButtonLinkProps) {
+  const classes = cn(buttonVariants({ variant, size }), className);
+
+  if (isExternalHref(href)) {
+    const isHttp = /^https?:/.test(href);
+    return (
+      <a
+        href={href}
+        target={isHttp ? "_blank" : undefined}
+        rel={isHttp ? "noopener noreferrer" : undefined}
+        className={classes}
+        {...props}
+      >
+        {children}
+      </a>
+    );
+  }
+
+  return (
+    <Link href={href} className={classes} {...props}>
+      {children}
+    </Link>
+  );
+}
+
+export interface ButtonProps
+  extends ButtonVariantProps,
+    Omit<ComponentPropsWithoutRef<"button">, "className"> {
+  className?: string;
+  children: ReactNode;
+}
+
+export function Button({
+  variant,
+  size,
+  className,
+  children,
+  type = "button",
+  ...props
+}: ButtonProps) {
   return (
     <button
+      type={type}
       className={cn(buttonVariants({ variant, size }), className)}
       {...props}
-    />
+    >
+      {children}
+    </button>
   );
 }

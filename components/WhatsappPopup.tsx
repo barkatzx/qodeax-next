@@ -1,207 +1,130 @@
 "use client";
 
-import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
-import { BsSend } from "react-icons/bs";
-import { FaTimes, FaWhatsapp } from "react-icons/fa";
-
-const phone = process.env.NEXT_PUBLIC_PHONE_NUMBER;
-const isConfigured = !!phone;
+import Link from "next/link";
+import { MessageCircle, Send, X } from "lucide-react";
+import { siteConfig } from "@/data/site";
 
 const professionalMessage =
-  "Hello! I'm interested in learning more about your services. " +
-  "I'd like to discuss how we might collaborate on an upcoming project. " +
-  "Looking forward to hearing from you.";
+  "Hello Qodeax! I'm interested in learning more about your services and would like to discuss a project.";
 
-const whatsappUrl = isConfigured
-  ? `https://wa.me/${phone!.replace(/[^0-9]/g, "")}?text=${encodeURIComponent(professionalMessage)}`
-  : "#";
-
-export default function WhatsappPopup() {
+export function WhatsappPopup() {
   const [open, setOpen] = useState(false);
-  const [isHovered, setIsHovered] = useState(false);
   const popupRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
 
-  const handleWhatsAppClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
-    if (!isConfigured) {
-      e.preventDefault();
-      alert(
-        "We're experiencing a technical issue with our WhatsApp integration. " +
-          "Please contact us directly at barkatullah.zx@gmail.com or use the contact form.",
-      );
-    }
-  };
+  const whatsappHref = siteConfig.links.whatsapp
+    ? `${siteConfig.links.whatsapp}?text=${encodeURIComponent(professionalMessage)}`
+    : null;
 
   useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
+    if (!open) return;
+
+    const onPointerDown = (event: MouseEvent) => {
+      const target = event.target as Node;
       if (
-        open &&
-        popupRef.current &&
-        buttonRef.current &&
-        !popupRef.current.contains(event.target as Node) &&
-        !buttonRef.current.contains(event.target as Node)
+        !popupRef.current?.contains(target) &&
+        !buttonRef.current?.contains(target)
       ) {
         setOpen(false);
       }
     };
 
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setOpen(false);
+    };
+
+    document.addEventListener("mousedown", onPointerDown);
+    document.addEventListener("keydown", onKeyDown);
+    return () => {
+      document.removeEventListener("mousedown", onPointerDown);
+      document.removeEventListener("keydown", onKeyDown);
+    };
   }, [open]);
 
   return (
-    <div className="fixed bottom-6 right-6 z-50 flex flex-col items-end">
-      <AnimatePresence>
-        {open && (
-          <motion.div
-            ref={popupRef}
-            initial={{ opacity: 0, y: 20, scale: 0.95 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 20, scale: 0.95 }}
-            transition={{ duration: 0.2 }}
-            className="mb-4 w-80 rounded-2xl shadow-2xl bg-gray-900 border border-gray-700 overflow-hidden"
-          >
-            {/* Header */}
-            <div
-              className={`p-4 ${isConfigured ? "bg-gradient-to-r from-green-500 to-green-600" : "bg-gradient-to-r from-gray-500 to-gray-600"}`}
-            >
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center">
-                  <FaWhatsapp className="text-white text-2xl" />
-                </div>
-                <div>
-                  <h3 className="text-white font-semibold">
-                    {isConfigured ? "WhatsApp Chat" : "Contact Us"}
-                  </h3>
-                  <p className="text-white/80 text-xs">
-                    {isConfigured
-                      ? "Typically replies within 1 hour"
-                      : "Alternative contact methods"}
-                  </p>
-                </div>
+    <div className="fixed right-4 bottom-4 z-50 flex flex-col items-end sm:right-6 sm:bottom-6">
+      {open ? (
+        <div
+          ref={popupRef}
+          id="contact-popup"
+          className="mb-3 w-[calc(100vw-2rem)] max-w-[320px] overflow-hidden rounded-2xl border border-line bg-surface shadow-[var(--shadow-lift)]"
+        >
+          <div className="flex items-start justify-between gap-3 border-b border-line bg-surface-soft p-4">
+            <div className="flex items-center gap-3">
+              <span className="flex size-9 items-center justify-center rounded-full bg-brand-soft text-brand-deep">
+                <MessageCircle className="size-4" aria-hidden="true" />
+              </span>
+              <div>
+                <h3 className="font-heading text-[15px] font-semibold text-ink">Talk to Qodeax</h3>
+                <p className="mt-0.5 text-[10.5px] text-ink-muted">
+                  {whatsappHref ? "Usually replies within a few hours" : "Email is the fastest route"}
+                </p>
               </div>
             </div>
-
-            {/* Body */}
-            <div className="p-4 bg-gray-50 dark:bg-gray-800/50">
-              {isConfigured ? (
-                <>
-                  <div className="bg-gray-800 rounded-xl p-3 shadow-sm mb-3">
-                    <p className="text-sm text-gray-300">
-                      👋 Hello! Thank you for your interest in our services. How
-                      can we assist you today?
-                    </p>
-                    <span className="text-xs text-gray-400 mt-1 block">
-                      Just now
-                    </span>
-                  </div>
-
-                  <p className="text-xs text-gray-400 mb-3 flex items-center gap-1">
-                    <span className="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse"></span>
-                    Online • Available now
-                  </p>
-
-                  <a
-                    href={whatsappUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    onClick={handleWhatsAppClick}
-                    className="group flex items-center justify-between w-full bg-green-500 hover:bg-green-600 text-white px-4 py-3 rounded-lg transition-colors duration-300"
-                  >
-                    <span className="flex items-center gap-2 font-medium">
-                      <FaWhatsapp className="text-lg" />
-                      Start Conversation
-                    </span>
-                    <BsSend className="text-sm group-hover:translate-x-1 transition-transform" />
-                  </a>
-                </>
-              ) : (
-                <div className="space-y-3">
-                  <div className="bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded-lg p-3">
-                    <p className="text-sm text-yellow-800 dark:text-yellow-200">
-                      ⚠️ WhatsApp chat is temporarily unavailable.
-                    </p>
-                  </div>
-
-                  <div className="space-y-2">
-                    <a
-                      href="mailto:barkatullah.zx@gmail.com"
-                      className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-300 hover:text-green-500 transition-colors p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg"
-                    >
-                      📧 barkatullah.zx@gmail.com
-                    </a>
-                    <a
-                      href="/contact"
-                      className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-300 hover:text-green-500 transition-colors p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg"
-                    >
-                      📝 Contact Form
-                    </a>
-                  </div>
-                </div>
-              )}
-
-              <p className="text-xs text-gray-400 mt-3 text-center">
-                By contacting us, you agree to our{" "}
-                <a href="/privacy" className="text-green-500 hover:underline">
-                  Privacy Policy
-                </a>
-              </p>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
-      {/* Toggle Button */}
-      <motion.button
-        ref={buttonRef}
-        onClick={() => setOpen(!open)}
-        onHoverStart={() => setIsHovered(true)}
-        onHoverEnd={() => setIsHovered(false)}
-        className={`
-          relative flex items-center justify-center
-          w-14 h-14 rounded-full shadow-lg
-          transition-colors duration-300
-          ${
-            open
-              ? "bg-red-500 hover:bg-red-600"
-              : isConfigured
-                ? "bg-green-500 hover:bg-green-600"
-                : "bg-gray-500 hover:bg-gray-600"
-          }
-        `}
-        aria-label={open ? "Close chat" : "Open contact options"}
-        whileHover={{ scale: 1.05 }}
-        whileTap={{ scale: 0.95 }}
-      >
-        {!open && isConfigured && (
-          <motion.span
-            initial={{ scale: 0 }}
-            animate={{ scale: 1 }}
-            className="absolute -top-1 -right-1 w-4 h-4 bg-red-500 rounded-full border-2 border-white dark:border-gray-900"
-          />
-        )}
-
-        {open ? (
-          <FaTimes className="text-white text-xl" />
-        ) : (
-          <FaWhatsapp className="text-white text-2xl" />
-        )}
-
-        <AnimatePresence>
-          {isHovered && !open && (
-            <motion.span
-              initial={{ opacity: 0, x: 10 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: 10 }}
-              className="absolute right-16 bg-gray-900 text-white text-xs py-1 px-2 rounded whitespace-nowrap"
+            <button
+              type="button"
+              onClick={() => setOpen(false)}
+              className="flex size-7 items-center justify-center rounded-full text-ink-muted transition-colors hover:bg-ink/5 hover:text-ink"
+              aria-label="Close contact panel"
             >
-              {isConfigured ? "Chat with us" : "Contact us"}
-              <span className="absolute right-[-4px] top-1/2 -translate-y-1/2 border-4 border-transparent border-l-gray-900" />
-            </motion.span>
-          )}
-        </AnimatePresence>
-      </motion.button>
+              <X className="size-3.5" />
+            </button>
+          </div>
+
+          <div className="p-4">
+            <p className="text-[12.5px] leading-relaxed text-ink-muted">
+              Have a project or a question? Send us a note and we will point you in the right direction.
+            </p>
+
+            <div className="mt-4 grid gap-2">
+              {whatsappHref ? (
+                <a
+                  href={whatsappHref}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center justify-between gap-2 rounded-xl bg-brand px-3.5 py-2.5 text-[12.5px] font-semibold text-brand-foreground transition-colors hover:bg-brand-strong"
+                >
+                  Chat on WhatsApp
+                  <Send className="size-3.5" aria-hidden="true" />
+                </a>
+              ) : null}
+              <a
+                href={`mailto:${siteConfig.email}`}
+                className="flex items-center justify-between gap-2 rounded-xl border border-line bg-surface px-3.5 py-2.5 text-[12.5px] font-medium text-ink transition-colors hover:border-line-strong"
+              >
+                Email {siteConfig.email}
+              </a>
+              <Link
+                href="/#contact"
+                className="flex items-center justify-between gap-2 rounded-xl border border-line bg-surface px-3.5 py-2.5 text-[12.5px] font-medium text-ink transition-colors hover:border-line-strong"
+              >
+                Use the project form
+              </Link>
+            </div>
+
+            <p className="mt-3 text-[10px] leading-relaxed text-ink-muted">
+              By contacting us, you agree to our{" "}
+              <Link href="/privacy" className="text-brand-deep underline">
+                privacy policy
+              </Link>
+              .
+            </p>
+          </div>
+        </div>
+      ) : null}
+
+      <button
+        ref={buttonRef}
+        type="button"
+        onClick={() => setOpen((value) => !value)}
+        aria-expanded={open}
+        aria-controls="contact-popup"
+        aria-label={open ? "Close contact options" : "Open contact options"}
+        className="flex size-12 items-center justify-center rounded-full bg-dark text-white shadow-[var(--shadow-lift)] transition-transform hover:-translate-y-0.5 hover:bg-dark-hover focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 focus-visible:ring-offset-canvas focus-visible:outline-none"
+      >
+        {open ? <X className="size-4.5" /> : <MessageCircle className="size-4.5" />}
+      </button>
     </div>
   );
 }

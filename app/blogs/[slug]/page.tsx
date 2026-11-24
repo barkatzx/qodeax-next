@@ -1,332 +1,339 @@
-import Glass from "@/components/ui/Glass";
-import { client } from "@/sanity/client";
-import { components } from "@/sanity/portabletext";
-import imageUrlBuilder from "@sanity/image-url";
-import type { SanityImageSource } from "@sanity/image-url/lib/types/types";
-import { PortableText, type SanityDocument } from "next-sanity";
+import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { BiSolidCategory } from "react-icons/bi";
+import { PortableText } from "next-sanity";
+import type { PortableTextBlock } from "@portabletext/react";
 import {
-  FaBookReader,
-  FaCalendarAlt,
-  FaFacebook,
-  FaLinkedin,
-} from "react-icons/fa";
-import { FaXTwitter } from "react-icons/fa6";
+  ArrowLeft,
+  ArrowUpRight,
+  CalendarDays,
+  Clock3,
+  Facebook,
+  Linkedin,
+  Twitter,
+} from "lucide-react";
+import { Container } from "@/components/layout/Container";
+import { CTASection } from "@/components/sections/CTASection";
+import { Badge } from "@/components/ui/Badge";
+import { ButtonLink } from "@/components/ui/Button";
+import { Card } from "@/components/ui/Card";
+import { Reveal } from "@/components/ui/Reveal";
+import { siteConfig } from "@/data/site";
+import { getPostBySlug, getPostSlugs, getRecentPosts } from "@/lib/content";
+import { formatDate, sanityImageUrl } from "@/lib/utils";
+import { urlFor, type SanityImageSource } from "@/sanity/client";
+import { components } from "@/sanity/portabletext";
 
-// GROQ query for fetching post by slug
-const POST_QUERY = `*[_type == "post" && slug.current == $slug][0]{
-  title,
-  body,
-  publishedAt,
-  excerpt,
-  categories[]->{ title },
-  mainImage,
-  author->{ name, image, bio },
-  estimatedReadingTime
-}`;
+export const revalidate = 60;
 
-// GROQ query for fetching recent posts
-const RECENT_POSTS_QUERY = `*[_type == "post" && slug.current != $slug] | order(publishedAt desc)[0...5]{
-  title,
-  slug,
-  publishedAt,
-  excerpt,
-  mainImage,
-  categories[]->{ title }
-}`;
+interface PostDocument {
+  title: string;
+  body?: PortableTextBlock[];
+  publishedAt: string;
+  excerpt?: string;
+  categories?: { title: string }[];
+  mainImage?: SanityImageSource;
+  author?: {
+    name?: string;
+    image?: SanityImageSource;
+    bio?: PortableTextBlock[];
+  };
+  estimatedReadingTime?: number;
+  slug: { current: string };
+}
 
-// Sanity image URL builder
-const { projectId, dataset } = client.config();
-const urlFor = (source: SanityImageSource) =>
-  projectId && dataset
-    ? imageUrlBuilder({ projectId, dataset }).image(source)
-    : null;
+interface PostPageProps {
+  params: Promise<{ slug: string }>;
+}
 
-// ISR (revalidation time in seconds)
-export const revalidate = 30;
-
-// Generate static paths
 export async function generateStaticParams() {
-  const slugs = await client.fetch<string[]>(`*[_type == "post"].slug.current`);
+  const slugs = await getPostSlugs();
   return slugs.map((slug) => ({ slug }));
 }
 
-// TypeScript type for params
-type tParams = Promise<{ slug: string }>;
+export async function generateMetadata({ params }: PostPageProps): Promise<Metadata> {
+  const { slug } = await params;
+  const post = (await getPostBySlug(decodeURIComponent(slug))) as PostDocument | null;
 
-export default async function PostPage(props: { params: tParams }) {
-  const { slug } = await props.params;
-  const decodedSlug = decodeURIComponent(slug);
-  if (!decodedSlug) return notFound();
+  if (!post) return { title: "Article not found" };
 
-  const post = await client.fetch<SanityDocument>(POST_QUERY, {
-    slug: decodedSlug,
-  });
-  if (!post) return notFound();
+  return {
+    title: post.title,
+    description: post.excerpt,
+    alternates: { canonical: `/blogs/${post.slug.current}` },
+    openGraph: {
+      type: "article",
+      title: `${post.title} | Qodeax`,
+      description: post.excerpt,
+      url: `/blogs/${post.slug.current}`,
+      publishedTime: post.publishedAt,
+    },
+  };
+}
 
-  // Fetch recent posts
-  const recentPosts = await client.fetch<SanityDocument[]>(RECENT_POSTS_QUERY, {
-    slug: decodedSlug,
-  });
+export default async function PostPage({ params }: PostPageProps) {
+  const { slug } = await params;
+  const post = (await getPostBySlug(decodeURIComponent(slug))) as PostDocument | null;
 
+  if (!post) notFound();
+
+  const recentPosts = await getRecentPosts(post.slug.current);
   const mainImageUrl = post.mainImage
-    ? urlFor(post.mainImage)?.width(1200).height(630).quality(90).url()
+    ? urlFor(post.mainImage).width(1600).height(900).quality(88).url()
     : null;
-
-  const formattedDate = new Date(post.publishedAt).toLocaleDateString("en-US", {
-    day: "numeric",
-    month: "long",
-    year: "numeric",
-  });
-
+  const authorImageUrl = post.author?.image
+    ? urlFor(post.author.image).width(160).height(160).quality(88).url()
+    : null;
   const readingTime =
     post.estimatedReadingTime ||
-    Math.max(5, Math.ceil((post.body?.length || 0) / 1500));
-
-  // Get current URL for sharing (will be handled client-side)
-  const shareUrl = typeof window !== "undefined" ? window.location.href : "";
+    Math.max(5, Math.ceil((post.body?.length || 0) / 12));
+  const shareUrl = `${siteConfig.url}/blogs/${post.slug.current}`;
 
   return (
-    <main>
-      {/* Hero Section */}
-      <div className="py-10">
-        <div className="container mx-auto">
-          {/* Post Title */}
-          <h1 className="font-[Recoleta] font-bold text-2xl md:text-5xl mb-4 md:mb-6 text-white/90 text-center">
-            {post.title}
-          </h1>
-          {/* Meta Info */}
-          <div className="font-[Outfit-Regular] flex flex-wrap items-center justify-center gap-3 md:gap-4 text-white/60 text-sm md:text-base text-center">
-            {/* Date */}
-            <span className="flex items-center gap-2">
-              <FaCalendarAlt />
-              {formattedDate}
-            </span>
-
-            {/* Reading Time */}
-            <span className="flex items-center gap-2">
-              <FaBookReader />
-              {readingTime} min read
-            </span>
-
-            {/* Categories */}
-            {post.categories?.length > 0 && (
-              <span className="flex items-center gap-2 flex-wrap justify-center">
-                <BiSolidCategory />
-                {post.categories.map((cat: { title: string }, idx: number) => (
-                  <span key={idx}>{cat.title}</span>
-                ))}
-              </span>
-            )}
-          </div>
-          Excerpt
-          {post.excerpt && (
-            <p className="text-lg md:text-xl text-white/70 text-center max-w-5xl mx-auto">
-              {post.excerpt}
-            </p>
-          )}
-        </div>
-
-        {/* Featured Image */}
-        {mainImageUrl && (
-          <div className="mt-6 md:mt-8">
-            <div className="container mx-auto">
-              <div className="relative overflow-hidden ">
-                <Image
-                  src={mainImageUrl}
-                  alt={post.title}
-                  width={800}
-                  height={600}
-                  className="w-full h-full object-cover rounded-2xl shadow-xl"
-                />
-              </div>
-            </div>
-          </div>
-        )}
+    <>
+      <div className="pt-8">
+        <Container>
+          <Link
+            href="/blogs"
+            className="inline-flex items-center gap-1.5 text-[12.5px] font-medium text-ink-soft transition-colors hover:text-ink"
+          >
+            <ArrowLeft className="size-3.5" aria-hidden="true" />
+            All articles
+          </Link>
+        </Container>
       </div>
 
-      {/* Content Section with Sidebar */}
-      <div className="">
-        <div className="container mx-auto">
-          <div className="flex flex-col lg:flex-row gap-8">
-            {/* Main Content - Left Side */}
-            <div className="lg:w-2/3">
-              <Glass
-                variant="white"
-                className="p-6 md:p-10 rounded-xl md:rounded-2xl"
-              >
-                {/* Post Content */}
-                <div className="prose prose-invert max-w-none">
-                  {Array.isArray(post.body) && (
-                    <PortableText value={post.body} components={components} />
-                  )}
-                </div>
+      <header className="pt-10 pb-8 sm:pt-14">
+        <Container>
+          <div className="mx-auto max-w-3xl">
+            <div className="flex flex-wrap items-center gap-2">
+              {post.categories?.map((category) => (
+                <Badge key={category.title} variant="brand">
+                  {category.title}
+                </Badge>
+              ))}
+            </div>
+            <h1 className="mt-5 font-heading text-[2.15rem] leading-[1.04] font-semibold tracking-[-0.04em] text-balance text-ink sm:text-[3rem] lg:text-[3.4rem]">
+              {post.title}
+            </h1>
+            <div className="mt-5 flex flex-wrap items-center gap-x-5 gap-y-2 text-[12px] text-ink-caption">
+              <span className="inline-flex items-center gap-1.5">
+                <CalendarDays className="size-3.5" aria-hidden="true" />
+                {formatDate(post.publishedAt, {
+                  day: "numeric",
+                  month: "long",
+                  year: "numeric",
+                })}
+              </span>
+              <span className="inline-flex items-center gap-1.5">
+                <Clock3 className="size-3.5" aria-hidden="true" />
+                {readingTime} min read
+              </span>
+              {post.author?.name ? (
+                <span>By {post.author.name}</span>
+              ) : (
+                <span>By Qodeax</span>
+              )}
+            </div>
+            {post.excerpt ? (
+              <p className="mt-5 text-[16px] leading-relaxed text-ink-caption sm:text-[17px]">
+                {post.excerpt}
+              </p>
+            ) : null}
+          </div>
+        </Container>
+      </header>
 
-                {/* Author Section */}
-                {post.author && (
-                  <div className="mt-12 pt-8 border-t border-white/10">
-                    <div className="flex flex-col md:flex-row gap-6 items-start">
-                      {/* Author Image */}
-                      <div className="flex-shrink-0">
-                        <div className="relative">
+      {mainImageUrl ? (
+        <section className="pb-10">
+          <Container>
+            <div className="relative aspect-[16/9] overflow-hidden rounded-2xl border border-line bg-mist">
+              <Image
+                src={mainImageUrl}
+                alt={post.title}
+                fill
+                priority
+                sizes="(max-width: 1200px) 100vw, 1100px"
+                className="object-cover"
+              />
+            </div>
+          </Container>
+        </section>
+      ) : null}
+
+      <section className="pb-20 sm:pb-24 lg:pb-28">
+        <Container>
+          <div className="grid gap-6 lg:grid-cols-12">
+            <div className="lg:col-span-8">
+              <Reveal>
+                <Card className="p-6 sm:p-8 lg:p-10">
+                  <h2 className="sr-only">Article</h2>
+                  <div className="article-body">
+                    {post.body?.length ? (
+                      <PortableText value={post.body} components={components} />
+                    ) : (
+                      <p>This article does not have any content yet.</p>
+                    )}
+                  </div>
+
+                  {post.author?.name ? (
+                    <div className="mt-10 flex flex-col gap-4 border-t border-line pt-6 sm:flex-row sm:items-start">
+                      <div className="relative size-14 shrink-0 overflow-hidden rounded-full border border-line bg-mist">
+                        {authorImageUrl ? (
                           <Image
-                            src={
-                              post.author?.image
-                                ? urlFor(post.author.image)
-                                    ?.width(120)
-                                    .height(120)
-                                    .quality(90)
-                                    .url() || "/default-avatar.png"
-                                : "/default-avatar.png"
-                            }
-                            alt={post.author?.name || "Author"}
-                            width={80}
-                            height={80}
-                            className="rounded-full border-2 border-[#00a8ff]/20"
+                            src={authorImageUrl}
+                            alt={post.author.name}
+                            fill
+                            sizes="56px"
+                            className="object-cover"
                           />
-                          <div className="absolute -bottom-1 -right-1 w-6 h-6 bg-[#00a8ff] rounded-full border-2 border-white flex items-center justify-center">
-                            <span className="text-white text-xs">✓</span>
-                          </div>
-                        </div>
+                        ) : (
+                          <span className="flex size-full items-center justify-center font-heading text-lg font-semibold text-ink/40">
+                            {post.author.name.charAt(0)}
+                          </span>
+                        )}
                       </div>
-
-                      {/* Author Info */}
-                      <div className="flex-1">
-                        <h3 className="text-xl font-[Outfit-Regular] text-white mb-1">
+                      <div className="min-w-0">
+                        <p className="text-[10px] font-semibold tracking-[0.16em] text-ink-muted uppercase">
+                          Written by
+                        </p>
+                        <h2 className="mt-1 font-heading text-lg font-semibold text-ink">
                           {post.author.name}
-                        </h3>
-
-                        {post.author.bio ? (
-                          <div className="text-white/70 text-sm md:text-base leading-relaxed mb-4">
+                        </h2>
+                        {post.author.bio?.length ? (
+                          <div className="article-body mt-2 text-[13px]">
                             <PortableText value={post.author.bio} />
                           </div>
                         ) : (
-                          <p className="text-white/50 text-sm mb-4">
-                            Writer and contributor
+                          <p className="mt-1 text-[13px] text-ink-caption">
+                            Writer and contributor at Qodeax.
                           </p>
                         )}
-
-                        {/* Social Share */}
-                        <div className="flex items-center gap-3">
-                          <span className="text-white/50 text-sm">
-                            Share this article:
-                          </span>
-                          <div className="flex gap-2">
-                            <a
-                              href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(post.title)}&url=${encodeURIComponent(shareUrl)}`}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="w-8 h-8 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center hover:bg-[#00a8ff]/10 hover:border-[#00a8ff]/30 transition-all"
-                            >
-                              <FaXTwitter className="text-white/70 hover:text-[#00a8ff] transition-colors" />
-                            </a>
-                            <a
-                              href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}`}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="w-8 h-8 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center hover:bg-[#00a8ff]/10 hover:border-[#00a8ff]/30 transition-all"
-                            >
-                              <FaFacebook className="text-white/70 hover:text-[#00a8ff] transition-colors" />
-                            </a>
-                            <a
-                              href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(shareUrl)}`}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="w-8 h-8 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center hover:bg-[#00a8ff]/10 hover:border-[#00a8ff]/30 transition-all"
-                            >
-                              <FaLinkedin className="text-white/70 hover:text-[#00a8ff] transition-colors" />
-                            </a>
-                          </div>
-                        </div>
                       </div>
                     </div>
+                  ) : null}
+
+                  <div className="mt-8 flex flex-wrap items-center gap-3 border-t border-line pt-5">
+                    <span className="text-[11px] font-semibold tracking-[0.12em] text-ink-muted uppercase">
+                      Share
+                    </span>
+                    <ShareLink
+                      href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(post.title)}&url=${encodeURIComponent(shareUrl)}`}
+                      label="Share on X"
+                      icon={Twitter}
+                    />
+                    <ShareLink
+                      href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}`}
+                      label="Share on Facebook"
+                      icon={Facebook}
+                    />
+                    <ShareLink
+                      href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(shareUrl)}`}
+                      label="Share on LinkedIn"
+                      icon={Linkedin}
+                    />
                   </div>
-                )}
-              </Glass>
+                </Card>
+              </Reveal>
             </div>
 
-            {/* Sidebar - Right Side (Recent Posts) */}
-            <div className="lg:w-1/3">
-              <Glass
-                variant="white"
-                className="p-6 rounded-xl md:rounded-2xl sticky top-24"
-              >
-                <h2 className="font-[Recoleta] text-xl md:text-2xl font-bold text-white mb-5">
-                  Recent Articles
+            <aside className="space-y-4 lg:col-span-4">
+              <Card className="p-5">
+                <h2 className="font-heading text-[15px] font-semibold text-ink">
+                  Recent articles
                 </h2>
-                <div className="border-t border-white/10 mb-5" />
-
-                <div className="space-y-6">
-                  {recentPosts.map((recentPost) => {
-                    const recentPostImageUrl = recentPost.mainImage
-                      ? urlFor(recentPost.mainImage)
-                          ?.width(400)
-                          .height(300)
-                          .quality(80)
-                          .url()
-                      : null;
-
-                    return (
-                      <Link
-                        key={recentPost.slug.current}
-                        href={`/blogs/${recentPost.slug.current}`}
-                        className="block group"
-                      >
-                        <div className="flex gap-4">
-                          {/* Recent Post Image */}
-                          {recentPostImageUrl && (
-                            <div className="flex-shrink-0 w-20 h-20 relative rounded-lg overflow-hidden">
+                <div className="mt-4 space-y-3">
+                  {recentPosts.length ? (
+                    recentPosts.map((recent) => {
+                      const imageUrl = sanityImageUrl(recent.mainImage?.asset?.url, 200, 200);
+                      return (
+                        <Link
+                          key={recent._id}
+                          href={`/blogs/${recent.slug.current}`}
+                          className="group flex gap-3 rounded-xl border border-transparent p-1.5 transition-colors hover:border-line hover:bg-surface-soft"
+                        >
+                          <span className="relative size-14 shrink-0 overflow-hidden rounded-lg border border-line bg-mist">
+                            {imageUrl ? (
                               <Image
-                                src={recentPostImageUrl}
-                                alt={recentPost.title}
+                                src={imageUrl}
+                                alt=""
                                 fill
+                                sizes="56px"
                                 className="object-cover transition-transform duration-300 group-hover:scale-105"
                               />
-                            </div>
-                          )}
-
-                          {/* Recent Post Info */}
-                          <div className="flex-1">
-                            <h3 className="font-[Outfit-Regular] text-white/90 text-lg line-clamp-2 group-hover:text-[#00a8ff] transition-colors mb-1">
-                              {recentPost.title}
-                            </h3>
-
-                            <div className="flex items-center gap-2 text-xs text-white/50">
-                              {/* Category */}
-                              {recentPost.categories?.length > 0 && (
-                                <span>{recentPost.categories[0].title}</span>
-                              )}
-
-                              {/* Separator */}
-                              {recentPost.categories?.length > 0 && (
-                                <span>•</span>
-                              )}
-
-                              {/* Date */}
-                              <span>
-                                {new Date(
-                                  recentPost.publishedAt,
-                                ).toLocaleDateString("en-US", {
-                                  month: "short",
-                                  day: "numeric",
-                                  year: "numeric",
-                                })}
+                            ) : (
+                              <span className="flex size-full items-center justify-center font-heading text-sm font-semibold text-ink/30">
+                                Q
                               </span>
-                            </div>
-                          </div>
-                        </div>
-                      </Link>
-                    );
-                  })}
+                            )}
+                          </span>
+                          <span className="min-w-0">
+                            <span className="line-clamp-2 block text-[12.5px] leading-snug font-medium text-ink transition-colors group-hover:text-brand-deep">
+                              {recent.title}
+                            </span>
+                            <span className="mt-1 block text-[10.5px] text-ink-caption">
+                              {formatDate(recent.publishedAt)}
+                            </span>
+                          </span>
+                        </Link>
+                      );
+                    })
+                  ) : (
+                    <p className="text-[12.5px] text-ink-muted">
+                      More articles will appear here soon.
+                    </p>
+                  )}
                 </div>
-              </Glass>
-            </div>
+              </Card>
+
+              <Card className="p-5">
+                <h2 className="font-heading text-lg font-semibold tracking-[-0.02em] text-ink">
+                  Have a product to build?
+                </h2>
+                <p className="mt-1.5 text-[12.5px] leading-relaxed text-ink-caption">
+                  We help teams turn an idea into a reliable first release. Tell us what you are working on.
+                </p>
+                <ButtonLink href="/#contact" size="md" className="mt-4 w-full">
+                  Start a conversation
+                  <ArrowUpRight className="size-3.5" aria-hidden="true" />
+                </ButtonLink>
+              </Card>
+            </aside>
           </div>
-        </div>
-      </div>
-    </main>
+        </Container>
+      </section>
+
+      <CTASection
+        eyebrow="Keep reading"
+        title="More notes from the Qodeax team."
+        description="Browse the archive for practical writing on engineering, product decisions, and building software that lasts."
+        primary={{ label: "Back to the blog", href: "/blogs" }}
+        secondary={{ label: "See our work", href: "/projects" }}
+        footnote={`Or email ${siteConfig.email} directly.`}
+      />
+    </>
+  );
+}
+
+function ShareLink({
+  href,
+  label,
+  icon: Icon,
+}: {
+  href: string;
+  label: string;
+  icon: typeof Twitter;
+}) {
+  return (
+    <a
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label={label}
+      className="flex size-8 items-center justify-center rounded-full border border-line text-ink-muted transition-colors hover:border-brand hover:bg-brand-soft hover:text-brand-deep"
+    >
+      <Icon className="size-3.5" aria-hidden="true" />
+    </a>
   );
 }
