@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { SplitText } from "@/components/animations/SplitText";
 import { cn } from "@/lib/utils";
 
 interface SectionHeadingProps {
@@ -37,29 +38,46 @@ export function SectionHeading({
       {eyebrow ? (
         <p
           className={cn(
-            "mb-4 inline-flex items-center gap-2 text-[11px] font-semibold tracking-[0.2em] uppercase",
-            isDark ? "text-white/55" : "text-ink-caption",
+            "mb-4 inline-flex items-center gap-3 text-[10.5px] font-semibold tracking-[0.22em] uppercase",
+            isDark ? "text-white/45" : "text-ink-caption",
           )}
         >
-          <span className="size-1.5 rounded-full bg-brand" aria-hidden="true" />
+          <span
+            className={cn("h-px w-7", isDark ? "bg-brand/60" : "bg-brand-strong/50")}
+            aria-hidden="true"
+          />
+          <span className="size-1 rounded-full bg-brand" aria-hidden="true" />
           {eyebrow}
         </p>
       ) : null}
-      <Heading
-        className={cn(
-          "font-heading text-[2rem] leading-[1.04] font-semibold tracking-[-0.035em] text-balance sm:text-[2.5rem] lg:text-[2.9rem]",
-          isDark ? "text-white" : "text-ink",
-          titleClassName,
-        )}
-      >
-        {title}
-      </Heading>
+      {typeof title === "string" ? (
+        <SplitText
+          as={Heading}
+          text={title}
+          className={cn(
+            "font-heading text-[2.15rem] leading-[1.02] font-semibold tracking-[-0.045em] text-balance sm:text-[2.75rem] lg:text-[3.2rem]",
+            isDark ? "text-white" : "text-ink",
+            align === "center" && "justify-center",
+            titleClassName,
+          )}
+        />
+      ) : (
+        <Heading
+          className={cn(
+            "font-heading text-[2.15rem] leading-[1.02] font-semibold tracking-[-0.045em] text-balance sm:text-[2.75rem] lg:text-[3.2rem]",
+            isDark ? "text-white" : "text-ink",
+            titleClassName,
+          )}
+        >
+          {title}
+        </Heading>
+      )}
       {description ? (
         <p
           className={cn(
             "mt-5 max-w-2xl text-[15px] leading-relaxed sm:text-base",
             align === "center" && "mx-auto",
-            isDark ? "text-white/60" : "text-ink-muted",
+            isDark ? "text-white/55" : "text-ink-muted",
             descriptionClassName,
           )}
         >

@@ -39,17 +39,17 @@ export const aboutContent = {
 };
 
 export const productContent = {
-  eyebrow: "Our product",
-  title: "QDMS — diagnostic operations, without the paperwork.",
+  eyebrow: "Product engineering",
+  title: "From product strategy to production systems.",
   description:
-    "QDMS is our diagnostic center management platform. It brings patients, doctors, appointments, tests, referrals, billing, and financial reporting into one connected workspace.",
+    "Qodeax works as one connected team across strategy, interface design, software architecture, and deployment — so the product, the code, and the operation behind it move in the same direction.",
   capabilities: [
-    "Patient management",
-    "Doctor management",
-    "Appointments & serials",
-    "Diagnostic tests",
-    "Referral management",
-    "Financial operations",
+    "Product architecture",
+    "Interface systems",
+    "APIs & integrations",
+    "AI workflows",
+    "Cloud infrastructure",
+    "Long-term support",
   ],
 };
 

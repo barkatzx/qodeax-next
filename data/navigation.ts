@@ -19,7 +19,7 @@ export const footerNavigation = {
     { label: "Contact", href: "/#contact" },
   ],
   product: [
-    { label: "QDMS overview", href: "/products" },
+    { label: "Our products", href: "/products" },
     { label: "Capabilities", href: "/products#capabilities" },
     { label: "Book a demo", href: "https://calendly.com/barkatzx" },
   ],

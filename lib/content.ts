@@ -23,7 +23,7 @@ const PROJECTS_QUERY = `*[
 
 const LATEST_PROJECTS_QUERY = `*[
   _type == "project" && defined(slug.current)
-] | order(_createdAt desc)[0...3] { ${PROJECT_FIELDS} }`;
+] | order(_createdAt desc)[0...6] { ${PROJECT_FIELDS} }`;
 
 const PROJECT_QUERY = `*[_type == "project" && slug.current == $slug][0] {
   ${PROJECT_FIELDS}

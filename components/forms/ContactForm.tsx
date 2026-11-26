@@ -358,7 +358,7 @@ export function ContactForm() {
           </ButtonLink>
           .
         </p>
-        <Button type="submit" size="md" disabled={status === "submitting"} className="w-full sm:w-auto">
+        <Button type="submit" size="md" disabled={status === "submitting"} className="w-full sm:w-auto" data-magnetic>
           {status === "submitting" ? (
             <>
               <LoaderCircle className="size-4 animate-spin" aria-hidden="true" />

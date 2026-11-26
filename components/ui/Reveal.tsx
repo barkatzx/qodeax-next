@@ -1,51 +1,51 @@
 "use client";
 
-import { useEffect, useRef, useState, type ReactNode } from "react";
+import { useRef, type ReactNode } from "react";
+import { gsap, prefersReducedMotion } from "@/lib/gsap";
+import { useIsomorphicLayoutEffect } from "@/lib/useIsomorphicLayoutEffect";
 import { cn } from "@/lib/utils";
 
 interface RevealProps {
   children: ReactNode;
   className?: string;
   delay?: number;
+  y?: number;
 }
 
-export function Reveal({ children, className, delay = 0 }: RevealProps) {
+/**
+ * GSAP ScrollTrigger entrance. Content stays visible in the server-rendered
+ * markup, so it remains readable without JavaScript.
+ */
+export function Reveal({ children, className, delay = 0, y = 28 }: RevealProps) {
   const ref = useRef<HTMLDivElement>(null);
-  const [visible, setVisible] = useState(false);
 
-  useEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     const element = ref.current;
-    if (!element) return;
+    if (!element || prefersReducedMotion()) return;
 
-    if (typeof IntersectionObserver === "undefined") {
-      const frame = requestAnimationFrame(() => setVisible(true));
-      return () => cancelAnimationFrame(frame);
-    }
+    const context = gsap.context(() => {
+      gsap.set(element, { y, opacity: 0 });
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        for (const entry of entries) {
-          if (entry.isIntersecting) {
-            setVisible(true);
-            observer.unobserve(entry.target);
-          }
-        }
-      },
-      { rootMargin: "0px 0px -8% 0px", threshold: 0.08 },
-    );
+      gsap.to(element, {
+        y: 0,
+        opacity: 1,
+        duration: 1,
+        ease: "power3.out",
+        delay: delay / 1000,
+        scrollTrigger: {
+          trigger: element,
+          start: "top 92%",
+          once: true,
+        },
+        onComplete: () => gsap.set(element, { clearProps: "transform,opacity" }),
+      });
+    }, element);
 
-    observer.observe(element);
-    return () => observer.disconnect();
-  }, []);
+    return () => context.revert();
+  }, [delay, y]);
 
   return (
-    <div
-      ref={ref}
-      data-reveal=""
-      data-visible={visible ? "true" : "false"}
-      style={delay ? { transitionDelay: `${delay}ms` } : undefined}
-      className={cn(className)}
-    >
+    <div ref={ref} className={cn(className)}>
       {children}
     </div>
   );

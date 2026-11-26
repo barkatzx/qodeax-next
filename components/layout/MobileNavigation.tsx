@@ -41,11 +41,20 @@ export function MobileNavigation({ open, onClose }: MobileNavigationProps) {
   return (
     <div
       id="mobile-navigation"
-      className="max-h-[calc(100dvh-72px)] overflow-y-auto border-t border-line bg-canvas lg:hidden"
+      className="relative max-h-[calc(100dvh-74px)] overflow-y-auto border-t border-white/8 bg-dark text-white lg:hidden"
     >
-      <Container className="py-4">
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 bg-grid-dark opacity-50"
+      />
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute -top-24 right-0 size-64 rounded-full bg-[radial-gradient(closest-side,rgba(58,222,150,0.2),transparent_72%)] blur-2xl"
+      />
+
+      <Container className="relative py-5">
         <nav aria-label="Mobile primary" className="flex flex-col">
-          {navItems.map((item) => {
+          {navItems.map((item, index) => {
             const isActive = isActivePath(pathname, item.href);
             return (
               <Link
@@ -54,14 +63,24 @@ export function MobileNavigation({ open, onClose }: MobileNavigationProps) {
                 onClick={onClose}
                 aria-current={isActive ? "page" : undefined}
                 className={cn(
-                  "flex items-center justify-between border-b border-line/70 py-3.5 text-[15px] font-medium transition-colors last:border-b-0",
-                  isActive ? "text-ink" : "text-ink-soft",
+                  "group flex items-center gap-4 border-b border-white/8 py-4 text-[17px] font-medium transition-colors last:border-b-0",
+                  isActive ? "text-white" : "text-white/55 hover:text-white",
                 )}
               >
+                <span
+                  className={cn(
+                    "font-mono text-[9px] tracking-[0.12em]",
+                    isActive ? "text-brand" : "text-white/25",
+                  )}
+                >
+                  0{index + 1}
+                </span>
                 {item.label}
                 {isActive ? (
-                  <span className="size-1.5 rounded-full bg-brand" />
-                ) : null}
+                  <span className="ml-auto size-1.5 rounded-full bg-brand shadow-[0_0_10px_rgba(58,222,150,0.8)]" />
+                ) : (
+                  <ArrowUpRight className="ml-auto size-3.5 text-white/20 transition-colors group-hover:text-brand/70" aria-hidden="true" />
+                )}
               </Link>
             );
           })}
@@ -74,7 +93,7 @@ export function MobileNavigation({ open, onClose }: MobileNavigationProps) {
           </ButtonLink>
           <ButtonLink
             href={siteConfig.calendly}
-            variant="secondary"
+            variant="outlineLight"
             size="md"
             className="w-full"
             onClick={onClose}
@@ -82,6 +101,11 @@ export function MobileNavigation({ open, onClose }: MobileNavigationProps) {
             Book a call
           </ButtonLink>
         </div>
+
+        <p className="mt-4 flex items-center gap-2 font-mono text-[8.5px] tracking-[0.16em] text-white/30 uppercase">
+          <span className="size-1 rounded-full bg-brand" />
+          Available for new projects
+        </p>
       </Container>
     </div>
   );

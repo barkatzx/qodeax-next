@@ -4,6 +4,7 @@ import Script from "next/script";
 import type { ReactNode } from "react";
 import { Footer } from "@/components/layout/Footer";
 import { Header } from "@/components/layout/Header";
+import { MotionProvider } from "@/components/animations/MotionProvider";
 import { WhatsappPopup } from "@/components/WhatsappPopup";
 import { siteConfig } from "@/data/site";
 import "./globals.css";
@@ -66,6 +67,10 @@ export const metadata: Metadata = {
     index: true,
     follow: true,
   },
+  icons: {
+    icon: "/fav.png",
+    apple: "/fav.png",
+  },
   category: "software development",
 };
 
@@ -103,9 +108,6 @@ export default function RootLayout({ children }: { children: ReactNode }) {
             gtag('config', 'G-2Z897PR04V');
           `}
         </Script>
-        <noscript>
-          <style>{`[data-reveal]{opacity:1!important;transform:none!important}`}</style>
-        </noscript>
         <a
           href="#main-content"
           className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100] focus:rounded-full focus:bg-ink focus:px-4 focus:py-2 focus:text-sm focus:font-medium focus:text-white"
@@ -116,6 +118,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <main id="main-content" className="flex-1">
           {children}
         </main>
+        <MotionProvider />
         <WhatsappPopup />
         <Footer />
       </body>

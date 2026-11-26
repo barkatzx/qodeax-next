@@ -4,23 +4,23 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { cn, isExternalHref } from "@/lib/utils";
 
 export const buttonVariants = cva(
-  "inline-flex items-center justify-center gap-2 rounded-full font-medium whitespace-nowrap transition-all duration-200 focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 focus-visible:ring-offset-canvas focus-visible:outline-none disabled:pointer-events-none disabled:opacity-50",
+  "group relative inline-flex items-center justify-center gap-2 rounded-full font-medium whitespace-nowrap transition-[background-color,border-color,color,box-shadow] duration-300 ease-out focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 focus-visible:ring-offset-canvas focus-visible:outline-none disabled:pointer-events-none disabled:opacity-50 [&_svg]:transition-transform [&_svg]:duration-300 group-hover:[&_svg]:translate-x-0.5 group-hover:[&_svg]:-translate-y-0.5",
   {
     variants: {
       variant: {
         primary:
-          "bg-brand text-brand-foreground shadow-[0_1px_2px_rgba(21,27,25,0.12)] hover:-translate-y-px hover:bg-brand-strong",
+          "bg-brand text-brand-foreground shadow-[0_1px_2px_rgba(21,27,25,0.16),0_10px_30px_-18px_rgba(58,222,150,0.9)] hover:bg-brand-strong hover:shadow-[0_1px_2px_rgba(21,27,25,0.16),0_16px_40px_-16px_rgba(58,222,150,0.75)]",
         secondary:
-          "border border-line bg-surface text-ink hover:-translate-y-px hover:border-line-strong hover:bg-white",
-        dark: "bg-dark text-white hover:-translate-y-px hover:bg-dark-hover",
+          "border border-line-strong bg-surface text-ink shadow-[0_1px_2px_rgba(21,27,25,0.03)] hover:border-brand/45 hover:bg-white hover:shadow-[0_12px_30px_-24px_rgba(21,27,25,0.3)]",
+        dark: "bg-dark text-white shadow-[0_10px_30px_-20px_rgba(21,27,25,0.8)] hover:bg-dark-hover",
         outlineLight:
-          "border border-white/20 bg-transparent text-white hover:border-white/35 hover:bg-white/5",
+          "border border-white/15 bg-white/[0.03] text-white hover:border-brand/50 hover:bg-white/[0.07]",
         ghost: "text-ink-soft hover:bg-ink/5 hover:text-ink",
       },
       size: {
-        sm: "h-9 px-4 text-[13px]",
-        md: "h-11 px-5 text-sm",
-        lg: "h-12 px-6 text-[15px]",
+        sm: "h-9 px-4 text-[12.5px]",
+        md: "h-11 px-5 text-[13.5px]",
+        lg: "h-12 px-6 text-[14.5px]",
       },
     },
     defaultVariants: {
